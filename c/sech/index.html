@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- vv-intro: плавное продолжение перехода с главной -->
+<script>(function(){try{var d=sessionStorage.getItem('vv-trans');if(!d)return;sessionStorage.removeItem('vv-trans');d=JSON.parse(d);var R=document.documentElement;R.style.background=d.bg;
+var o=document.createElement('div');o.id='vv-in';o.setAttribute('aria-hidden','true');
+o.style.cssText='position:fixed;inset:0;z-index:2147483646;background:'+d.bg+';opacity:1;transition:opacity .9s cubic-bezier(.4,0,.2,1);pointer-events:none';
+R.appendChild(o);var done=false,t0=Date.now();
+function go(){if(done)return;done=true;var w=Math.max(0,250-(Date.now()-t0));setTimeout(function(){requestAnimationFrame(function(){R.style.background='';o.style.opacity='0';setTimeout(function(){o.remove()},1000)})},w)}
+addEventListener('load',go);setTimeout(go,1400)}catch(e){}})();</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Сеченова, 19&nbsp;— кейс</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Noto+Sans:wght@200;300;400;500&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Layout: fluid full-width canvas on paper texture; every block sized to fit one screen; left-aligned titles; motion via GSAP. Single light theme by choice — the page is the identity. */
+:root{
+  --pebble:#F9F8F4; --sky:#D9EBF9; --sun:#FDF3E4; --olive:#C7CBAF;
+  --graphite:#535966; --wood:#807568; --ink:#2C3038;
+  --line:rgba(83,89,102,.2);
+  --display:"Poiret One","Didact Gothic","Futura","Century Gothic",sans-serif;
+  --body:"Noto Sans","Helvetica Neue",Arial,sans-serif;
+  --g:clamp(16px,4.4vw,110px);
+  --gut:max(var(--g),env(safe-area-inset-left,0px));
+  --gutr:max(var(--g),env(safe-area-inset-right,0px));
+  --ease:cubic-bezier(.2,.7,.15,1);
+  --h2:clamp(32px,3.5vw,74px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#EFE9E2;color:var(--ink);font-family:var(--body);font-weight:300;font-size:clamp(15px,.45vw + 10px,19px);line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+html{overflow-x:clip}
+body::after{content:"";position:fixed;inset:0;z-index:-1;background:#EFE9E2 url(i/texture.jpg) center/cover no-repeat}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:#EFE9E2}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;text-transform:uppercase;letter-spacing:.04em;line-height:1.06}
+p,li,dd{margin:0;text-wrap:pretty}
+.wrap{padding-left:var(--gut);padding-right:var(--gutr)}
+.eyebrow,.lbl{font-size:clamp(11px,.2vw + 9px,13px);letter-spacing:.22em;text-transform:uppercase;color:var(--graphite);font-weight:400}
+.lead{font-size:clamp(16px,.5vw + 11px,21px);line-height:1.6;max-width:38em}
+.muted{color:var(--graphite)}
+section{padding-block:clamp(64px,6.5vw,130px)}
+.sec-head{display:grid;gap:16px 6vw;margin-bottom:clamp(32px,3.4vw,64px);align-items:start}
+.sec-head.two>.lead{margin-top:.15em}
+.sec-head .t{display:grid;gap:16px}
+.sec-head h2{font-size:var(--h2)}
+@media (min-width:1000px){.sec-head.two{grid-template-columns:1fr 1fr}}
+figure{margin:0}
+.fit{max-width:min(100%,calc(78svh * 16 / 9));margin-inline:auto}
+
+/* header */
+.top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;color:#fff;pointer-events:none}
+.top .bar{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;height:56px;padding-inline:0;border-radius:999px;transition:background .5s,box-shadow .5s,padding .5s,margin .5s,color .5s,height .5s}
+.top.solid{color:var(--ink)}
+.top:not(.solid) .bar{background:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.top.solid .bar{margin-top:12px;height:50px;padding-inline:clamp(18px,1.6vw,30px);margin-inline:calc(-1 * clamp(18px,1.6vw,30px));background:rgba(249,248,244,.94);box-shadow:0 12px 34px -20px rgba(44,48,56,.3),inset 0 0 0 1px rgba(255,255,255,.6)}
+.top .mark{font-family:var(--display);font-size:clamp(17px,1vw,22px);letter-spacing:.06em;text-decoration:none;white-space:nowrap}
+.top nav{display:flex;gap:clamp(20px,2vw,40px);font-size:clamp(10px,.2vw + 8px,12px);letter-spacing:.22em;text-transform:uppercase}
+.top nav a{text-decoration:none;opacity:.85}
+.top nav a:hover,.top nav a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:6px}
+
+@media (max-width:700px){.top nav a:not(.keep){display:none}}
+section[id]{scroll-margin-top:72px}
+#hero,#identity{scroll-margin-top:0}
+@media (hover:none){.col:hover{flex-grow:var(--f,1)}.aud article:hover{background:rgba(255,255,255,.5);box-shadow:0 24px 50px -32px rgba(83,89,102,.3)}}
+
+/* hero */
+.hero{position:relative;height:100svh;min-height:560px;color:#fff;overflow:hidden;padding:0;background:#EFE9E2}
+.hero .bg{position:absolute;left:0;top:-12%;width:100%;height:124%;object-fit:cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,33,39,0) 55%,rgba(30,33,39,.38) 100%)}
+.hero-in{position:absolute;left:0;right:0;bottom:0;z-index:2}
+.hero h1{font-size:clamp(38px,10.5vw,240px);letter-spacing:.015em;line-height:.9;margin-left:-.04em}
+.hero .sub{font-size:clamp(17px,1.4vw,30px);margin-top:clamp(10px,1vw,20px)}
+@media (min-width:900px){.hero .sub{white-space:nowrap}}
+.hero .title{padding-bottom:clamp(36px,4vw,80px)}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 28px;padding-block:clamp(16px,1.4vw,28px) max(clamp(16px,1.4vw,28px),env(safe-area-inset-bottom,0px));background:rgba(249,248,244,.72);color:var(--graphite);font-size:clamp(13px,.35vw + 9px,17px)}
+.meta dt{font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.22em;text-transform:uppercase;color:var(--wood);margin-bottom:6px}
+.meta dd{margin:0;line-height:1.45;color:var(--ink)}
+@media (min-width:900px){.meta{grid-template-columns:1fr .6fr 1fr 2.4fr}.meta dd{white-space:nowrap}}
+
+/* intro */
+.thesis{font-family:var(--display);text-transform:uppercase;font-size:clamp(30px,3.8vw,82px);line-height:1.06;letter-spacing:.03em;max-width:16em}
+.cols{display:grid;gap:40px;margin-top:clamp(44px,4.5vw,90px)}
+.k{text-transform:uppercase;font-size:clamp(11px,.2vw + 9px,13px);letter-spacing:.22em;font-weight:500;color:var(--graphite);margin:0 0 16px}
+.cols p+p{margin-top:12px}
+.cols ul{margin:0;padding:0;list-style:none}
+.cols li{padding:10px 0;border-top:1px solid var(--line)}
+.cols li:last-child{border-bottom:1px solid var(--line)}
+@media (min-width:900px){.cols{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(40px,4vw,96px)}}
+
+/* rows (process, path, result) */
+.rows{margin:0;padding:0;display:grid;border-top:1px solid var(--line)}
+.rows>*{list-style:none;display:grid;grid-template-columns:clamp(40px,4.5vw,96px) 1fr;gap:6px 24px;padding:clamp(16px,1.4vw,26px) 0;border-bottom:1px solid var(--line);align-items:center}
+.rows .n{font-family:var(--display);font-size:clamp(18px,1.3vw,28px);color:var(--wood);line-height:1}
+.rows h3{font-size:clamp(19px,1.5vw,32px);line-height:1.12}
+.rows p{color:var(--graphite);grid-column:2}
+.rows .verdict{grid-column:2;font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.22em;text-transform:uppercase;color:var(--graphite);white-space:nowrap}
+.rows .on .verdict{color:var(--ink);font-weight:500}
+.rows .on .verdict::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink);margin-right:10px;vertical-align:middle}
+.rows .off h3{color:var(--graphite)}
+@media (min-width:1000px){
+  .rows>*{grid-template-columns:clamp(56px,5.4vw,120px) minmax(0,1fr) minmax(0,1.4fr)}
+  .rows p{grid-column:auto}
+  .rows.v>*{grid-template-columns:clamp(56px,5.4vw,120px) minmax(0,1fr) minmax(0,1.4fr) 160px}
+  .rows .verdict{grid-column:auto;text-align:right}
+}
+.note{margin-top:22px;color:var(--graphite)}
+
+/* full-bleed */
+.bleed{position:relative;overflow:hidden;margin:0}
+.bleed img{width:100%}
+.walk{aspect-ratio:16/9;max-height:100svh;width:100%}
+.walk video{width:100%;height:100%;object-fit:cover}
+.walk .tex{position:absolute;inset:0;background:url(i/texture.jpg) center/cover;opacity:.5;pointer-events:none}
+
+/* audience */
+.aud{display:grid;gap:clamp(12px,1.2vw,24px)}
+.aud article{padding:clamp(24px,2vw,40px);display:grid;gap:14px;align-content:start;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.75);box-shadow:0 24px 50px -32px rgba(83,89,102,.3);transition:background .5s,box-shadow .5s}
+.aud article:hover{background:rgba(255,255,255,.62);box-shadow:0 30px 60px -30px rgba(83,89,102,.4)}
+.aud h3{font-size:clamp(22px,1.7vw,36px)}
+.aud .age{font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.18em;text-transform:uppercase;color:var(--wood)}
+.aud dl{margin:0;display:grid;gap:12px}
+.aud dt{font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;color:var(--graphite)}
+.aud dd{margin:3px 0 0}
+@media (min-width:900px){.aud{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* concept */
+.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,.8vw,16px);align-items:stretch}
+.photos .ph{overflow:hidden}
+.photos img{width:100%;height:100%;object-fit:cover}
+.photos .s,.photos .t{aspect-ratio:4/5}
+@media (min-width:900px){.photos{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.concept-text{display:grid;gap:16px;border-left:1px solid var(--graphite);padding-left:clamp(20px,2vw,44px);margin-top:clamp(32px,3vw,64px);max-width:64em}
+.concept-text .name{font-family:var(--display);font-size:clamp(24px,2vw,42px);text-transform:uppercase;letter-spacing:.04em;line-height:1.1}
+
+/* logo on fabric video */
+.logo-sec{position:relative;height:100svh;min-height:560px;overflow:hidden;padding:0;isolation:isolate;background:#e9ecef}
+.logo-sec>video,.logo-sec>.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+.logo-sec .in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding-block:clamp(76px,6vw,120px) clamp(28px,3vw,60px)}
+.logo-sec .row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.logo-sec .row.bot{align-items:flex-end}
+.logo-sec .row .lbl{line-height:1;padding-top:.5em}
+.logo-sec .row.bot .lbl{padding:0 0 .35em}
+.logo-sec h2{font-size:var(--h2);color:var(--ink)}
+.logo-sec .lbl{color:var(--ink)}
+.logo-mark{width:min(40vw,720px);margin:0 auto}
+@media (max-width:700px){.logo-sec .logo-mark{width:80vw}}
+.band .logo-mark{width:min(36%,620px)}
+.logo-mark img{width:100%;-webkit-mask-image:linear-gradient(90deg,#000 45%,transparent 55%);mask-image:linear-gradient(90deg,#000 45%,transparent 55%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-position:0 0;mask-position:0 0;transition:-webkit-mask-position 2.4s var(--ease),mask-position 2.4s var(--ease)}
+.js .logo-mark:not(.on) img{-webkit-mask-position:100% 0;mask-position:100% 0}
+.logo-sec .desc{max-width:36em;color:var(--ink)}
+
+/* palette — columns */
+.pal{display:flex;gap:0;height:clamp(360px,58svh,640px);overflow:hidden}
+.col{position:relative;flex:var(--f,1) 1 0;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(16px,1.6vw,32px);transition:flex-grow .8s var(--ease);color:var(--ink)}
+.col::after{content:"";position:absolute;inset:0;background:url(i/texture.jpg) center/cover;mix-blend-mode:multiply;opacity:.55;pointer-events:none}
+.col>*{position:relative;z-index:1}
+.col:hover{flex-grow:calc(var(--f,1) * 1.7)}
+.col.dark{color:var(--pebble)}
+.col .dot{width:clamp(40px,3.6vw,76px);aspect-ratio:1;border-radius:50%;box-shadow:inset 0 3px 8px rgba(0,0,0,.18)}
+.col .nm{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:clamp(17px,1.4vw,30px);line-height:1.1}
+.col .cd{font-size:clamp(11px,.25vw + 9px,14px);line-height:1.6;opacity:.85;font-variant-numeric:tabular-nums;margin-top:10px;white-space:nowrap}
+@media (min-width:761px) and (max-width:1100px){.pal{flex-wrap:wrap;height:auto}.col{flex:1 1 33.333%;min-height:clamp(220px,28vw,300px)}.col:hover{flex-grow:1}}
+@media (max-width:760px){.pal{flex-direction:column;height:auto}.col{min-height:120px;flex-direction:row;align-items:center;justify-content:flex-start;gap:20px}.col .cd{white-space:normal}}
+
+/* typography */
+.typo{position:relative;overflow:hidden;isolation:isolate;padding-block:clamp(72px,6vw,120px) clamp(28px,3vw,56px);min-height:min(100svh,920px);display:flex;flex-direction:column;justify-content:space-between}
+.typo .sbg{position:absolute;inset:-4%;z-index:-1;background:url(i/font-bg.jpg) center/cover no-repeat}
+.type-top{display:grid;gap:22px;align-items:start}
+.type-top h2{font-size:var(--h2)}
+@media (min-width:900px){.type-top{grid-template-columns:1fr 1fr}}
+.fonts{display:grid;gap:36px;margin-block:clamp(36px,4vw,80px)}
+@media (min-width:900px){.fonts{grid-template-columns:1fr 1fr}}
+.fonts .lbl{margin-bottom:clamp(12px,1.2vw,26px);color:var(--ink)}
+.fonts .spec{font-size:clamp(46px,6vw,140px);line-height:1;color:var(--graphite)}
+.fonts .spec.d{font-family:var(--display);text-transform:uppercase}
+.fonts .spec.b{font-weight:200}
+
+/* pattern band */
+.band{position:relative;overflow:hidden;aspect-ratio:21/9;max-height:66svh;width:100%;background:#e6e4d6}
+.band .pb{position:absolute;inset:-14%;background:url(i/pattern.jpg) center/cover;animation:wave 20s ease-in-out infinite alternate}
+@keyframes wave{0%{transform:translate(-5%,0) scale(1.04)}100%{transform:translate(5%,-3%) scale(1.14)}}
+.band .logo-mark{position:absolute;left:50%;top:50%;width:min(36%,620px);transform:translate(-50%,-50%)}
+@media (max-width:700px){.band{aspect-ratio:4/3}.band .logo-mark{width:70%}}
+
+/* relief & photostyle */
+.duo{display:grid;gap:clamp(28px,3vw,72px);align-items:center}
+@media (min-width:1000px){.duo{grid-template-columns:auto 1fr}}
+.duo .pic{overflow:hidden;justify-self:start}
+.duo .pic img{max-height:78svh;width:auto}
+.duo .txt{display:grid;gap:clamp(14px,1.3vw,24px);max-width:40em}
+.duo .txt h2{font-size:var(--h2)}
+.duo .txt .small{width:min(100%,360px);margin-top:8px}
+@media (max-width:999px){.duo .pic img{width:100%;max-height:none}}
+
+
+/* editorial pairs: text + collage */
+.pair{display:grid;gap:clamp(40px,5vw,110px);align-items:center}
+@media (min-width:1000px){.pair{grid-template-columns:1fr 1.35fr}.pair.rev{grid-template-columns:1.35fr 1fr}}
+.pair .txt{display:grid;gap:clamp(14px,1.3vw,24px);max-width:38em}
+.pair .txt h2{font-size:var(--h2)}
+.pair .txt.lined{border-left:1px solid var(--graphite);padding-left:clamp(20px,2vw,44px)}
+.collage{position:relative}
+.collage .big{overflow:hidden;width:100%;aspect-ratio:5/4;max-height:86svh}
+.collage .big img{width:100%;height:100%;object-fit:cover}
+.pair.rev .collage .big{aspect-ratio:851/1032;max-height:none;width:100%}
+.pair.rev .collage .big img{width:100%;height:100%;object-fit:cover}
+@media (min-width:1000px){.pair.rev{grid-template-columns:min(46%,calc(88svh * 851 / 1032)) minmax(0,1fr)}}
+.pair.rev .collage .big{margin-left:0}
+.collage .big img{width:100%}
+.collage .small{position:absolute;bottom:0;width:44%;z-index:2}
+.collage .small img{width:100%;box-shadow:0 30px 60px -28px rgba(44,48,56,.35)}
+.collage .small.l{left:0}
+.collage .small.r{right:0;bottom:auto;top:12%;width:50%}
+.collage .small.l img{box-shadow:none;filter:drop-shadow(0 26px 30px rgba(44,48,56,.22))}
+@media (max-width:999px){.collage .big{width:100%}}
+
+
+/* ===== phone & small tablet refinements ===== */
+@media (max-width:820px){
+  section{padding-block:clamp(44px,11vw,72px)}
+  .sec-head{margin-bottom:24px}
+  .pair{gap:22px}
+  .sub-head{margin-top:56px}
+  .top .bar{height:52px}
+  .top.solid .bar{margin:10px 0 0;margin-inline:0;height:48px;padding-inline:18px}
+  .top .wrap{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+  .top:not(.solid) .wrap{padding-left:var(--gut);padding-right:var(--gutr)}
+  /* hero: full photo, title on the sky, woman left clear */
+  .hero{height:100svh;min-height:600px}
+  .hero .bg{object-position:64% 50%}
+  .hero::after{background:linear-gradient(180deg,rgba(249,248,244,.62) 0%,rgba(249,248,244,.28) 30%,rgba(249,248,244,0) 46%,rgba(30,33,39,0) 78%,rgba(30,33,39,.45) 100%)}
+  .top:not(.solid){color:var(--ink)}
+  .hero-in{top:0;display:flex}
+  .hero .title{display:flex;flex-direction:column;width:100%;padding-top:96px;padding-bottom:max(26px,env(safe-area-inset-bottom,0px))}
+  .hero h1{font-size:clamp(38px,12.4vw,64px);line-height:.95;color:var(--ink)}
+  .hero .sub{font-size:16px;max-width:19em;color:var(--ink)}
+  .hero .meta-m{display:flex;gap:18px;margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.45);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff}
+  /* walk reel */
+  .walk{aspect-ratio:4/5;max-height:80svh}
+  /* logo screen */
+  .logo-sec{height:auto;min-height:0}
+  .logo-sec .in{position:relative;inset:auto;padding-block:84px 40px;gap:40px}
+  .logo-sec .row{flex-direction:column;align-items:flex-start;gap:10px}
+  .logo-sec .row .lbl{order:-1;padding:0}
+  .logo-sec .row.bot{align-items:flex-start;gap:18px}
+  .logo-sec .row.bot .lbl{order:2;padding:0}
+  .logo-sec .desc{max-width:none}
+}
+@media (min-width:821px){.hero .meta-m{display:none}}
+
+
+.logo-sec .stage{position:static;display:contents}
+.logo-sec .stage>video,.logo-sec .stage>.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
+@media (max-width:820px){
+  .logo-sec{background:transparent;padding:0}
+  .logo-sec .in{padding-block:64px 52px;gap:0}
+  .logo-sec .stage{display:flex;position:relative;align-items:center;justify-content:center;aspect-ratio:4/5;overflow:hidden;margin:28px calc(-1 * var(--gut)) 28px calc(-1 * var(--gutr));isolation:isolate}
+  .logo-sec .stage>video,.logo-sec .stage>.poster{z-index:-1}
+  .logo-sec .stage .logo-mark{width:84%;margin:0}
+  .logo-sec .row.bot{display:grid;grid-template-columns:1fr;gap:14px;border-top:1px solid var(--line);padding-top:18px}
+  .logo-sec .row.bot .lbl{order:-1}
+}
+
+@media (max-width:999px){.pair.rev .collage{order:2}.pair.rev .txt{order:1}}
+/* slider */
+.sl-stage{position:relative;aspect-ratio:16/9;max-width:100%;overflow:hidden;background:rgba(83,89,102,.08);touch-action:pan-y;cursor:grab}
+.sl-stage:active{cursor:grabbing}
+.sl-item{position:absolute;inset:0;margin:0;overflow:hidden;visibility:hidden}
+.sl-item img{width:100%;height:100%;object-fit:cover}
+.sl-item.cur,.sl-item.prev{visibility:visible}
+.sl-item.cur{z-index:2;clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)}
+.sl-item.cur img{transform:scale(1);transition:transform 1.8s var(--ease)}
+.sl-item.cur.enter-r{clip-path:inset(0 0 0 100%);transition:none}
+.sl-item.cur.enter-l{clip-path:inset(0 100% 0 0);transition:none}
+.sl-item.cur.enter-r img,.sl-item.cur.enter-l img{transform:scale(1.15);transition:none}
+.sl-item.prev{z-index:1}
+.sl-item.prev img{transform:scale(.92);opacity:.6;transition:transform 1.3s var(--ease),opacity 1.3s ease}
+.sl-ui{display:flex;flex-wrap:wrap;align-items:center;gap:16px 26px;margin-top:clamp(16px,1.4vw,28px)}
+.count{font-family:var(--display);font-size:clamp(20px,1.4vw,30px);letter-spacing:.06em;font-variant-numeric:tabular-nums;min-width:4.5em}
+.bar{flex:1 1 160px;height:1px;background:var(--line);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0;background:var(--graphite);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .9s var(--ease)}
+.btns{display:flex;gap:10px}
+.btns button{width:clamp(46px,3vw,58px);height:clamp(46px,3vw,58px);border-radius:50%;border:1px solid var(--graphite);background:transparent;color:var(--ink);font-size:19px;cursor:pointer;transition:background .3s,color .3s}
+.btns button:hover,.btns button:focus-visible{background:var(--graphite);color:var(--pebble);outline:none}
+.go{display:inline-flex;align-items:center;gap:14px;padding:14px 26px;border:1px solid var(--graphite);border-radius:999px;text-decoration:none;font-size:clamp(10px,.2vw + 8px,12px);letter-spacing:.22em;text-transform:uppercase;transition:background .35s,color .35s,gap .35s;white-space:nowrap}
+.go:hover,.go:focus-visible{background:var(--graphite);color:var(--pebble);gap:22px;outline:none}
+
+/* site */
+.browser{border-radius:clamp(10px,.9vw,18px);overflow:hidden;box-shadow:0 40px 80px -40px rgba(44,48,56,.35);background:#f4f2ed;border:1px solid var(--line)}
+.browser .bar-top{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--graphite);background:#fbfaf7}
+.browser .dot{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.browser .url{margin-left:12px;padding:4px 14px;border-radius:999px;background:rgba(83,89,102,.08)}
+.browser video{width:100%;aspect-ratio:1898/1078;object-fit:cover;background:#f1efe9}
+.browser.fit,.site-ui{max-width:min(100%,calc(74svh * 1898 / 1078));margin-inline:auto}
+
+/* stacks */
+.stackfull{display:grid;gap:0}
+.stackfull figure{overflow:hidden;margin:0}
+.stackfull img{width:100%}
+.sub-head{margin-top:clamp(64px,6.5vw,130px)}
+
+/* films */
+.player{position:relative;overflow:hidden;background:transparent}
+.player video{width:100%;aspect-ratio:16/9;object-fit:cover;clip-path:inset(0 2px 0 0)}
+.player-ui{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-top:clamp(14px,1.2vw,24px)}
+.player-ui .lbl{color:var(--graphite)}
+.clips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1vw,20px);margin-top:clamp(48px,5vw,100px)}
+.clips figure{display:grid;gap:12px}
+.clips .fr{overflow:hidden;aspect-ratio:4/5;max-width:100%}
+.clips video{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.clips figure:hover video{transform:scale(1.05)}
+.clips figcaption{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:clamp(15px,1vw,20px);color:var(--ink)}
+@media (min-width:900px){.clips{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* outro */
+.res article:last-child{border-bottom:0}
+.res h3 span{display:block;font-family:var(--body);font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;color:var(--wood);margin-bottom:8px}
+
+/* links */
+.links{background:linear-gradient(rgba(217,235,249,.62),rgba(217,235,249,.62)),url(i/texture.jpg) center/cover}
+.link-list{display:grid;border-top:1px solid rgba(44,48,56,.22)}
+.link-list a{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:clamp(20px,2.2vw,44px) 0;border-bottom:1px solid rgba(44,48,56,.22);text-decoration:none;transition:padding .45s var(--ease)}
+.link-list a:hover,.link-list a:focus-visible{padding-left:24px;outline:none}
+.link-list .t{font-family:var(--display);text-transform:uppercase;font-size:clamp(30px,4vw,88px);line-height:1;letter-spacing:.03em}
+.link-list .d{display:block;font-family:var(--body);text-transform:none;font-size:clamp(12px,.25vw + 10px,15px);letter-spacing:.02em;color:var(--graphite);margin-top:10px}
+.link-list .arr{font-size:clamp(24px,2.4vw,48px);font-weight:200}
+footer{padding-block:36px;font-size:13px;color:var(--graphite)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.w>span{display:inline-block}
+:focus-visible{outline:1px solid var(--graphite);outline-offset:4px}
+</style>
+<style id="vvsz-style">:where(img[data-vvsz]){height:auto}html{scroll-behavior:auto!important}</style>
+<style id="vv-safe">@media (max-width:700px){h1,h2,h3{overflow-wrap:break-word;max-width:100%}}</style>
+<style id="vv-compat">.vv-arrow{display:inline-block;width:1em;height:1em;vertical-align:-.12em;flex:none;overflow:visible}.arr .vv-arrow{display:block}body{overflow-x:hidden;overflow-x:clip}@supports not (height:100svh){.hero,.ring__st{height:100vh}}@supports not (color:color-mix(in srgb,white,black)){:root{--mut:rgba(237,237,237,.56);--dim:rgba(237,237,237,.34);--line:rgba(237,237,237,.14)}.hdr__in{background:rgba(0,0,0,.92)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}</style></head>
+<body>
+
+
+
+
+<header class="top" id="top">
+  <div class="wrap"><div class="bar">
+    <a class="mark keep" href="#hero">Сеченова, 19</a>
+    <nav aria-label="Разделы кейса">
+      <a href="#concept">Концепция</a>
+      <a href="#identity">Айдентика</a>
+      <a href="#media">Носители</a>
+      <a href="#film">Ролики</a>
+      <a class="keep" href="#links">Материалы</a>
+    </nav>
+  </div></div>
+</header>
+
+<section class="hero" id="hero">
+  <img decoding="async" class="bg" data-hero src="i/hero.jpg" alt="Девушка на террасе с видом на горы Ялты" width="1920" height="1080">
+  <div class="hero-in">
+    <div class="wrap title">
+      <h1 class="split">Сеченова,&nbsp;19</h1>
+      <p class="sub rv">Комплексный дизайн-проект клубного дома бизнес-класса в&nbsp;Ялте</p>
+      <p class="meta-m rv"><span>Брендинг</span><span>Digital</span><span>2026</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="intro">
+  <div class="wrap">
+    <p class="eyebrow rv" style="margin-bottom:24px">Ключевая идея проекта</p>
+    <p class="thesis split">Жить в&nbsp;центре Ялты, оставаясь вне&nbsp;её&nbsp;суеты</p>
+    <div class="cols">
+      <div class="rv">
+        <p class="k">Задача</p>
+        <p>Клубный дом&nbsp;на&nbsp;141&nbsp;квартиру расположен на&nbsp;Чайной горке, над&nbsp;Приморским парком. До&nbsp;моря и&nbsp;набережной&nbsp;— 7–8&nbsp;минут пешком, при&nbsp;этом дом&nbsp;находится в&nbsp;стороне от&nbsp;туристических потоков.</p>
+        <p>Задача&nbsp;— выделить проект среди курортных комплексов южного берега Крыма и&nbsp;представить его&nbsp;как&nbsp;полноценный городской дом&nbsp;для&nbsp;жизни круглый год.</p>
+      </div>
+      <div class="rv">
+        <p class="k">Условия</p>
+        <ul>
+          <li>Сегмент бизнес-класса и&nbsp;клубный формат</li>
+          <li>Три&nbsp;аудитории с&nbsp;разными мотивами и&nbsp;барьерами</li>
+          <li>Сдержанный, интеллигентный тон&nbsp;без&nbsp;курортной яркости</li>
+          <li>Целостная визуальная система для&nbsp;всех точек контакта с&nbsp;покупателем</li>
+        </ul>
+      </div>
+      <div class="rv">
+        <p class="k">Выполненные работы</p>
+        <ul>
+          <li>Разработка концепции<br>и&nbsp;визуального языка</li>
+          <li>Разработка логотипа</li>
+          <li>Брендбук</li>
+          <li>Презентация для&nbsp;покупателей</li>
+          <li>Брендинговая продукция</li>
+          <li>Имиджевые и&nbsp;рекламный ролики</li>
+          <li>Лендинг</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Ход&nbsp;работы</p><h2 class="split">Этапы проекта</h2></div></div>
+    <ol class="rows">
+      <li class="rv"><span class="n">01</span><h3>Исследование</h3><p>Анализ конкурентов на&nbsp;рынке Ялты и&nbsp;ЮБК&nbsp;и&nbsp;портретов целевой аудитории: как&nbsp;коммуницируют другие проекты и&nbsp;какие сомнения есть у&nbsp;покупателей.</p></li>
+      <li class="rv"><span class="n">02</span><h3>Поиск референсов</h3><p>Изучение премиальной жилой недвижимости и&nbsp;брендинга. Мудборды для&nbsp;каждого направления концепции задали уровень бизнес-класса и&nbsp;помогли уйти от&nbsp;курортных клише.</p></li>
+      <li class="rv"><span class="n">03</span><h3>Создание концепции</h3><p>Разработка нескольких направлений и&nbsp;выбор итоговой идеи «След ощущения», из&nbsp;которой выросла вся&nbsp;визуальная система.</p></li>
+      <li class="rv"><span class="n">04</span><h3>Дизайн-система</h3><p>Логотип, цветовая палитра, типографика, паттерн «Море», рельеф «След места» и&nbsp;правила фотостиля.</p></li>
+      <li class="rv"><span class="n">05</span><h3>Брендбук</h3><p>Описание идеологии бренда и&nbsp;правил визуальной системы для&nbsp;маркетинга, отдела продаж и&nbsp;подрядчиков.</p></li>
+      <li class="rv"><span class="n">06</span><h3>Презентация для&nbsp;покупателей</h3><p>Структура и&nbsp;дизайн основного инструмента отдела продаж, выстроенного по&nbsp;барьерам аудитории.</p></li>
+      <li class="rv"><span class="n">07</span><h3>Брендинговая продукция</h3><p>Макеты полиграфии, сувенирной продукции, навигации и&nbsp;рекламы; поиск подрядчиков и&nbsp;контроль производства.</p></li>
+      <li class="rv"><span class="n">08</span><h3>Имиджевые и&nbsp;рекламный ролики</h3><p>Перевод концепции в&nbsp;движение: сценарий из&nbsp;ощущений места, подбор кадров, монтаж и&nbsp;анимация.</p></li>
+      <li class="rv"><span class="n">09</span><h3>Лендинг</h3><p>Перенос фирменного стиля в&nbsp;digital и&nbsp;структура страницы от&nbsp;атмосферы места к&nbsp;выбору квартиры.</p></li>
+    </ol>
+    <p class="note rv">На&nbsp;каждом этапе решения согласовывались с&nbsp;руководителем и&nbsp;бренд-менеджерами.</p>
+  </div>
+</section>
+
+<figure class="bleed walk"><video autoplay muted loop playsinline preload="auto" poster="v/reel5.jpg" aria-hidden="true"><source src="v/reel5.mp4" type="video/mp4"></video></figure>
+
+<section id="audience">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Целевая аудитория</p><h2 class="split">Три&nbsp;покупателя, одна потребность&nbsp;— тишина у&nbsp;моря</h2></div>
+      <p class="lead muted rv">Для&nbsp;создания качественного продукта была проанализирована целевая аудитория: кто&nbsp;покупает, что&nbsp;ищет и&nbsp;что&nbsp;мешает принять решение.</p>
+    </div>
+    <div class="aud" data-stagger>
+      <article>
+        <p class="age">40–55&nbsp;лет&nbsp;· Крым</p>
+        <h3>Ялта для&nbsp;жизни</h3>
+        <dl>
+          <div><dt>Мотив</dt><dd>Качественное жильё для&nbsp;постоянной жизни или&nbsp;улучшения условий</dd></div>
+          <div><dt>Барьер</dt><dd>Хорошо знают рынок, сравнивают с&nbsp;альтернативами, чувствительны к&nbsp;цене и&nbsp;реальному качеству</dd></div>
+        </dl>
+      </article>
+      <article>
+        <p class="age">45–60+ · Москва, Петербург, ЮБК</p>
+        <h3>Личная резиденция</h3>
+        <dl>
+          <div><dt>Мотив</dt><dd>Вторая резиденция для&nbsp;отдыха, долгого проживания и&nbsp;сохранения капитала</dd></div>
+          <div><dt>Барьер</dt><dd>Опасение получить курортный объект вместо полноценного дома</dd></div>
+        </dl>
+      </article>
+      <article>
+        <p class="age">45–60+ · Урал, Сибирь, Дальний Восток</p>
+        <h3>Свой дом&nbsp;на&nbsp;юге</h3>
+        <dl>
+          <div><dt>Мотив</dt><dd>Резиденция для&nbsp;зимовки или&nbsp;будущего переезда на&nbsp;ЮБК</dd></div>
+          <div><dt>Барьер</dt><dd>Удалённость, безопасность и&nbsp;удобство жизни круглый год</dd></div>
+        </dl>
+      </article>
+    </div>
+    <p class="lead rv" style="margin-top:clamp(28px,2.6vw,52px)">Общий барьер всех трёх групп&nbsp;— недоверие к&nbsp;«курортной» недвижимости. Поэтому визуальный язык говорит о&nbsp;повседневной жизни, а&nbsp;не&nbsp;об&nbsp;отпуске: утро, прогулка к&nbsp;морю, тень в&nbsp;саду, собственный ритм.</p>
+  </div>
+</section>
+
+<section id="search" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Разработка концепции</p><h2 class="split">Путь к&nbsp;идее</h2></div></div>
+    <div class="rows v">
+      <div class="off rv"><span class="n">01</span><h3>Тёплый камень</h3><p>Образ через материал набережных и&nbsp;подпорных стен Ялты. Направление оказалось слишком типичным для&nbsp;южных проектов и&nbsp;не&nbsp;давало узнаваемости.</p><span class="verdict">Отклонено</span></div>
+      <div class="off rv"><span class="n">02</span><h3>Наследие Сеченова</h3><p>Отсылка к&nbsp;имени учёного через научную эстетику. Звучало слишком академично для&nbsp;дома, главная ценность которого&nbsp;— спокойная жизнь.</p><span class="verdict">Отклонено</span></div>
+      <div class="on rv"><span class="n">03</span><h3>След ощущения</h3><p style="color:var(--ink)">Физические ощущения Ялты&nbsp;— галька, морской воздух, утренний свет, тень листвы&nbsp;— переведены в&nbsp;графические приёмы: фактуру, прозрачность, рельеф и&nbsp;мягкий цвет.</p><span class="verdict">Утверждено</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="concept" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Итоговая концепция</p><h2 class="split">Основная концепция</h2></div></div>
+    <div class="photos" data-stagger>
+      <div class="ph s"><img decoding="async" src="i/c1.jpg" alt="Девушка за полупрозрачной тканью" loading="lazy" width="432" height="326"></div>
+      <div class="ph t"><img decoding="async" src="i/c2.jpg" alt="Тень листвы на лице" loading="lazy" width="430" height="382"></div>
+      <div class="ph s"><img decoding="async" src="i/c3.jpg" alt="Светлые лепестки крупным планом" loading="lazy" width="434" height="326"></div>
+      <div class="ph t"><img decoding="async" src="i/c4.jpg" alt="Белая скала-арка в море" loading="lazy" width="435" height="382"></div>
+    </div>
+    <div class="concept-text" data-line>
+      <p class="name split">«След ощущения»</p>
+      <p class="rv">У&nbsp;каждого места есть своё физическое ощущение. У&nbsp;Ялты оно&nbsp;складывается из&nbsp;деталей, которые невозможно передать одним пейзажем: гладкой гальки под&nbsp;ногами, тёплого камня, прохладной тени, морского воздуха, запаха зелени и&nbsp;мягкого утреннего света.</p>
+      <p class="rv">Именно эти&nbsp;ощущения становятся основой фирменного стиля «Сеченова, 19». В&nbsp;центре визуального языка&nbsp;— тактильность и&nbsp;текстуры: матовые и&nbsp;гладкие поверхности, мягкое зерно, природная неровность, прозрачные слои и&nbsp;тонкие линии. Дымный голубой передаёт ощущение воздуха и&nbsp;пространства, тёплые светлые оттенки&nbsp;— мягкость южного света, а&nbsp;фактуры становятся визуальным следом самого места.</p>
+      <p class="rv">Имя&nbsp;Сеченова продолжает эту&nbsp;идею: как&nbsp;и&nbsp;в&nbsp;исследовании человека, здесь важно не&nbsp;только то, что&nbsp;можно увидеть, но&nbsp;и&nbsp;то, что&nbsp;можно почувствовать. Поэтому фирменный стиль передаёт пространство через свет, воздух, прикосновение и&nbsp;материальность.</p>
+    </div>
+  </div>
+</section>
+
+<section class="logo-sec" id="identity">
+  
+  <div class="in wrap">
+    <div class="row"><h2 class="split">Логотип</h2><span class="lbl">Визуальная идентификация</span></div>
+    <div class="stage"><video autoplay muted loop playsinline preload="metadata" poster="v/17609283.jpg" aria-hidden="true"><source src="v/17609283.mp4" type="video/mp4"></video>
+    <div class="logo-mark" data-on><img decoding="async" src="i/logo-mark.png" alt="Логотип Сеченова, 19 клубный дом" width="1170" height="318"></div>
+    </div>
+    <div class="row bot"><p class="desc rv">Число «19» из&nbsp;адреса вплетено в&nbsp;название «Сеченова»: цифры срастаются со&nbsp;словом, и&nbsp;адрес становится неразрывным с&nbsp;именем дома. Знак опирается на&nbsp;главную ценность проекта&nbsp;— конкретное, узнаваемое место.</p><span class="lbl rv">Сокращённый знак&nbsp;— «19»</span></div>
+  </div>
+</section>
+
+<section id="palette">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Визуальная идентификация</p><h2 class="split">Цветовая палитра</h2></div>
+      <p class="lead muted rv">Цветовая палитра основана на&nbsp;природных оттенках Ялты&nbsp;— тех, что&nbsp;окружают человека в&nbsp;повседневном опыте и&nbsp;формируют физическое ощущение места. Это&nbsp;не&nbsp;буквальная палитра моря и&nbsp;южного пейзажа, а&nbsp;интерпретация его&nbsp;состояний: прохладного воздуха, выцветшего камня, тёплого дерева, утреннего света и&nbsp;зелени в&nbsp;тени.</p>
+    </div>
+    <div class="pal" data-pal>
+      <div class="col" style="--f:2.6;background:#F9F8F4"><span class="dot" style="background:#CBC1A7"></span><div><p class="nm">Галька</p><p class="cd">#F9F8F4<br>RGB&nbsp;249&nbsp;248&nbsp;244<br>CMYK 0&nbsp;0&nbsp;2&nbsp;2</p></div></div>
+      <div class="col" style="--f:1.8;background:#D9EBF9"><span class="dot" style="background:#807568"></span><div><p class="nm">Утреннее небо</p><p class="cd">#D9EBF9<br>RGB&nbsp;217&nbsp;235&nbsp;249<br>CMYK 13&nbsp;6&nbsp;0&nbsp;2</p></div></div>
+      <div class="col" style="--f:1.8;background:#FDF3E4"><span class="dot" style="background:#807568"></span><div><p class="nm">Луч&nbsp;солнца</p><p class="cd">#FDF3E4<br>RGB&nbsp;253&nbsp;243&nbsp;228<br>CMYK 0&nbsp;4&nbsp;10&nbsp;1</p></div></div>
+      <div class="col" style="--f:1.5;background:#C7CBAF"><span class="dot" style="background:#807568"></span><div><p class="nm">Олива</p><p class="cd">#C7CBAF<br>RGB&nbsp;199&nbsp;203&nbsp;175<br>CMYK 2&nbsp;0&nbsp;14&nbsp;20</p></div></div>
+      <div class="col dark" style="--f:1.2;background:#535966"><span class="dot" style="background:#D9EBF9"></span><div><p class="nm">Графит</p><p class="cd">#535966<br>RGB&nbsp;83&nbsp;89&nbsp;102<br>CMYK 19&nbsp;13&nbsp;0&nbsp;60</p></div></div>
+      <div class="col dark" style="--f:1.2;background:#807568"><span class="dot" style="background:#CBC1A7"></span><div><p class="nm">Древесный</p><p class="cd">#807568<br>RGB&nbsp;128&nbsp;117&nbsp;104<br>CMYK 24&nbsp;35&nbsp;35&nbsp;68</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="typo wrap" id="type">
+  <div class="sbg" data-par></div>
+  <div class="type-top">
+    <h2 class="split">Типографика</h2>
+    <p class="rv">Типографическая система проекта строится на&nbsp;сочетании двух шрифтов: Poiret One&nbsp;Regular для&nbsp;заголовков и&nbsp;Noto Sans ExtraLight для&nbsp;основного текста. Poiret One&nbsp;придаёт визуальной идентичности утончённость, выразительность и&nbsp;характер благодаря геометричным формам и&nbsp;изящным линиям. Noto Sans ExtraLight дополняет его&nbsp;своей лёгкостью, сдержанностью и&nbsp;лаконичностью, обеспечивая визуальную гармонию и&nbsp;читаемость.</p>
+  </div>
+  <div class="fonts">
+    <div class="rv"><p class="lbl">Шрифт для&nbsp;заголовков</p><p class="spec d">Poiret One<br>Regular</p></div>
+    <div class="rv"><p class="lbl">Основной шрифт</p><p class="spec b">Noto Sans<br>ExtraLight</p></div>
+  </div>
+  <span class="lbl">Визуальная идентификация</span>
+</section>
+
+<section id="pattern">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Фирменная графика</p><h2 class="split">Паттерн «Море»</h2></div>
+      <p class="lead muted rv">Паттерн переосмысливает движение морской поверхности через систему плавных повторяющихся линий. Эффект выпуклого рельефа добавляет им&nbsp;объём и&nbsp;тактильность: линии воспринимаются как&nbsp;поверхность, которую можно почувствовать взглядом, а&nbsp;свет и&nbsp;тень усиливают ощущение глубины и&nbsp;движения.</p>
+    </div>
+    <div class="band" data-reveal><div class="pb"></div><div class="logo-mark" data-on><img decoding="async" src="i/logo-mark.png" alt="" width="1170" height="318"></div></div>
+  </div>
+</section>
+
+<section id="relief" style="padding-top:0">
+  <div class="wrap pair">
+    <div class="txt">
+      <p class="eyebrow rv">Рельеф «След места»</p>
+      <h2 class="split">Графический элемент в&nbsp;виде рельефа</h2>
+      <p class="rv">Рельеф продолжает концепцию «След ощущения» и&nbsp;переводит идею тактильности в&nbsp;визуальный язык. Объёмные поверхности, мягкие неровности и&nbsp;перепады фактуры создают ощущение материала, который хочется рассмотреть и&nbsp;почувствовать. Рельеф отсылает к&nbsp;природным фактурам Ялты&nbsp;— камню, гальке, поверхности земли и&nbsp;следам времени.</p>
+      <p class="rv">Он проявляется в&nbsp;графике, навигации и&nbsp;физических носителях, формируя единый образ пространства через форму, свет, тень и&nbsp;прикосновение.</p>
+    </div>
+    <div class="collage">
+      <div class="big" data-reveal><img decoding="async" src="i/bag.jpg" alt="Пакет с рельефом и логотипом" loading="lazy" width="865" height="1042"></div>
+    </div>
+  </div>
+</section>
+
+<section id="photo" style="padding-top:0">
+  <div class="wrap pair rev">
+    <div class="collage">
+      <div class="big" data-reveal><img decoding="async" src="i/diffuser.jpg" alt="Диффузор с логотипом и тенями листвы" loading="eager" width="851" height="1032"></div>
+    </div>
+    <div class="txt lined">
+      <p class="eyebrow rv">Визуальная идентификация</p>
+      <h2 class="split">Фотостиль</h2>
+      <p class="rv">Фотостиль строится на&nbsp;внимании к&nbsp;деталям, фактурам и&nbsp;тактильным ощущениям пространства. Вместо очевидных панорам и&nbsp;постановочных сюжетов в&nbsp;центре внимания&nbsp;— фрагменты: поверхность камня, рельеф стены, солнечные блики, тени, растения, детали архитектуры и&nbsp;материалы.</p>
+      <p class="rv">Такие кадры передают атмосферу «Сеченова, 19» через ощущение, а&nbsp;не&nbsp;через прямое изображение места. Крупные планы и&nbsp;близкие ракурсы позволяют рассмотреть фактуру и&nbsp;почувствовать её присутствие.</p>
+    </div>
+  </div>
+</section>
+
+<section id="media" style="padding-top:0;padding-bottom:0">
+  <div class="wrap"><div class="sec-head two">
+    <div class="t"><p class="eyebrow rv">Брендинговая продукция</p><h2 class="split">Носители</h2></div>
+    <p class="lead muted rv">Полиграфия, сувенирная продукция, навигация и&nbsp;реклама собраны из&nbsp;одних элементов: палитры, рельефа, паттерна и&nbsp;фотостиля.</p>
+  </div></div>
+  <div class="stackfull">
+    <figure data-zoom><img decoding="async" src="i/brochure.jpg" alt="Премиальная брошюра о клубном доме у моря" loading="lazy" width="2304" height="1536"></figure>
+    <figure data-zoom><img decoding="async" src="i/certs.jpg" alt="Премиальные сертификаты Сеченова, 19" loading="lazy" width="2304" height="1536"></figure>
+    <figure data-zoom><img decoding="async" src="i/n1.jpg" alt="Папка покупателя" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n2.jpg" alt="Книга о проекте" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n3.jpg" alt="Стойка ресепшен" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n4.jpg" alt="Плед с логотипом" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n5.jpg" alt="Брелоки для ключей" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n6.jpg" alt="Вывеска на входной группе" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n7.jpg" alt="Навигационная стела" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n8.jpg" alt="Главный экран сайта" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/n9.jpg" alt="Рекламный баннер" loading="lazy" width="1920" height="1080"></figure>
+  </div>
+  <div class="wrap"><div class="sub-head sec-head"><div class="t"><p class="eyebrow rv">Digital</p><h2 class="split">Соцсети</h2></div></div></div>
+  <div class="stackfull">
+    <figure data-zoom><img decoding="async" src="i/s1.jpg" alt="Карточки для соцсетей 9:16" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/s2.jpg" alt="Карточки для соцсетей 4:5" loading="lazy" width="1920" height="1080"></figure>
+    <figure data-zoom><img decoding="async" src="i/s3.jpg" alt="Карточки для соцсетей 1:1" loading="lazy" width="1920" height="1080"></figure>
+  </div>
+</section>
+
+
+<section id="brandbook">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Брендбук</p><h2 class="split">Единые правила бренда</h2></div>
+      <p class="lead muted rv">Брендбук фиксирует идеологию проекта, архетип, тон&nbsp;коммуникации и&nbsp;портреты аудитории, а&nbsp;также правила визуальной системы: логотип, палитру, типографику, фирменную графику, фотостиль и&nbsp;макеты носителей. Документ обеспечивает единообразие бренда во&nbsp;всех каналах и&nbsp;упрощает работу маркетинга и&nbsp;подрядчиков.</p>
+    </div>
+    <div class="sl fit rv" data-sl aria-roledescription="карусель" aria-label="Страницы брендбука">
+      <div class="sl-stage">
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-01.jpg" alt="Обложка брендбука" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-05.jpg" alt="Концепция проекта" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-07.jpg" alt="Идеология бренда" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-09.jpg" alt="Архетип бренда" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="891" data-vvsz decoding="async" src="i/bb-11.jpg" alt="Портреты целевой аудитории" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-15.jpg" alt="Основа стилистики" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-16.jpg" alt="Логотип" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-20.jpg" alt="Цветовая палитра" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-21.jpg" alt="Типографика" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-23.jpg" alt="Рельеф След места" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/bb-30.jpg" alt="Паттерн" loading="lazy"></figure>
+      </div>
+      <div class="sl-ui"><span class="count" aria-live="polite">01&nbsp;/ 11</span><span class="bar"><i></i></span><div class="btns"><button type="button" data-prev aria-label="Назад"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m7 7-7-7 7-7"/></svg></button><button type="button" data-next aria-label="Вперёд"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button></div><a class="go" href="https://drive.google.com/file/d/128LyuX0QDJae53ie11VwiTJYVe_aAleZ/view?usp=drive_link" target="_blank" rel="noopener">Открыть брендбук <span aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="presentation" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Презентация</p><h2 class="split">Презентация для&nbsp;покупателей</h2></div>
+      <p class="lead muted rv">Основной инструмент отдела продаж. Структура повторяет путь покупателя и&nbsp;последовательно снимает его&nbsp;сомнения: адрес и&nbsp;локация, клубный формат, архитектура и&nbsp;виды, благоустройство, инфраструктура, планировки и&nbsp;условия покупки. Каждый слайд собран по&nbsp;правилам брендбука.</p>
+    </div>
+    <div class="sl fit rv" data-sl aria-roledescription="карусель" aria-label="Слайды презентации">
+      <div class="sl-stage">
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-01.jpg" alt="Обложка презентации" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-03.jpg" alt="Особый адрес для жизни в Ялте" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-04.jpg" alt="Своё место в городе — карта" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-05.jpg" alt="Клубный формат" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-07.jpg" alt="Архитектура света и воздуха" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-09.jpg" alt="Виды как часть повседневной жизни" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-13.jpg" alt="Зона отдыха у арт-объекта" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-16.jpg" alt="Инфраструктура и лобби" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-18.jpg" alt="Планировочные решения" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-20.jpg" alt="Собственные патио" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1600" height="900" data-vvsz decoding="async" src="i/pr-24.jpg" alt="Ваш адрес в Ялте" loading="lazy"></figure>
+      </div>
+      <div class="sl-ui"><span class="count" aria-live="polite">01&nbsp;/ 11</span><span class="bar"><i></i></span><div class="btns"><button type="button" data-prev aria-label="Назад"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m7 7-7-7 7-7"/></svg></button><button type="button" data-next aria-label="Вперёд"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button></div><a class="go" href="https://drive.google.com/file/d/1x86K5HO2LbYtYZc3gti4gNJ6jQNIHx3I/view?usp=sharing" target="_blank" rel="noopener">Открыть презентацию <span aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="site" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Лендинг</p><h2 class="split">Сайт проекта</h2></div>
+      <p class="lead muted rv">Лендинг переносит фирменный стиль в&nbsp;digital: светлые поля, фактуры, крупная типографика и&nbsp;фотостиль с&nbsp;естественными сценами. Структура ведёт пользователя от&nbsp;атмосферы места к&nbsp;планировкам и&nbsp;условиям покупки, а&nbsp;выбор квартиры доступен с&nbsp;первого экрана.</p>
+    </div>
+    <div class="browser fit">
+      <div class="bar-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">sechenova19.ru</span></div>
+      <video autoplay muted loop playsinline preload="auto" poster="v/site5.jpg" aria-label="Запись прокрутки сайта Сеченова, 19"><source src="v/site5.mp4" type="video/mp4"></video>
+    </div>
+    <div class="sl-ui site-ui rv"><a class="go" href="https://sechenova19.ru/" target="_blank" rel="noopener">Перейти на&nbsp;сайт <span aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a></div>
+  </div>
+</section>
+
+<section id="film">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Видео</p><h2 class="split">Имиджевые и&nbsp;рекламный ролики</h2></div>
+      <p class="lead muted rv">Ролики переводят концепцию «След ощущения» в&nbsp;движение. Каждая сцена передаёт одно ощущение места&nbsp;— морской бриз, ритм волны, след солнца, тишину сада. Адрес и&nbsp;логотип появляются только в&nbsp;финале, когда зритель уже&nbsp;почувствовал место.</p>
+    </div>
+    <div class="player fit">
+      <video autoplay muted loop playsinline preload="metadata" poster="film-poster.jpg"><source src="film.mp4" type="video/mp4"></video>
+    </div>
+    <div class="player-ui fit rv"><span class="lbl">Имиджевый ролик</span><button class="go sound" type="button" aria-pressed="false" style="background:transparent;cursor:pointer;font-family:inherit;color:var(--ink)">Включить звук</button></div>
+    <div class="clips" data-stagger>
+      <figure><div class="fr"><video autoplay muted loop playsinline preload="metadata" poster="v/16958759.jpg"><source src="v/16958759.mp4" type="video/mp4"></video></div><figcaption>Морской бриз</figcaption></figure>
+      <figure><div class="fr"><video autoplay muted loop playsinline preload="metadata" poster="v/16958088.jpg"><source src="v/16958088.mp4" type="video/mp4"></video></div><figcaption>Дыхание моря</figcaption></figure>
+      <figure><div class="fr"><video autoplay muted loop playsinline preload="metadata" poster="v/16958097.jpg"><source src="v/16958097.mp4" type="video/mp4"></video></div><figcaption>След солнца</figcaption></figure>
+      <figure><div class="fr"><video autoplay muted loop playsinline preload="metadata" poster="v/16958222.jpg"><source src="v/16958222.mp4" type="video/mp4"></video></div><figcaption>Тишина сада</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="result" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Вывод</p><h2 class="split">Как&nbsp;дизайн решает задачу</h2></div>
+      <p class="lead rv">Главный барьер покупателей&nbsp;— недоверие к&nbsp;курортной недвижимости. Визуальный язык показывает «Сеченова, 19» как&nbsp;городской дом&nbsp;для&nbsp;жизни, а&nbsp;не&nbsp;объект для&nbsp;отдыха.</p>
+    </div>
+    <div class="rows res">
+      <article class="rv"><span class="n">01</span><h3><span>Курортный образ</span>Тихий визуальный язык</h3><p>Природная светлая палитра, тонкая типографика и&nbsp;много воздуха отделяют проект от&nbsp;ярких курортных комплексов и&nbsp;передают статус бизнес-класса без&nbsp;демонстративности.</p></article>
+      <article class="rv"><span class="n">02</span><h3><span>Образ отпуска</span>Сцены повседневной жизни</h3><p>Фотостиль и&nbsp;ролики показывают утро, прогулку к&nbsp;морю и&nbsp;тень в&nbsp;саду. Покупатель видит себя жителем, а&nbsp;не&nbsp;туристом.</p></article>
+      <article class="rv"><span class="n">03</span><h3><span>Сомнения покупателя</span>Коммуникация по&nbsp;барьерам</h3><p>Презентация и&nbsp;лендинг отвечают на&nbsp;вопросы покупателя в&nbsp;том порядке, в&nbsp;котором он&nbsp;их задаёт: где находится дом, чем клубный формат лучше курортного, какая архитектура и&nbsp;инфраструктура, на&nbsp;каких условиях можно купить квартиру.</p></article>
+      <article class="rv"><span class="n">04</span><h3><span>Разрозненные материалы</span>Единая система</h3><p>Брендбук закрепил правила, поэтому презентация, носители, соцсети, ролики и&nbsp;сайт считываются как&nbsp;один бренд&nbsp;— и&nbsp;для&nbsp;покупателя, и&nbsp;для&nbsp;подрядчиков.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="links" id="links">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Материалы проекта</p><h2 class="split">Смотреть целиком</h2></div></div>
+    <div class="link-list rv">
+      <a href="https://sechenova19.ru/" target="_blank" rel="noopener"><span class="t">Сайт<span class="d">sechenova19.ru</span></span><span class="arr" aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+      <a href="https://drive.google.com/file/d/1x86K5HO2LbYtYZc3gti4gNJ6jQNIHx3I/view?usp=sharing" target="_blank" rel="noopener"><span class="t">Презентация<span class="d">PDF · Google Drive</span></span><span class="arr" aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+      <a href="https://drive.google.com/file/d/128LyuX0QDJae53ie11VwiTJYVe_aAleZ/view?usp=drive_link" target="_blank" rel="noopener"><span class="t">Брендбук<span class="d">PDF · Google Drive</span></span><span class="arr" aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span>Виктория · графический дизайнер</span><span>Проект ГК&nbsp;«Интеллект», 2026</span></div>
+</footer>
+
+<script>/* vv-typo: неразрывные пробелы после коротких слов и против «висячих» последних слов */
+(function(){try{var SH=/(?<=^|[\s(«"—])(в|во|с|со|к|ко|о|об|обо|у|и|а|но|на|по|от|до|за|из|не|ни|для|без|под|над|при|про|что|как|или|его|её|их|мы|вы|я|это|все|всё|бы|ли|же)\s+/gi;
+var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('script,style,svg,textarea,code')?2:1}}),ns=[];while(w.nextNode())ns.push(w.currentNode);
+ns.forEach(function(n){var t=n.nodeValue;if(!/[А-Яа-яЁё]/.test(t))return;var u=t.replace(SH,function(m,b){return b+'\u00a0'}).replace(/ — /g,'\u00a0— ').replace(/(\d) (\d{3})/g,'$1\u00a0$2');if(u!==t)n.nodeValue=u});
+[].forEach.call(document.querySelectorAll('p,li,blockquote,figcaption,dd'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),last=null;while(tw.nextNode()){if(tw.currentNode.nodeValue.trim())last=tw.currentNode}
+ if(!last)return;var s=last.nodeValue.replace(/\s+$/,''),i=s.lastIndexOf(' ');if(i<1)return;var tok=s.slice(i+1);if(tok.replace(/[.,!?»…:;)]/g,'').length>9)return;var j=s.lastIndexOf(' ',i-1);if(i-j-1+tok.length+1>22)return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;if(cw&&(i-j+tok.length)*fs*.6>cw*.8)return;
+ last.nodeValue=s.slice(0,i)+'\u00a0'+tok+last.nodeValue.slice(s.length)});
+[].forEach.call(document.querySelectorAll('p,li,dd,figcaption'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(tw.nextNode())a.push(tw.currentNode);a.forEach(function(n){var t=n.nodeValue,re=/[A-Za-zА-Яа-яЁё0-9]+(?:-[A-Za-zА-Яа-яЁё0-9]+)+/g;if(!re.test(t)||n.parentNode.closest('vv-nw'))return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;re.lastIndex=0;var f=document.createDocumentFragment(),last=0,m;while((m=re.exec(t))){f.appendChild(document.createTextNode(t.slice(last,m.index)));if(cw&&m[0].length*fs*.6>cw*.7){f.appendChild(document.createTextNode(m[0]))}else{var e=document.createElement('vv-nw');e.textContent=m[0];f.appendChild(e)}last=m.index+m[0].length}f.appendChild(document.createTextNode(t.slice(last)));n.parentNode.replaceChild(f,n)})});
+var st=document.createElement('style');st.textContent='vv-nw{white-space:nowrap}';document.head.appendChild(st);}catch(e){}})();</script>
+<script src="../../assets/gsap.min.js"></script>
+<script src="../../assets/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+
+  // split headings into words; non-breaking pairs stay together
+  [].forEach.call(document.querySelectorAll('.split'),function(el){
+    (function walk(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=document.createDocumentFragment();
+          n.textContent.split(/( +)/).forEach(function(p){
+            if(!p)return;
+            if(/^ +$/.test(p)){frag.appendChild(document.createTextNode(' '));return}
+            var w=document.createElement('span');w.className='w';var s=document.createElement('span');s.textContent=p;w.appendChild(s);frag.appendChild(w);
+          });
+          n.parentNode.replaceChild(frag,n);
+        } else if(n.nodeType===1&&n.tagName!=='BR')walk(n);
+      });
+    })(el);
+  });
+
+  var top=document.getElementById('top'),hero=document.getElementById('hero');
+  [].forEach.call(document.querySelectorAll('a[href^="#"]'),function(l){
+    l.addEventListener('click',function(e){
+      var t=document.querySelector(l.getAttribute('href'));if(!t)return;e.preventDefault();
+      function y(){return t.getBoundingClientRect().top+window.scrollY-(parseFloat(getComputedStyle(t).scrollMarginTop)||0)}
+      window.scrollTo({top:y(),behavior:'smooth'});
+      var last=-1,n=0,iv=setInterval(function(){var cy=window.scrollY;if(cy===last||++n>40){clearInterval(iv);var ty=y();if(Math.abs(ty-cy)>4)window.scrollTo({top:ty,behavior:'auto'})}last=cy},120);
+      if(history.replaceState)history.replaceState(null,'',l.getAttribute('href'));
+    });
+  });
+  var hbg=hero.querySelector('.bg');function hs(){top.classList.toggle('solid',Math.min(hero.getBoundingClientRect().bottom,hbg.getBoundingClientRect().bottom)<70)}
+  window.addEventListener('scroll',hs,{passive:true});hs();
+
+  function onView(el,fn,th){
+    if(!('IntersectionObserver' in window)){fn(true);return}
+    new IntersectionObserver(function(es){es.forEach(function(e){fn(e.isIntersecting)})},{threshold:th||.2}).observe(el);
+  }
+  [].forEach.call(document.querySelectorAll('[data-on]'),function(el){onView(el,function(v){el.classList.toggle('on',v)},.35)});
+  [].forEach.call(document.querySelectorAll('video[autoplay]'),function(v){v.muted=true;var p=v.play();if(p&&p.catch)p.catch(function(){});});
+
+  if(window.gsap&&window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ignoreMobileResize:true});
+    var isMob=window.innerWidth<=820;
+    if(window.innerWidth>820){
+      gsap.fromTo('[data-hero]',{scale:1.16},{scale:1,duration:2.8,ease:'power3.out'});
+      gsap.to('[data-hero]',{yPercent:10,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+    } else {
+    }
+    gsap.utils.toArray('.split').forEach(function(el){
+      if(el.closest('#hero')){gsap.from(el.querySelectorAll('.w>span'),{yPercent:115,rotate:4,duration:1.3,ease:'expo.out',stagger:.08,delay:.2});return}
+      gsap.from(el.querySelectorAll('.w>span'),{yPercent:115,rotate:4,duration:1.3,ease:'expo.out',stagger:.06,scrollTrigger:{trigger:el,start:isMob?'top 88%':'top 92%',once:true}});
+    });
+    function wordWrap(el){
+      (function walk(node){
+        [].slice.call(node.childNodes).forEach(function(n){
+          if(n.nodeType===3){
+            var frag=document.createDocumentFragment();
+            n.textContent.split(/( +)/).forEach(function(p){
+              if(!p)return;
+              if(/^ +$/.test(p)){frag.appendChild(document.createTextNode(' '));return}
+              var w=document.createElement('span');w.className='w';var sp=document.createElement('span');sp.textContent=p;w.appendChild(sp);frag.appendChild(w);
+            });
+            n.parentNode.replaceChild(frag,n);
+          } else if(n.nodeType===1&&n.tagName!=='BR'&&!n.classList.contains('w'))walk(n);
+        });
+      })(el);
+      return el.querySelectorAll('.w>span');
+    }
+    gsap.utils.toArray('.rv').forEach(function(el){
+      if(el.closest('#hero')){gsap.from(el,{y:30,autoAlpha:0,duration:1.2,ease:'power3.out',delay:.7});return}
+      // phone: paragraphs rise line by line
+      if(isMob&&el.tagName==='P'&&el.textContent.trim().length>40){
+        var words=wordWrap(el),lines=[],top=null,li=-1;
+        [].forEach.call(words,function(w){var t=w.parentNode.offsetTop;if(t!==top){top=t;li++;}w.dataset.l=li;});
+        gsap.from(words,{yPercent:110,duration:1.05,ease:'power3.out',delay:function(i,t){return t.dataset.l*0.09},scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+        return;
+      }
+      // phone: lists appear item by item
+      if(isMob&&el.querySelector('li')){
+        gsap.from(el.querySelectorAll('.k,li,p'),{y:28,autoAlpha:0,duration:.9,ease:'power3.out',stagger:.08,scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+        return;
+      }
+      gsap.from(el,{y:isMob?36:48,autoAlpha:0,duration:1.2,ease:'power3.out',scrollTrigger:{trigger:el,start:isMob?'top 88%':'top 94%',once:true}});
+    });
+    gsap.utils.toArray('[data-stagger]').forEach(function(box){
+      [].forEach.call(box.children,function(ch,i){gsap.from(ch,{y:90,autoAlpha:0,duration:1.3,ease:'expo.out',delay:(i%3)*.08,scrollTrigger:{trigger:ch,start:'top 88%',once:true}})});
+    });
+    gsap.utils.toArray('[data-reveal]').forEach(function(el){
+      var img=el.querySelector('img,video,.pb');
+      var tl=gsap.timeline({scrollTrigger:{trigger:el,start:'top 96%',end:'top 30%',scrub:1}});
+      tl.fromTo(el,{clipPath:'inset(12% 9% 12% 9%)'},{clipPath:'inset(0% 0% 0% 0%)',ease:'none'},0);
+      if(img&&!img.classList.contains('pb'))tl.fromTo(img,{scale:1.25},{scale:1,ease:'none'},0);
+    });
+    if(!isMob)gsap.utils.toArray('[data-zoom] img').forEach(function(img){
+      gsap.fromTo(img,{scale:1.12},{scale:1,ease:'none',scrollTrigger:{trigger:img.parentNode,start:'top bottom',end:'center center',scrub:true}});
+    });
+    gsap.utils.toArray('[data-par]').forEach(function(bg){
+      gsap.fromTo(bg,{yPercent:-5},{yPercent:5,ease:'none',scrollTrigger:{trigger:bg.parentNode,start:'top bottom',end:'bottom top',scrub:true}});
+    });
+    gsap.from('[data-pal] .col',{clipPath:'inset(100% 0 0 0)',duration:.9,ease:'expo.out',stagger:.06,scrollTrigger:{trigger:'[data-pal]',start:'top 92%',once:true}});
+    gsap.from('[data-pal] .col>*',{y:30,autoAlpha:0,duration:.7,ease:'power3.out',stagger:.04,delay:.2,scrollTrigger:{trigger:'[data-pal]',start:'top 92%',once:true}});
+    gsap.utils.toArray('[data-float]').forEach(function(el){gsap.fromTo(el,{yPercent:30},{yPercent:-12,ease:'none',scrollTrigger:{trigger:el.parentNode,start:'top bottom',end:'bottom top',scrub:true}})});
+    if(!isMob)gsap.fromTo('.logo-sec video',{scale:1.15},{scale:1,ease:'none',scrollTrigger:{trigger:'.logo-sec',start:'top bottom',end:'bottom top',scrub:true}});
+    window.addEventListener('load',function(){ScrollTrigger.refresh()});
+    var rT=null,scT=null,scrolling=false;
+    window.addEventListener('scroll',function(){scrolling=true;clearTimeout(scT);scT=setTimeout(function(){scrolling=false},250)},{passive:true});
+    function softRefresh(){clearTimeout(rT);rT=setTimeout(function(){if(scrolling){softRefresh();return}ScrollTrigger.refresh()},400)}
+    [].forEach.call(document.images,function(im){if(!im.complete)im.addEventListener('load',softRefresh,{once:true})});
+  }
+
+  // stacked sliders
+  [].forEach.call(document.querySelectorAll('[data-sl]'),function(sl){
+    var items=sl.querySelectorAll('.sl-item'),n=items.length,cur=0,cnt=sl.querySelector('.count'),bar=sl.querySelector('.bar i'),stage=sl.querySelector('.sl-stage'),timer=null,visible=false,hover=false,busy=false;
+    function pad(x){return (x<10?'0':'')+x}
+    function ui(){cnt.textContent=pad(cur+1)+' / '+pad(n);bar.style.setProperty('--p',(cur+1)/n)}
+    items[0].classList.add('cur');ui();
+    function go(i,dir){
+      if(busy)return;i=(i+n)%n;if(i===cur)return;
+      var a=items[cur],b=items[i];
+      [].forEach.call(items,function(x){if(x!==a&&x!==b)x.classList.remove('prev','cur','enter-r','enter-l')});
+      a.classList.remove('cur');a.classList.add('prev');
+      var im=b.querySelector('img');if(im.loading==='lazy')im.loading='eager';
+      b.classList.add('cur',dir<0?'enter-l':'enter-r');b.offsetWidth;b.classList.remove('enter-l','enter-r');
+      cur=i;ui();busy=true;setTimeout(function(){busy=false},700);
+      setTimeout(function(){if(!a.classList.contains('cur'))a.classList.remove('prev')},1400);
+    }
+    sl.querySelector('[data-next]').addEventListener('click',function(){go(cur+1,1);restart()});
+    sl.querySelector('[data-prev]').addEventListener('click',function(){go(cur-1,-1);restart()});
+    var x0=null;
+    stage.addEventListener('pointerdown',function(e){x0=e.clientX});
+    stage.addEventListener('pointerup',function(e){if(x0===null)return;var dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40){go(cur+(dx<0?1:-1),dx<0?1:-1);restart()}});
+    stage.addEventListener('mouseenter',function(){hover=true});stage.addEventListener('mouseleave',function(){hover=false});
+    function tick(){if(visible&&!hover&&!document.hidden)go(cur+1,1)}
+    function restart(){clearInterval(timer);timer=setInterval(tick,5000)}
+    onView(sl,function(v){visible=v});
+    restart();
+  });
+
+  var fv=document.querySelector('.player video'),sb=document.querySelector('.sound');
+  if(fv&&sb)sb.addEventListener('click',function(){fv.muted=!fv.muted;if(!fv.muted){fv.currentTime=0;var p=fv.play();if(p&&p.catch)p.catch(function(){})}sb.textContent=fv.muted?'Включить звук':'Выключить звук';sb.setAttribute('aria-pressed',String(!fv.muted))});
+})();
+</script>
+
+
+
+<!-- vv-back: кнопка возврата в портфолио -->
+<link rel="stylesheet" href="../../assets/onest.css">
+<a href="../../index.html#case-sech" id="vv-back" aria-label="Все проекты"><span class="vv-i"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="vv-t">Все проекты</span></a>
+<style>
+#vv-back{position:fixed;left:max(20px,env(safe-area-inset-left));bottom:max(20px,env(safe-area-inset-bottom));z-index:2147483000;display:inline-flex;align-items:center;gap:12px;height:52px;padding:0 22px 0 7px;border-radius:999px;
+background:rgba(12,12,12,.7);color:#fff!important;-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 40px rgba(0,0,0,.25);
+font:500 14px/1 Onest,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.005em;text-decoration:none!important;opacity:0;transform:translateY(12px);animation:vvIn .9s cubic-bezier(.19,1,.22,1) .9s forwards;transition:background .4s,border-color .4s}
+#vv-back .vv-i{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#fff;color:#0b0b0b;transition:transform .5s cubic-bezier(.19,1,.22,1)}
+#vv-back:hover{background:rgba(12,12,12,.9);border-color:rgba(255,255,255,.3)}
+#vv-back:hover .vv-i{transform:translateX(-3px)}
+@keyframes vvIn{to{opacity:1;transform:none}}
+@media (max-width:600px){#vv-back{height:46px;gap:10px;padding:0 18px 0 5px;font-size:13px}#vv-back .vv-i{width:34px;height:34px}}
+@media print{#vv-back{display:none}}
+</style>
+<script>/* vv-return: назад на главную — шторка цветом кейса и возврат через историю (точно на то же место) */
+(function(){var b=document.getElementById('vv-back');if(!b)return;var going=false;
+function ret(e){if(e)e.preventDefault();if(going)return;going=true;var bg='#000';try{bg=sessionStorage.getItem('vv-retbg')||getComputedStyle(document.body).backgroundColor}catch(x){}
+ var o=document.createElement('div');o.style.cssText='position:fixed;inset:0;z-index:2147483647;background:'+bg+';opacity:0;transition:opacity .45s cubic-bezier(.4,0,.2,1);pointer-events:none';document.documentElement.appendChild(o);
+ requestAnimationFrame(function(){o.style.opacity='1'});
+ setTimeout(function(){var fromHub=false;try{fromHub=sessionStorage.getItem('vv-scroll')!==null}catch(x){}
+   if(fromHub&&history.length>1)history.back();else location.href=b.href},470)}
+b.addEventListener('click',ret);
+addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.fullscreenElement)ret(e)});
+addEventListener('pageshow',function(e){if(e.persisted){going=false;[].forEach.call(document.querySelectorAll('body~div,html>div'),function(d){if(d.style&&d.style.zIndex==='2147483647')d.remove()})}})})();</script>
+<script>/* vv-anchor: плавный переход по якорям без CSS scroll-behavior (он ломает расчёт анимаций) */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented)return;var id=a.getAttribute('href');if(id.length<2)return;var t=document.querySelector(id);if(!t)return;e.preventDefault();var y=t.getBoundingClientRect().top+scrollY-(id==='#top'||id==='#hero'?0:64);window.scrollTo({top:y,behavior:'smooth'});history.replaceState(null,'',id)});</script>
+<script>/* vv-guard: если анимация по какой-то причине не сработала, блок всё равно проявится, когда окажется на экране (кроме первого экрана и анимаций, привязанных к прокрутке) */
+(function(){if(!('IntersectionObserver' in window))return;
+function stOf(t){var st=t.scrollTrigger,r=t;while(r.parent&&r.parent!==gsap.globalTimeline){r=r.parent;st=st||r.scrollTrigger}return st||r.scrollTrigger}
+function safe(t){if(t.progress()!==0)return false;var st=stOf(t);if(!st)return false;var v=st.vars||{};return !v.scrub&&!v.pin&&!st.pin}
+function arm(){if(!window.gsap)return;var els=[].filter.call(document.querySelectorAll('[style*="opacity: 0"],[style*="visibility: hidden"],[style*="inset(100%"],.split .w>span'),function(el){if(el.closest('.hero,#hero,header,.top'))return false;return gsap.getTweensOf(el).some(safe)});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){var el=e.target;clearTimeout(el._vg);if(!e.isIntersecting)return;el._vg=setTimeout(function(){gsap.getTweensOf(el).forEach(function(t){if(safe(t))t.progress(1)});io.unobserve(el)},1300)})},{threshold:.2});
+[].forEach.call(els,function(el){io.observe(el)})}if(document.readyState==='complete')setTimeout(arm,1200);else addEventListener('load',function(){setTimeout(arm,1200)})})();</script>
+<script>/* vv-refresh: пересчёт точек анимаций после загрузки шрифтов и картинок, чтобы анимации не срабатывали за кадром */
+(function(){if(!window.ScrollTrigger)return;var t,h=0;function r(){clearTimeout(t);t=setTimeout(function(){try{ScrollTrigger.refresh()}catch(e){}},150)}
+if(document.fonts){try{document.fonts.addEventListener('loadingdone',r)}catch(e){}document.fonts.ready.then(r)}
+addEventListener('load',r);
+if(window.ResizeObserver){new ResizeObserver(function(){var nh=document.documentElement.scrollHeight;if(Math.abs(nh-h)>30){h=nh;r()}}).observe(document.body)}})();</script>
+</body>
+</html>

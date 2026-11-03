@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- vv-intro: плавное продолжение перехода с главной -->
+<script>(function(){try{var d=sessionStorage.getItem('vv-trans');if(!d)return;sessionStorage.removeItem('vv-trans');d=JSON.parse(d);var R=document.documentElement;R.style.background=d.bg;
+var o=document.createElement('div');o.id='vv-in';o.setAttribute('aria-hidden','true');
+o.style.cssText='position:fixed;inset:0;z-index:2147483646;background:'+d.bg+';opacity:1;transition:opacity .9s cubic-bezier(.4,0,.2,1);pointer-events:none';
+R.appendChild(o);var done=false,t0=Date.now();
+function go(){if(done)return;done=true;var w=Math.max(0,250-(Date.now()-t0));setTimeout(function(){requestAnimationFrame(function(){R.style.background='';o.style.opacity='0';setTimeout(function(){o.remove()},1000)})},w)}
+addEventListener('load',go);setTimeout(go,1400)}catch(e){}})();</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>ДС01&nbsp;— кейс</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+<script>try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}</script>
+<style>
+/* ДС01 — кейс, v5. Белое поле, гигантский шрифтовой знак, стеклянные карточки с дисперсией.
+   Шрифт бренда — Tactic Sans (если установлен), фолбэк — Unbounded.
+   Появление блоков — IntersectionObserver + CSS; GSAP — герой, лента носителей, логотип, параллакс. */
+:root{
+  --paper:#FFFFFF; --ink:#0D0802; --grey:#8C8985; --soft:#F3F3F1; --line:rgba(13,8,2,.14);
+  --font:"Tactic Sans","Unbounded","Arial",sans-serif;
+  --g:clamp(16px,3vw,56px);
+  --r:clamp(10px,1vw,16px);
+  --lead:min(30em,34vw);
+  --ease:cubic-bezier(.2,.7,.15,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-weight:300;font-size:clamp(12px,.32vw + 9px,15px);line-height:1.65;letter-spacing:.01em;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,video,svg{display:block;max-width:100%;height:auto}
+a{color:inherit}
+p{margin:0;text-wrap:pretty}
+h1,h2,h3{margin:0;font-weight:400;line-height:1;letter-spacing:-.015em;text-wrap:balance}
+figure{margin:0}
+.wrap{padding-inline:max(var(--g),env(safe-area-inset-left,0px))}
+.sp{height:clamp(90px,12vw,220px)}
+.sp.s{height:clamp(44px,5vw,96px)}
+.sp.xs{height:clamp(24px,2.6vw,48px)}
+.lbl{font-size:clamp(9px,.18vw + 7px,11px);letter-spacing:.14em;text-transform:uppercase;font-weight:400}
+.grey{color:var(--grey)}
+.ln{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.ln>span{display:block}
+.ctext{max-width:46em;margin-inline:auto;text-align:center;display:grid;gap:.9em}
+.ctext .g{color:var(--grey)}
+.ph{overflow:hidden;background:var(--soft);border-radius:var(--r)}
+.ph img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- появление (IO) ---------- */
+.js [data-r] .ln>span{transform:translateY(115%);transition:transform 1.3s var(--ease);transition-delay:calc(var(--d,0) * 70ms)}
+.js [data-r].in .ln>span{transform:none}
+.js [data-st]>*{opacity:0;transform:translateY(32px);transition:opacity .7s ease-out,transform .9s var(--ease);transition-delay:calc(var(--i,0) * 70ms)}
+.js [data-st].in>*{opacity:1;transform:none}
+.js [data-clip]{clip-path:inset(6% 4% 0 4%);transition:clip-path 1s var(--ease)}
+.js [data-clip].in{clip-path:inset(0 0 0 0)}
+.js [data-wipe]{clip-path:inset(0 100% 0 0);transition:clip-path 1.8s var(--ease) .2s}
+.js [data-wipe].in{clip-path:inset(0 0 0 0)}
+.js [data-fade]{opacity:0;transform:translateY(24px);transition:opacity 1.1s var(--ease),transform 1.2s var(--ease)}
+.js [data-fade].in{opacity:1;transform:none}
+.wm{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.js [data-wr] .wm>span{display:inline-block;transform:translateY(110%);transition:transform 1s var(--ease);transition-delay:calc(min(var(--d,0),40) * 22ms)}
+.js [data-wr].in .wm>span{transform:none}
+.js [data-wr] p+p .wm>span{transition-delay:calc(min(var(--d,0),40) * 22ms + 250ms)}
+.js .shead[data-r]{--bw:0}
+.js .shead[data-r].in{--bw:1}
+
+/* ---------- стекло с дисперсией: прозрачнее + медленное перетекание ---------- */
+.glass{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--r);
+  background:
+    radial-gradient(60% 70% at 10% 10%,rgba(249,99,201,.13),transparent 70%),
+    radial-gradient(60% 70% at 90% 15%,rgba(112,213,255,.15),transparent 70%),
+    radial-gradient(70% 80% at 60% 95%,rgba(195,228,150,.18),transparent 70%),
+    rgba(255,255,255,.55);
+  background-size:180% 180%,180% 180%,180% 180%,100% 100%;
+  animation:flow 16s ease-in-out infinite alternate;
+  box-shadow:0 30px 60px -48px rgba(13,8,2,.32),inset 0 1px 0 rgba(255,255,255,.9)}
+@keyframes flow{
+  0%{background-position:0% 0%,100% 0%,50% 100%,0 0}
+  50%{background-position:60% 40%,30% 60%,10% 30%,0 0}
+  100%{background-position:100% 100%,0% 100%,90% 0%,0 0}}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:3;
+  background:linear-gradient(135deg,rgba(249,99,201,.55),rgba(255,255,255,.15) 28%,rgba(112,213,255,.55) 58%,rgba(195,228,150,.7) 85%,rgba(255,255,255,.2));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.glass::after{content:"";position:absolute;inset:-35%;z-index:-1;pointer-events:none;
+  background:conic-gradient(from 90deg,rgba(249,99,201,.09),rgba(112,213,255,.11),rgba(195,228,150,.12),rgba(255,255,255,0) 70%,rgba(249,99,201,.09));
+  filter:blur(50px);animation:spin 26s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+.glass>*{position:relative;z-index:1}
+.glass.wh{background:#fff;animation:none}.glass.wh::after{display:none}
+.glass.dark{background:radial-gradient(60% 60% at 0% 0%,rgba(249,99,201,.24),transparent 70%),radial-gradient(60% 60% at 100% 100%,rgba(112,213,255,.2),transparent 70%),var(--ink);background-size:180% 180%,180% 180%,100% 100%;color:#fff}
+
+/* ---------- заголовки разделов: заголовок слева, пояснение справа, общий верхний край ---------- */
+.shead{display:grid;grid-template-columns:minmax(0,1fr) var(--lead);column-gap:clamp(24px,4vw,80px);row-gap:clamp(18px,2vw,32px);padding-bottom:clamp(20px,2vw,34px);position:relative}
+.shead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform-origin:left;transform:scaleX(var(--bw,1));transition:transform 1.6s var(--ease)}
+.shead .idx{display:contents}
+.shead .idx span:first-child{grid-column:1}
+.shead .idx span:last-child{grid-column:2;justify-self:end;text-align:right}
+.shead h2{grid-column:1;font-size:clamp(44px,7.2vw,150px);line-height:.92;letter-spacing:-.03em}
+.shead .lead{grid-column:2;color:var(--grey);padding-top:var(--lt,0px);text-align:right;justify-self:end}
+@media (max-width:760px){.shead h2{font-size:clamp(30px,10.4vw,44px)}}
+@media (max-width:999px){.shead{grid-template-columns:minmax(0,1fr)}.shead .idx{display:flex;justify-content:space-between}.shead .lead{grid-column:1;padding-top:0;text-align:left;justify-self:start}}
+.sub{display:grid;gap:10px;margin-bottom:clamp(28px,3.2vw,60px)}
+.sub .lbl{color:var(--grey)}
+.sub h3{font-size:clamp(26px,3vw,58px);letter-spacing:-.02em}
+.sub.c{justify-items:center;text-align:center}
+
+/* header */
+.top{position:fixed;inset:0 0 auto;z-index:60;padding-top:env(safe-area-inset-top,0px);pointer-events:none;mix-blend-mode:difference;color:#fff;transition:background .5s,color .5s}
+.top .bar{display:flex;justify-content:space-between;align-items:center;height:64px;pointer-events:auto}
+.top .mark img{height:15px;width:auto;filter:invert(1);transition:filter .5s}
+.top nav{display:flex;gap:clamp(14px,2.2vw,40px)}
+.top nav a{text-decoration:none}
+.top nav a:hover{text-decoration:underline;text-underline-offset:5px}
+.top.solid{mix-blend-mode:normal;color:var(--ink);background:rgba(255,255,255,.96);box-shadow:0 1px 0 var(--line)}
+.top.solid .mark img{filter:none}
+@media (max-width:760px){.top nav a:not(.keep){display:none}}
+
+/* HERO */
+.hero{position:relative;height:340svh;background:var(--paper)}
+.hero .stick{position:sticky;top:0;height:100svh;min-height:520px;overflow:hidden}
+.hero .reveal{position:absolute;inset:0;clip-path:inset(50% 50% 50% 50% round 24px);z-index:1;will-change:clip-path;background:#ecebe9}
+.slides{position:absolute;inset:0;overflow:hidden}
+.slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:kb 24s linear infinite;will-change:transform,opacity}
+.slides img:nth-child(2){animation-delay:6s}
+.slides img:nth-child(3){animation-delay:12s}
+.slides img:nth-child(4){animation-delay:18s}
+@keyframes kb{0%{opacity:0;transform:scale(1.07)}6%{opacity:1}25%{opacity:1}33%{opacity:0;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+.hero .veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(13,8,2,0) 55%,rgba(13,8,2,.22));opacity:0;pointer-events:none}
+.word{position:absolute;z-index:2;left:0;right:0;top:64px;bottom:calc(clamp(22px,4vh,44px) + 160px);margin:0;display:flex;justify-content:center;align-items:center;--h:min(17vw,34svh);--gap:min(15vw,30svh);pointer-events:none}
+@media (min-width:761px) and (max-width:1000px) and (orientation:portrait){.word{--h:16vw;--gap:14vw}}
+.word .row{display:flex;align-items:flex-end}
+.word .grp{display:flex;align-items:flex-end;gap:calc(var(--h) * .17)}
+.word .lw{display:block;overflow:hidden}
+.word img{height:var(--h);width:auto}
+.word .gp{position:relative;flex:none;width:var(--gap);height:var(--h);display:flex;align-items:center;justify-content:center}
+.word .cube{position:relative;flex:none;width:calc(var(--gap) * .9);height:auto;max-width:none;filter:drop-shadow(0 40px 50px rgba(13,8,2,.14))}
+.hero .tag{position:absolute;z-index:3;left:0;right:0;margin-inline:auto;bottom:calc(clamp(22px,4vh,44px) + 88px);width:min(92vw,40em);text-align:center}
+.hero .tag .g{color:var(--grey)}
+.hero .hint{position:absolute;z-index:3;left:0;right:0;bottom:clamp(22px,4vh,44px);display:flex;flex-direction:column;align-items:center;gap:10px}
+.hero .hint i{display:block;width:1px;height:40px;background:linear-gradient(var(--ink),transparent);animation:drip 1.8s var(--ease) infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.static .hero{height:auto}.static .hero .stick{position:relative}
+@media (max-width:760px){
+  .hero{height:280svh}
+  .word{--h:min(30vw,16svh);--gap:min(34vw,18svh)}
+  .word .row{flex-direction:column;align-items:center}
+  .word .gp{width:100%;height:var(--gap)}
+  .word .cube{width:calc(var(--gap) * .95)}
+}
+
+/* о проекте */
+.intro-h{display:grid;justify-items:center;gap:16px;text-align:center;margin-bottom:clamp(30px,3.4vw,64px)}
+.intro-h .lbl{color:var(--grey)}
+.intro-h h2{font-size:clamp(40px,6.4vw,130px);letter-spacing:-.03em;line-height:.92}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:clamp(40px,5vw,90px)}
+.facts>div{padding:16px 0 0;display:grid;gap:8px;align-content:start;border-top:1px solid var(--ink)}
+.facts .lbl{color:var(--grey)}
+@media (min-width:900px){.facts{grid-template-columns:.8fr 1.3fr 1.2fr 1.3fr;gap:28px}}
+@media (max-width:899px){.facts{gap:28px 16px}}
+
+/* маркетинг */
+.aud{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,3vw,60px)}
+.aud>div{display:grid;gap:12px;align-content:start;border-top:1px solid var(--line);padding-top:18px}
+.aud .big{font-size:clamp(34px,4.6vw,92px);line-height:1;letter-spacing:-.02em}
+.aud p{color:var(--grey);max-width:30em}
+@media (max-width:760px){.aud{grid-template-columns:1fr;gap:36px}}
+.duo3{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(10px,1.2vw,20px)}
+.duo3 figure{display:grid}
+.duo3 .ph{height:clamp(220px,30vw,580px)}
+.duo3 .a{grid-column:1/7}.duo3 .b{grid-column:7/10}.duo3 .c{grid-column:10/13}
+.duo3 .note{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) var(--lead);column-gap:clamp(24px,4vw,80px);align-items:start;margin-top:clamp(24px,3vw,56px);padding-top:clamp(16px,1.4vw,24px);border-top:1px solid var(--line)}
+.duo3 .note .lbl{grid-column:1/-1;margin-bottom:12px}
+.duo3 .note b{font-weight:400;font-size:clamp(22px,2.4vw,46px);line-height:1.12;letter-spacing:-.015em;max-width:16em}
+.duo3 .note p{color:var(--grey);text-align:right;justify-self:end;padding-top:.35em}
+@media (max-width:760px){.duo3 .a{grid-column:1/-1}.duo3 .b{grid-column:1/7}.duo3 .c{grid-column:7/13}.duo3 .ph{height:60vw}.duo3 .note{grid-template-columns:1fr;row-gap:14px}.duo3 .note p{text-align:left;justify-self:start}}
+.par img{height:116%!important;will-change:transform}
+.swot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(12px,2vw,40px);row-gap:0}
+.swot>div{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:14px;align-content:start;padding-top:16px;border-top:1px solid var(--ink)}
+.swot>div>dl{display:contents}
+.swot dl>div{padding-top:8px}
+.swot b{font-weight:400;font-size:clamp(56px,8vw,170px);line-height:.85}
+.swot .lbl{color:var(--grey)}
+.swot dl{margin:0}
+.swot dt{font-size:clamp(13px,.5vw + 9px,17px)}
+.swot dd{margin:4px 0 0;color:var(--grey)}
+@media (max-width:760px){.swot{grid-template-columns:repeat(2,minmax(0,1fr))}.swot>div:nth-child(n+3){margin-top:40px}}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,40px)}
+.duo>div{padding:clamp(24px,3vw,56px);display:grid;gap:14px;align-content:start;min-height:clamp(240px,22vw,380px)}
+.duo h3{font-size:clamp(26px,2.8vw,54px)}
+.duo p{color:#5d5955;max-width:32em}
+.duo .lbl{color:var(--grey)}
+@media (max-width:760px){.duo{grid-template-columns:1fr}}
+
+/* логотип */
+.logo-stage{display:flex;justify-content:center;padding-block:clamp(10px,2vw,40px)}
+.lg{width:min(26vw,360px);overflow:visible;transform:translateX(2.7%)}
+@media (max-width:760px){.lg{width:60vw}}
+.anat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,48px);max-width:1100px;margin-inline:auto;text-align:center}
+.anat>div{display:grid;gap:10px;justify-items:center;align-content:start;padding-top:18px;border-top:1px solid var(--line)}
+.anat .n{font-size:clamp(28px,3vw,54px);line-height:1}
+.anat b{font-weight:400;font-size:clamp(14px,1.1vw,20px)}
+.anat p{color:var(--grey);max-width:22em}
+@media (max-width:760px){.anat{grid-template-columns:1fr}}
+.vers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,28px)}
+.vers figure{display:grid;gap:18px;justify-items:center;text-align:center}
+.vers .pic{width:100%;aspect-ratio:1;display:grid;place-items:center}
+.vers .pic img{width:46%;height:auto;max-height:46%;object-fit:contain}
+.vers .pic.w img{width:56%}
+.vers figcaption{display:grid;gap:4px;max-width:24em}
+.vers figcaption b{font-weight:400;font-size:clamp(14px,1.1vw,20px)}
+.vers figcaption span{color:var(--grey)}
+@media (max-width:760px){.vers{grid-template-columns:1fr}.vers .pic{aspect-ratio:4/3}}
+
+/* 3D-графика */
+.fx{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(24px,4vw,90px);align-items:start}
+.fx .txt{position:sticky;top:110px;padding-bottom:48px;display:grid;gap:clamp(16px,1.6vw,28px)}
+.fx .fxh{margin-bottom:clamp(6px,1vw,20px)}
+.fx .fxh .lbl{line-height:1}
+.fx .txt .q{font-size:clamp(18px,1.6vw,30px);line-height:1.3;letter-spacing:-.01em;max-width:18em}
+.fx .txt .q span{color:var(--grey)}
+.fx .txt p:not(.q){color:var(--grey);max-width:30em}
+.cubes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px;max-width:440px}
+.cubes figure{aspect-ratio:1;display:grid;place-items:center}
+.cubes img{width:72%;height:auto;filter:drop-shadow(0 18px 18px rgba(13,8,2,.12));animation:bob 6s ease-in-out infinite}
+.cubes figure:nth-child(2) img{animation-delay:-2s}
+.cubes figure:nth-child(3) img{animation-delay:-4s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6%) rotate(6deg)}}
+.fx .gal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,1vw,18px)}
+.fx .gal figure{overflow:hidden;background:var(--soft);border-radius:var(--r)}
+.fx .gal figure.hero-c{grid-column:1/-1;aspect-ratio:16/11;display:grid;place-items:center;border-radius:var(--r)}
+.fx .gal figure.hero-c img{width:56%;height:auto;will-change:transform}
+.fx .gal figure.hero-c figcaption{position:absolute;left:22px;bottom:18px}
+.fx .gal figure.t{aspect-ratio:3/4}
+.fx .gal figure.t img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.fx{grid-template-columns:1fr}.fx .txt{position:static}}
+@media (min-width:600px) and (max-width:900px){.fx .txt{grid-template-columns:1fr 1fr;column-gap:32px}.fx .fxh,.fx .cubes{grid-column:1/-1}.fx .cubes{max-width:none}.fx .txt .q{grid-column:1;grid-row:2/4;align-self:start}.fx .txt p:not(.q){grid-column:2}}
+
+/* цветовая палитра */
+.pal{display:flex;gap:clamp(8px,1vw,18px);height:clamp(260px,30vw,520px)}
+.sw{position:relative;overflow:hidden;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(14px,1.4vw,26px);border-radius:var(--r)}
+.sw:first-child{flex:2.2}
+.sw:hover,.sw.on{flex:1.8}
+.sw:first-child:hover,.sw:first-child.on{flex:2.8}
+.sw::after{content:"";position:absolute;inset:-20% -60%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.38) 50%,transparent 60%);transform:translateX(-60%);animation:sheen 7s ease-in-out infinite;pointer-events:none}
+.sw:nth-child(2)::after{animation-delay:1.2s}.sw:nth-child(3)::after{animation-delay:2.4s}.sw:nth-child(4)::after{animation-delay:3.6s}
+.sw.dark::after{background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.08) 50%,transparent 60%)}
+@keyframes sheen{0%,55%{transform:translateX(-60%)}100%{transform:translateX(60%)}}
+.sw.cut{clip-path:polygon(0 0,82% 0,100% 18%,100% 100%,0 100%)}
+.sw>*{position:relative;z-index:1}
+.sw .nm{font-size:clamp(14px,1.1vw,22px)}
+.sw .cd{font-variant-numeric:tabular-nums;opacity:.8}
+.sw.dark{color:#fff}
+.js .pal .sw{clip-path:inset(100% 0 0 0);transition:clip-path 1.4s var(--ease),flex 1s var(--ease);transition-delay:calc(var(--i,0) * 100ms),0s}
+.js .pal.in .sw{clip-path:inset(0 0 0 0)}
+.js .pal.in .sw.cut{clip-path:polygon(0 0,82% 0,100% 18%,100% 100%,0 100%)}
+.palnote{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,60px);margin-top:clamp(22px,2.4vw,40px)}
+.palnote p{max-width:34em}
+.palnote p+p{color:var(--grey);justify-self:end;text-align:right}
+@media (max-width:760px){.pal{flex-wrap:wrap;height:auto}.sw{flex:1 1 40%!important;min-height:150px}.sw:first-child{flex:1 1 100%!important}.palnote{grid-template-columns:1fr}}
+
+/* типографика */
+.tspec{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(12px,1.6vw,28px)}
+.tspec .face{padding:clamp(24px,3vw,56px);display:grid;grid-template-columns:1fr auto;gap:clamp(18px,2vw,34px);align-content:space-between;min-height:clamp(380px,36vw,640px)}
+.tspec .face .nm{font-size:clamp(54px,7vw,140px);line-height:.88;letter-spacing:-.035em}
+.tspec .face .glyph{font-size:clamp(70px,8vw,170px);line-height:.85;align-self:start;text-align:right;min-width:1.3em;padding:0 .14em .06em;margin-right:-.14em;white-space:nowrap;transition:opacity .45s,transform .7s var(--ease);background:linear-gradient(135deg,#F963C9,#70D5FF 55%,#C3E496);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tspec .face .glyph.out{opacity:0;transform:translateY(-14%)}
+.tspec .face .abc{grid-column:1/-1;font-size:clamp(18px,1.9vw,36px);line-height:1.3;letter-spacing:.02em}
+.tspec .face .abc span{display:inline-block}
+.js .tspec .face .abc span{opacity:0;transform:translateY(40%);transition:opacity .6s,transform .8s var(--ease);transition-delay:calc(var(--k) * 45ms + 200ms)}
+.js .tspec.in .face .abc span{opacity:1;transform:none}
+.tspec .face .w{grid-column:1/-1;display:flex;gap:clamp(18px,2.6vw,48px)}
+.tspec .face .w div{display:grid;gap:4px}
+.tspec .face .w b{font-weight:500;font-size:clamp(16px,1.3vw,24px)}
+.tspec .face .w span{font-size:clamp(16px,1.3vw,24px)}
+.tspec .face .w small{color:var(--grey);font-size:inherit}
+.tspec .hier{padding:clamp(24px,3vw,56px);display:grid;gap:clamp(18px,2vw,30px);align-content:space-between}
+.tspec .hier .lbl{color:rgba(255,255,255,.6)}
+.tspec .hier ol{list-style:none;margin:0;padding:0;display:grid}
+.tspec .hier li{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:clamp(8px,.8vw,14px) 0;border-bottom:1px solid rgba(255,255,255,.12);overflow:hidden;line-height:1.2}
+.tspec .hier li>span{display:block}
+.js .tspec .hier li>span{transform:translateY(120%);transition:transform 1s var(--ease);transition-delay:calc(var(--k) * 110ms + 300ms)}
+.js .tspec.in .hier li>span{transform:none}
+.tspec .hier li i{font-style:normal;color:rgba(255,255,255,.55);font-variant-numeric:tabular-nums}
+.tspec .hier p{color:rgba(255,255,255,.7);max-width:30em}
+.comps{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(12px,1.6vw,28px)}
+.comps figure{padding:clamp(26px,4vw,80px) clamp(22px,3.4vw,70px) clamp(22px,2.4vw,40px);display:grid;align-content:space-between;gap:clamp(24px,3vw,50px)}
+.comps .img{overflow:hidden}
+.comps img{width:100%;transition:transform 1.4s var(--ease)}
+.comps figure:hover img{transform:translateX(2%)}
+.comps figcaption{display:grid;gap:4px}
+.comps figcaption b{font-weight:400;font-size:clamp(14px,1.1vw,20px)}
+.comps figcaption span{color:var(--grey)}
+@media (max-width:900px){.tspec,.comps{grid-template-columns:1fr}}
+
+/* мета-подписи: текст слева, номер справа, общий верхний край */
+.meta{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:20px;align-items:start;border-top:1px solid var(--ink);padding-top:14px}
+.meta>div{display:grid;gap:4px}
+.meta h3{font-size:clamp(16px,1.3vw,26px);line-height:1.2}
+.meta p{color:var(--grey);max-width:30em}
+.meta .n{color:var(--grey);font-variant-numeric:tabular-nums;line-height:1.2;font-size:clamp(16px,1.3vw,26px)}
+
+/* носители — горизонтальная лента одиночных фото */
+.hs{position:relative;--hh:max(320px,min(calc(100svh - 300px),68vw))}
+.hs .track{display:flex;align-items:flex-start;gap:clamp(12px,1.4vw,28px);padding-inline:var(--g);width:max-content;will-change:transform}
+.hs .card{flex:none;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;width:calc(var(--hh) * var(--ar));min-width:0}
+.hs .card .ph{height:var(--hh)}
+.hs .card img{transition:transform 1.4s var(--ease)}
+.hs .card:hover img{transform:scale(1.03)}
+.hs .hsui{display:flex;align-items:center;gap:20px;margin:24px var(--g) 0}
+.hs .prog{flex:1;height:1px;background:var(--line);position:relative;overflow:hidden}
+.hs.native .track{width:auto;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--g);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.hs.native .track::-webkit-scrollbar{display:none}
+.hs.native .card{scroll-snap-align:start}
+.hs .prog i{position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+@media (max-width:760px){.hs .track{flex-direction:column;width:auto;max-width:100%;align-items:stretch}.hs .card{width:100%}.hs .card .ph{height:auto;aspect-ratio:var(--ar)}.hs .hsui{display:none}}
+
+/* соцсети */
+.soc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:clamp(24px,4vw,90px);align-items:center}
+.plat{display:grid;border-top:1px solid var(--ink)}
+.plat>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 20px;padding:clamp(16px,1.6vw,26px) 0;border-bottom:1px solid var(--line)}
+.plat .n{color:var(--grey);grid-column:2;grid-row:1}
+.plat h3{font-size:clamp(22px,2.2vw,42px);grid-column:1;grid-row:1}
+.plat p{grid-column:1;color:var(--grey)}
+.soc figure{padding:clamp(22px,3vw,56px) clamp(14px,2.4vw,48px)}
+.soc figure img{width:100%;filter:drop-shadow(0 30px 30px rgba(13,8,2,.16))}
+@media (max-width:900px){.soc{grid-template-columns:1fr}}
+
+/* сайт */
+.film{max-width:1180px;margin-inline:auto;padding:clamp(12px,1.8vw,30px)}
+.film video{width:100%;border-radius:calc(var(--r) * .6)}
+.screens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,3vw,60px) clamp(16px,2vw,40px)}
+.screens figure{display:grid;gap:16px}
+.screens{align-items:start}
+.screens .fr{overflow:hidden;aspect-ratio:16/9;border-radius:var(--r);background:#fff;box-shadow:0 40px 80px -46px rgba(13,8,2,.45),0 2px 6px rgba(13,8,2,.06)}
+.screens .fr img{width:100%;height:100%;object-fit:cover;object-position:top}
+@media (max-width:760px){.screens{grid-template-columns:1fr}.screens figure:nth-child(even){margin-top:0}}
+.cols{display:grid;gap:clamp(8px,1vw,18px)}
+.cols.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols figure{overflow:hidden;background:var(--soft);aspect-ratio:1920/1360;border-radius:var(--r)}
+.cols img{width:100%;height:100%;object-fit:cover}
+@media (max-width:760px){.cols.c2{grid-template-columns:1fr}}
+.bleed{width:100%;overflow:hidden;background:var(--soft);border-radius:var(--r)}
+.bleed img{width:100%;object-fit:cover}
+
+/* интерьер */
+.istage{border-radius:var(--r);overflow:hidden;aspect-ratio:2560/1151;position:relative;background:var(--soft)}
+.istage>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.istage .cap{position:absolute;left:clamp(14px,2vw,32px);bottom:clamp(14px,2vw,32px);padding:clamp(14px,1.4vw,24px) clamp(16px,1.8vw,30px);max-width:min(26em,70%);display:grid;gap:6px;background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.istage .cap p{color:#5d5955}
+.irows{display:grid;gap:clamp(80px,9vw,180px)}
+.irow{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(16px,2.4vw,48px);align-items:start}
+.irow .ph{grid-column:1/8;grid-row:1;aspect-ratio:3/2}
+.irow .txt{grid-column:8/13;grid-row:1;display:grid;gap:clamp(12px,1.2vw,20px);border-top:1px solid var(--ink);padding-top:clamp(14px,1.2vw,20px)}
+.irow.rev .ph{grid-column:6/13}
+.irow.rev .txt{grid-column:1/6}
+.irow .top2{display:flex;justify-content:space-between;align-items:baseline}
+.irow .lbl{color:var(--grey)}
+.irow .n{font-size:clamp(40px,5vw,100px);line-height:.85;letter-spacing:-.03em}
+.irow h3{font-size:clamp(22px,2.2vw,42px);line-height:1.1;margin-top:clamp(20px,4vw,80px)}
+.irow p{color:var(--grey);max-width:28em}
+@media (max-width:1000px){.irow .ph,.irow.rev .ph,.irow .txt,.irow.rev .txt{grid-column:1/-1;grid-row:auto}.irow .txt{margin-top:22px}.irow h3{margin-top:clamp(12px,3vw,28px)}.irow p{max-width:40em}}
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:clamp(110px,11vw,220px);gap:clamp(10px,1.2vw,20px)}
+.bento figure{position:relative;overflow:hidden;border-radius:var(--r);background:var(--soft)}
+.bento img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.bento img[src*="i/p/"]{filter:brightness(1.07) contrast(.9) saturate(.75)}
+.bento figure:hover img{transform:scale(1.04)}
+.bento figcaption{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.75);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:clamp(10px,.7vw,13px);opacity:0;transform:translateY(8px);transition:opacity .5s,transform .6s var(--ease)}
+.bento figure:hover figcaption{opacity:1;transform:none}
+.bento .b1{grid-column:1/5;grid-row:1/4}.bento .b2{grid-column:5/13;grid-row:1/3}.bento .b3{grid-column:5/9;grid-row:3/4}.bento .b4{grid-column:9/13;grid-row:3/4}
+.bento .b5{grid-column:1/4;grid-row:4/6}.bento .b6{grid-column:4/9;grid-row:4/6}.bento .b7{grid-column:9/13;grid-row:4/6}
+@media (max-width:1000px){.bento{grid-template-columns:1fr 1fr;grid-auto-rows:clamp(150px,30vw,300px);grid-auto-flow:dense}.bento figure{grid-column:auto!important;grid-row:auto!important}.bento .b2,.bento .b6{grid-column:1/-1!important}.bento .b1{grid-row:span 2!important}.bento figcaption{opacity:1;transform:none}}
+
+/* продвижение */
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.4vw,24px)}
+.steps>div{padding:clamp(20px,2vw,36px);display:grid;gap:clamp(30px,4vw,80px);align-content:space-between;min-height:clamp(220px,20vw,340px)}
+.steps .n{font-size:clamp(28px,3vw,56px);line-height:1}
+.steps p{color:#5d5955}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* брендбук */
+.bbhead{display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px}
+.bbhead .num{font-size:clamp(90px,16vw,330px);line-height:.8;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.bbhead .num small{display:block;font-size:clamp(11px,.4vw + 8px,15px);letter-spacing:.01em;color:var(--grey);margin-top:14px}
+.sl{max-width:1600px;margin-inline:auto}
+.sl-stage{position:relative;aspect-ratio:1920/677;overflow:hidden;background:#fff;border-radius:var(--r);box-shadow:0 30px 70px -40px rgba(13,8,2,.35);touch-action:pan-y;cursor:grab}
+.sl-item{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .9s var(--ease);background:#fff}
+.sl-item.cur{opacity:1;z-index:2}
+.sl-item img{width:100%;height:100%;object-fit:contain}
+.sl-ui{display:flex;align-items:center;gap:20px;margin-top:22px}
+.count{font-variant-numeric:tabular-nums;min-width:4.5em}
+.sbar{flex:1;height:1px;background:rgba(13,8,2,.15);position:relative;overflow:hidden}
+.sbar i{position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .9s var(--ease)}
+.btns{display:flex;gap:8px}
+.btns button{width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;font:inherit;font-size:15px;transition:background .3s,color .3s}
+.btns button:hover,.btns button:focus-visible{background:var(--ink);color:#fff;outline:none}
+.go{display:inline-flex;align-items:center;gap:12px;padding:14px 24px;border:1px solid var(--ink);border-radius:999px;text-decoration:none;white-space:nowrap;transition:background .3s,color .3s,gap .3s}
+.go:hover,.go:focus-visible{background:var(--ink);color:#fff;gap:20px;outline:none}
+
+/* финал */
+.outro{position:relative;overflow:hidden}
+.outro .big{display:flex;justify-content:center;align-items:flex-end;gap:2vw}
+.outro .big img{height:min(19vw,360px);width:auto}
+.marq{overflow:hidden;--mh:min(50svh,500px)}
+.marq .run{display:flex;gap:clamp(10px,1.2vw,20px);width:max-content;animation:marq 80s linear infinite}
+.marq:hover .run{animation-play-state:paused}
+.marq figure{flex:none;height:var(--mh);width:calc(var(--mh) * var(--ar));border-radius:var(--r);overflow:hidden;background:var(--soft)}
+.marq img{width:100%;height:100%;object-fit:cover}
+@keyframes marq{to{transform:translateX(-50%)}}
+.links{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink)}
+.links a{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:clamp(20px,2.6vw,48px) 0;text-decoration:none;font-size:clamp(20px,2.6vw,52px);transition:padding .4s var(--ease)}
+.links a:first-child{padding-right:clamp(20px,2.4vw,48px)}
+.links a+a{border-left:1px solid var(--ink);padding-left:clamp(20px,2.4vw,48px)}
+.links a:hover{padding-left:clamp(12px,1.4vw,28px)}
+.links a+a:hover{padding-left:clamp(32px,3.8vw,76px)}
+.links small{display:block;font-size:clamp(10px,.2vw + 8px,12px);color:var(--grey);margin-top:6px;letter-spacing:.04em}
+.links .arr{flex:none;display:grid;place-items:center;width:clamp(44px,4vw,72px);aspect-ratio:1;border-radius:50%;border:1px solid var(--ink);font-size:clamp(16px,1.4vw,24px);transition:background .3s,color .3s,transform .4s var(--ease)}
+.links a:hover .arr{background:var(--ink);color:#fff;transform:rotate(45deg)}
+@media (max-width:760px){.links{grid-template-columns:1fr}.links a:first-child{padding-right:0}.links a+a{border-left:0;border-top:1px solid var(--ink);padding-left:0}}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-block:28px;color:var(--grey)}
+:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+@media (prefers-reduced-motion:reduce){.hero .hint i,.glass,.glass::after,.sw::after,.cubes img,.marq .run,.slides img{animation:none}.slides img:first-child{opacity:1}}
+
+/* ---------- мобильная версия ---------- */
+@media (max-width:760px){
+  .js [data-st]>*{transform:translateY(20px);transition-duration:.7s,.8s;transition-delay:calc(var(--i,0) * 50ms)}
+  .ctext{text-align:left;max-width:none;margin:0;font-size:15px;line-height:1.55;gap:.8em}
+  .intro-h{justify-items:start;text-align:left}
+  .facts{grid-template-columns:1fr;gap:0;margin-top:36px}
+  .facts>div{grid-template-columns:7.5em 1fr;column-gap:14px;padding:14px 0}
+  .facts>div .lbl{grid-row:1/3;padding-top:.3em}
+  .palnote p+p{text-align:left;justify-self:start}
+  .vers .pic{aspect-ratio:16/10}
+  .istage{aspect-ratio:auto;overflow:visible;background:none}
+  .istage>img{position:relative;height:auto;aspect-ratio:4/3;border-radius:var(--r)}
+  .istage .cap{position:static;max-width:none;margin-top:14px;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;padding:0}
+  .istage .cap::before,.istage .cap::after{display:none}
+  .irows{gap:56px}
+  .irow .txt{margin-top:16px;gap:10px;padding-top:12px}
+  .irow h3{margin-top:4px}
+  .steps>div{min-height:0;gap:18px;padding:18px 20px}
+  .steps .n{font-size:30px}
+  .bbhead{grid-template-columns:1fr auto;gap:16px;align-items:end;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .bbhead .num{font-size:88px}
+  .bbhead .num small{margin-top:10px}
+  .bbhead .go{padding:11px 18px;font-size:13px;margin-bottom:4px}
+  .sl-stage{aspect-ratio:1920/740}
+  .sl-ui{gap:14px;margin-top:16px}
+  .btns button{width:40px;height:40px}
+}
+
+@media (max-width:760px){
+  .tspec .face .glyph{display:none}
+  .tspec .face{grid-template-columns:1fr}
+  .fx .gal figure.hero-c figcaption{font-size:8px;letter-spacing:.12em;left:14px;bottom:12px}
+}
+@media (min-width:600px) and (max-width:900px){.fx .txt p:not(.q){text-align:right}}
+
+@media (max-width:900px){.fx .txt{padding-bottom:0}}
+@media (max-width:1000px),(hover:none){.bento figcaption{display:none}}
+@media (max-height:600px){.hero .hint{display:none}.hero .tag{bottom:28px}}
+
+@media (max-width:1000px),(hover:none){.glass{animation:none}.glass::after{animation:none;filter:blur(30px)}}
+@media (max-width:760px){
+  .swot{column-gap:32px}
+  .swot dt,.swot dd{text-wrap:balance;hyphens:auto}
+  .comps figure{will-change:opacity,transform}
+}
+</style>
+<style id="vvsz-style">:where(img[data-vvsz]){height:auto}</style>
+<style id="vv-safe">@media (max-width:700px){h1,h2,h3{overflow-wrap:break-word;max-width:100%}}</style>
+<style id="vv-compat">.vv-arrow{display:inline-block;width:1em;height:1em;vertical-align:-.12em;flex:none;overflow:visible}.arr .vv-arrow{display:block}body{overflow-x:hidden;overflow-x:clip}@supports not (height:100svh){.hero,.ring__st{height:100vh}}@supports not (color:color-mix(in srgb,white,black)){:root{--mut:rgba(237,237,237,.56);--dim:rgba(237,237,237,.34);--line:rgba(237,237,237,.14)}.hdr__in{background:rgba(0,0,0,.92)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}</style></head>
+<body>
+
+
+
+<header class="top"><div class="wrap bar">
+  <a class="mark" href="#hero" aria-label="ДС01 — в начало"><img decoding="async" src="i/logo-word.svg" alt="ДС01" width="100" height="27"></a>
+  <nav class="lbl" aria-label="Разделы кейса">
+    <a href="#marketing">маркетинг</a><a href="#identity">айдентика</a><a href="#media">носители</a><a href="#site">сайт</a><a href="#interior">интерьер</a><a class="keep" href="#links">материалы</a>
+  </nav>
+</div></header>
+
+<!-- главный экран -->
+<section class="hero" id="hero">
+  <div class="stick">
+    <div class="reveal" aria-hidden="true"><div class="slides">
+      <img decoding="async" data-full src="i/n/n0.jpg" alt="" width="2560" height="1569">
+      <img decoding="async" data-full src="i/n/n2.jpg" alt="" width="2560" height="1444">
+      <img decoding="async" data-full src="i/n/n4.jpg" alt="" width="2560" height="1444">
+      <img decoding="async" data-full src="i/n/n8.jpg" alt="" width="2560" height="1765">
+    </div></div>
+    <div class="veil" aria-hidden="true"></div>
+    <h1 class="word" aria-label="ДС01">
+      <span class="row">
+        <span class="grp a"><span class="lw"><img decoding="async" src="i/L1.png" alt="" width="536" height="547"></span><span class="lw"><img decoding="async" src="i/L2.png" alt="" width="445" height="547"></span></span>
+        <span class="gp"><img decoding="async" class="cube" src="i/cube.png" alt="" width="555" height="544"></span>
+        <span class="grp b"><span class="lw"><img decoding="async" src="i/L3.png" alt="" width="415" height="547"></span><span class="lw"><img decoding="async" src="i/L4.png" alt="" width="412" height="547"></span></span>
+      </span>
+    </h1>
+    <p class="tag"><span class="ln"><span>фирменный стиль, интерьер, сайт и&nbsp;стратегия</span></span><span class="ln"><span class="g">продвижения дизайн-студии</span></span></p>
+    <div class="hint lbl" aria-hidden="true"><span>листайте</span><i></i></div>
+  </div>
+</section>
+
+<!-- о проекте -->
+<section class="wrap" id="intro">
+  <div class="sp s"></div>
+  <div class="intro-h" data-r><span class="lbl">00</span><h2><span class="ln"><span>о&nbsp;проекте</span></span></h2></div>
+  <div class="ctext" data-lines>
+    <p>дизайн-студия сегодня&nbsp;— это&nbsp;не&nbsp;просто офис, предоставляющий услуги, а&nbsp;самостоятельный, узнаваемый бренд. интерес к&nbsp;нему проявляют не&nbsp;только профессионалы и&nbsp;заказчики, связанные с&nbsp;дизайном, но&nbsp;и&nbsp;широкая аудитория.</p>
+    <p class="g">это становится возможным благодаря активному присутствию в&nbsp;социальных сетях, сотрудничеству с&nbsp;известными брендами и&nbsp;ощутимому влиянию на&nbsp;визуальную и&nbsp;культурную среду.</p>
+  </div>
+  <div class="facts" data-st>
+    <div><span class="lbl">год и&nbsp;роль</span><p>2025</p><p class="grey">весь цикл: от&nbsp;исследования до&nbsp;брендбука</p></div>
+    <div><span class="lbl">студия</span><p>ДС01&nbsp;— дизайн-студия полного цикла: брендинг, веб-дизайн, упаковка, контент и&nbsp;3D-визуализация</p></div>
+    <div><span class="lbl">задача</span><p>выделить студию среди конкурентов с&nbsp;одинаковым набором услуг и&nbsp;сделать её&nbsp;узнаваемым брендом для&nbsp;предпринимателей 25–40&nbsp;лет</p></div>
+    <div><span class="lbl">состав работ</span><p>исследование рынка, позиционирование, айдентика, 3D-графика, носители, сайт, интерьер офиса, стратегия продвижения, брендбук, анимация</p></div>
+  </div>
+  <div class="sp"></div>
+</section>
+
+<!-- 01 маркетинг -->
+<section id="marketing">
+  <div class="wrap">
+    <header class="shead" data-r><div class="idx lbl"><span>01</span><span>исследование и&nbsp;позиционирование</span></div><h2><span class="ln"><span>маркетинг</span></span></h2><p class="lead">прежде чем рисовать, нужно было понять, кому студия продаёт услуги, чем&nbsp;она сильна и&nbsp;что&nbsp;ей&nbsp;угрожает на&nbsp;рынке, где десятки студий предлагают одно и&nbsp;то&nbsp;же</p></header>
+    <div class="sp s"></div>
+    <div class="aud" data-st>
+      <div><span class="lbl grey">основная аудитория</span><span class="big">25–40</span><p>предприниматели, малый и&nbsp;средний бизнес, стартапы, которым нужна дизайн-составляющая для&nbsp;бизнеса</p></div>
+      <div><span class="lbl grey">косвенная аудитория</span><span class="big">партнёры</span><p>фрилансеры, маркетологи, рекламные агентства и&nbsp;другие креативные команды, которые могут быть заинтересованы в&nbsp;сотрудничестве</p></div>
+    </div>
+    <div class="sp s"></div>
+    <div class="duo3">
+      <figure class="a" data-clip><div class="ph par"><img width="1740" height="1234" data-vvsz decoding="async" src="i/p/25_0.jpg" srcset="i/s/p_25_0.jpg 1200w, i/p/25_0.jpg 1740w" sizes="100vw" alt="Офис ДС01: навигация и слоган на стене" loading="lazy"></div></figure>
+      <figure class="b" data-clip><div class="ph par"><img width="1600" height="2040" data-vvsz decoding="async" src="i/p/10_0.jpg" srcset="i/s/p_10_0.jpg 900w, i/p/10_0.jpg 1600w" sizes="100vw" alt="Ресепшен ДС01 со списком услуг" loading="lazy"></div></figure>
+      <figure class="c" data-clip><div class="ph par"><img width="1754" height="1766" data-vvsz decoding="async" src="i/p/29_1.jpg" srcset="i/s/p_29_1.jpg 900w, i/p/29_1.jpg 1754w" sizes="100vw" alt="Блокнот «идеи, проекты, люди»" loading="lazy"></div></figure>
+      <div class="note" data-fade><span class="lbl grey">вывод исследования</span><b>бренд, понятный предпринимателю с&nbsp;первого взгляда</b><p>аудитория&nbsp;— не&nbsp;дизайнеры, а&nbsp;бизнес. поэтому стиль говорит простым языком: что&nbsp;делает студия и&nbsp;почему ей&nbsp;можно доверить проект. список услуг на&nbsp;стене у&nbsp;входа отвечает на&nbsp;вопрос «чем вы&nbsp;занимаетесь?» ещё до&nbsp;разговора</p></div>
+    </div>
+    <div class="sp s"></div>
+    <div class="sub" data-r><span class="lbl">1.1</span><h3><span class="ln"><span>swot-анализ</span></span></h3></div>
+    <div class="swot" data-st>
+      <div><b>S</b><span class="lbl">сильные стороны</span><dl><div><dt>комплексный подход</dt><dd>полный цикл от&nbsp;концепции до&nbsp;реализации: клиенту не&nbsp;нужно обращаться к&nbsp;нескольким специалистам</dd></div><div><dt>креативная команда</dt><dd>специалисты, способные предложить уникальные дизайнерские решения</dd></div></dl></div>
+      <div><b>W</b><span class="lbl">слабые стороны</span><dl><div><dt>высокие затраты</dt><dd>хороший офис требует серьёзных вложений и&nbsp;точного бизнес-плана</dd></div><div><dt>высокая конкуренция</dt><dd>многие студии предлагают похожие услуги, это&nbsp;усложняет привлечение клиентов</dd></div></dl></div>
+      <div><b>O</b><span class="lbl">возможности</span><dl><div><dt>расширение услуг</dt><dd>новые направления привлекут дополнительные сегменты клиентов</dd></div><div><dt>онлайн-продвижение</dt><dd>соцсети и&nbsp;платформы для&nbsp;портфолио расширяют аудиторию</dd></div></dl></div>
+      <div><b>T</b><span class="lbl">угрозы</span><dl><div><dt>смена трендов</dt><dd>быстро меняющиеся тренды могут сделать услуги студии устаревшими</dd></div><div><dt>новые игроки</dt><dd>конкуренты могут предложить более современные решения</dd></div></dl></div>
+    </div>
+    <div class="sp s"></div>
+    <div class="sub" data-r><span class="lbl">1.2</span><h3><span class="ln"><span>платформа бренда</span></span></h3></div>
+    <div class="duo" data-st>
+      <div class="glass"><span class="lbl">архетип</span><h3>искатель + мудрец</h3><p>искатель стремится к&nbsp;новым идеям и&nbsp;нестандартным решениям, мудрец знает тенденции, историю дизайна и&nbsp;психологию восприятия&nbsp;— вместе это&nbsp;смелые, но&nbsp;осмысленные решения</p></div>
+      <div class="glass"><span class="lbl">концепция</span><h3>цикличность трендов</h3><p>тренды меняются с&nbsp;огромной скоростью и&nbsp;так&nbsp;же возвращаются. поэтому основа айдентики&nbsp;— строгая чёрно-белая геометрия, которая не&nbsp;устаревает, а&nbsp;трендовый слой&nbsp;— стекло с&nbsp;дисперсией, которое можно менять</p></div>
+    </div>
+  </div>
+  <div class="sp"></div>
+</section>
+
+<!-- 02 айдентика -->
+<section id="identity">
+  <div class="wrap">
+    <header class="shead" data-r><div class="idx lbl"><span>02</span><span>фирменный стиль</span></div><h2><span class="ln"><span>айдентика</span></span></h2><p class="lead">неизменная основа и&nbsp;сменный трендовый слой: строгий чёрный знак, объёмная стеклянная графика, сдержанная палитра и&nbsp;один шрифт</p></header>
+    <div class="sp s"></div>
+    <div class="sub c" data-r><span class="lbl">2.1</span><h3><span class="ln"><span>логотип</span></span></h3></div>
+    <div class="logo-stage" data-logo><svg class="lg" viewBox="748 136 180 152" role="img" aria-label="Логотип ДС01 — дизайн студия" xmlns="http://www.w3.org/2000/svg"><g class="sq2"><path fill="#0D0802" d="M 924.183594 212.890625 L 849.933594 253.46875 L 810.613281 181.523438 L 884.863281 140.945312 Z M 924.183594 212.890625"/></g><g class="sq1"><path fill="#0D0802" d="M 751.757812 271.074219 L 849.949219 271.074219 L 849.949219 181.316406 L 751.757812 181.316406 Z M 751.757812 271.074219"/></g><g class="tri"><path fill="#fff" d="M 810.613281 181.316406 L 849.949219 181.316406 L 849.949219 253.328125"/></g><g class="num"><path fill="#0D0802" d="M 833.433594 192.039062 L 835.304688 192.039062 C 835.703125 192.039062 835.984375 191.960938 836.148438 191.796875 C 836.3125 191.632812 836.394531 191.351562 836.394531 190.953125 L 836.394531 187.816406 C 836.394531 187.417969 836.3125 187.136719 836.148438 186.972656 C 835.984375 186.808594 835.703125 186.726562 835.304688 186.726562 L 833.433594 186.726562 C 833.03125 186.726562 832.75 186.808594 832.589844 186.972656 C 832.425781 187.136719 832.34375 187.417969 832.34375 187.816406 L 832.34375 190.953125 C 832.34375 191.351562 832.425781 191.632812 832.589844 191.796875 C 832.75 191.960938 833.03125 192.039062 833.433594 192.039062 M 833.019531 193.195312 C 832.324219 193.195312 831.808594 193.03125 831.484375 192.707031 C 831.15625 192.378906 830.992188 191.867188 830.992188 191.167969 L 830.992188 187.597656 C 830.992188 186.902344 831.15625 186.390625 831.484375 186.0625 C 831.808594 185.734375 832.324219 185.574219 833.019531 185.574219 L 835.71875 185.574219 C 836.414062 185.574219 836.925781 185.734375 837.253906 186.0625 C 837.582031 186.390625 837.742188 186.902344 837.742188 187.597656 L 837.742188 191.167969 C 837.742188 191.867188 837.582031 192.378906 837.253906 192.707031 C 836.925781 193.03125 836.414062 193.195312 835.71875 193.195312"/><path fill="#0D0802" d="M 843.515625 192.082031 L 845.953125 192.082031 L 845.953125 193.195312 L 839.246094 193.195312 L 839.246094 192.082031 L 842.164062 192.082031 L 842.164062 186.804688 L 839.570312 187.054688 L 839.570312 185.894531 L 842.882812 185.574219 L 843.515625 185.574219"/></g><g class="txt"><path fill="#0D0802" d="M 754.308594 280.589844 C 754.273438 280.964844 754.210938 281.273438 754.117188 281.511719 L 757.222656 281.511719 L 757.222656 277.863281 L 754.5 277.863281 Z M 758.574219 281.511719 L 759.417969 281.511719 L 759.417969 283.925781 L 758.15625 283.925781 L 758.15625 282.597656 L 753.019531 282.597656 L 753.019531 283.925781 L 751.757812 283.925781 L 751.757812 281.511719 L 752.125 281.511719 C 752.433594 281.511719 752.648438 281.453125 752.765625 281.332031 C 752.886719 281.214844 752.957031 281 752.976562 280.691406 L 753.242188 276.746094 L 758.574219 276.746094"/><path fill="#0D0802" d="M 766.242188 276.746094 L 767.363281 276.746094 L 767.363281 282.597656 L 766.066406 282.597656 L 766.066406 278.402344 L 762.050781 282.597656 L 761.003906 282.597656 L 761.003906 276.746094 L 762.3125 276.746094 L 762.3125 280.835938"/><path fill="#0D0802" d="M 774.648438 279.546875 C 775.070312 279.683594 775.277344 280.035156 775.277344 280.601562 L 775.277344 281.410156 C 775.277344 281.816406 775.183594 282.117188 774.992188 282.308594 C 774.796875 282.5 774.5 282.597656 774.09375 282.597656 L 770.257812 282.597656 C 769.851562 282.597656 769.550781 282.5 769.359375 282.308594 C 769.167969 282.117188 769.070312 281.816406 769.070312 281.410156 L 769.070312 280.648438 L 770.367188 280.648438 L 770.367188 281.078125 C 770.367188 281.285156 770.410156 281.429688 770.496094 281.511719 C 770.582031 281.59375 770.730469 281.632812 770.945312 281.632812 L 773.359375 281.632812 C 773.574219 281.632812 773.726562 281.59375 773.8125 281.511719 C 773.894531 281.429688 773.9375 281.285156 773.9375 281.078125 L 773.9375 280.570312 C 773.9375 280.363281 773.894531 280.214844 773.8125 280.132812 C 773.726562 280.046875 773.574219 280.003906 773.359375 280.003906 L 771.84375 280.003906 L 771.84375 279.128906 L 773.285156 279.128906 C 773.492188 279.128906 773.636719 279.085938 773.722656 279 C 773.808594 278.917969 773.847656 278.769531 773.847656 278.5625 L 773.847656 278.261719 C 773.847656 278.058594 773.808594 277.914062 773.722656 277.832031 C 773.636719 277.75 773.492188 277.710938 773.285156 277.710938 L 771.023438 277.710938 C 770.816406 277.710938 770.667969 277.75 770.585938 277.832031 C 770.5 277.914062 770.457031 278.058594 770.457031 278.261719 L 770.457031 278.628906 L 769.160156 278.628906 L 769.160156 277.929688 C 769.160156 277.523438 769.257812 277.226562 769.449219 277.03125 C 769.640625 276.839844 769.941406 276.746094 770.347656 276.746094 L 774.003906 276.746094 C 774.410156 276.746094 774.710938 276.839844 774.90625 277.03125 C 775.101562 277.226562 775.203125 277.523438 775.203125 277.929688 L 775.203125 278.519531 C 775.203125 279.050781 775.015625 279.394531 774.648438 279.546875"/><path fill="#0D0802" d="M 781.238281 281.328125 L 781.75 280.957031 L 781.75 280.039062 L 778.890625 280.039062 C 778.640625 280.039062 778.464844 280.085938 778.371094 280.1875 C 778.273438 280.285156 778.226562 280.457031 778.226562 280.703125 L 778.226562 281.011719 C 778.226562 281.265625 778.273438 281.4375 778.367188 281.535156 C 778.464844 281.628906 778.640625 281.675781 778.890625 281.675781 L 780.019531 281.675781 C 780.515625 281.675781 780.921875 281.558594 781.238281 281.328125 M 781.253906 276.746094 C 781.902344 276.746094 782.371094 276.886719 782.660156 277.171875 C 782.949219 277.457031 783.089844 277.925781 783.089844 278.585938 L 783.089844 282.597656 L 781.996094 282.597656 L 781.839844 281.8125 L 781.652344 281.96875 C 781.3125 282.242188 781.019531 282.417969 780.761719 282.488281 C 780.507812 282.5625 780.121094 282.597656 779.605469 282.597656 L 778.261719 282.597656 C 777.34375 282.597656 776.882812 282.140625 776.882812 281.222656 L 776.882812 280.613281 C 776.882812 279.699219 777.34375 279.238281 778.257812 279.238281 L 781.75 279.238281 L 781.75 278.660156 C 781.75 278.308594 781.683594 278.0625 781.546875 277.929688 C 781.410156 277.796875 781.160156 277.730469 780.796875 277.730469 L 779.199219 277.730469 C 778.929688 277.730469 778.734375 277.785156 778.621094 277.898438 C 778.503906 278.007812 778.445312 278.203125 778.445312 278.484375 L 778.445312 278.695312 L 777.152344 278.695312 L 777.152344 278.320312 C 777.152344 277.78125 777.28125 277.382812 777.539062 277.128906 C 777.796875 276.871094 778.191406 276.746094 778.722656 276.746094"/><path fill="#0D0802" d="M 786.574219 276.214844 C 786.035156 276.214844 785.765625 275.945312 785.765625 275.402344 L 785.765625 274.839844 L 786.71875 274.839844 L 786.71875 275.238281 C 786.71875 275.457031 786.828125 275.570312 787.050781 275.570312 L 788.582031 275.570312 C 788.800781 275.570312 788.914062 275.457031 788.914062 275.238281 L 788.914062 274.839844 L 789.863281 274.839844 L 789.863281 275.402344 C 789.863281 275.945312 789.59375 276.214844 789.054688 276.214844 Z M 789.871094 276.746094 L 790.996094 276.746094 L 790.996094 282.597656 L 789.699219 282.597656 L 789.699219 278.402344 L 785.679688 282.597656 L 784.632812 282.597656 L 784.632812 276.746094 L 785.941406 276.746094 L 785.941406 280.835938"/><path fill="#0D0802" d="M 797.445312 276.746094 L 798.785156 276.746094 L 798.785156 282.597656 L 797.445312 282.597656 L 797.445312 280.136719 L 793.933594 280.136719 L 793.933594 282.597656 L 792.582031 282.597656 L 792.582031 276.746094 L 793.933594 276.746094 L 793.933594 279.027344 L 797.445312 279.027344"/><path fill="#0D0802" d="M 804.707031 280.757812 L 804.707031 278.585938 C 804.707031 277.925781 804.851562 277.457031 805.136719 277.171875 C 805.425781 276.886719 805.894531 276.746094 806.546875 276.746094 L 808.917969 276.746094 C 809.566406 276.746094 810.035156 276.886719 810.324219 277.171875 C 810.613281 277.457031 810.757812 277.925781 810.757812 278.585938 L 810.757812 279.039062 L 809.449219 279.039062 L 809.449219 278.773438 C 809.449219 278.410156 809.382812 278.164062 809.253906 278.03125 C 809.125 277.898438 808.878906 277.832031 808.519531 277.832031 L 806.988281 277.832031 C 806.628906 277.832031 806.382812 277.898438 806.253906 278.03125 C 806.121094 278.164062 806.058594 278.410156 806.058594 278.773438 L 806.058594 280.570312 C 806.058594 280.929688 806.121094 281.179688 806.253906 281.3125 C 806.382812 281.445312 806.628906 281.511719 806.988281 281.511719 L 808.519531 281.511719 C 808.878906 281.511719 809.125 281.445312 809.253906 281.3125 C 809.382812 281.179688 809.449219 280.929688 809.449219 280.570312 L 809.449219 280.214844 L 810.757812 280.214844 L 810.757812 280.757812 C 810.757812 281.414062 810.613281 281.886719 810.324219 282.171875 C 810.035156 282.457031 809.566406 282.597656 808.917969 282.597656 L 806.546875 282.597656 C 805.894531 282.597656 805.425781 282.457031 805.136719 282.171875 C 804.851562 281.886719 804.707031 281.414062 804.707031 280.757812"/><path fill="#0D0802" d="M 812.242188 277.863281 L 812.242188 276.746094 L 818.273438 276.746094 L 818.273438 277.863281 L 815.933594 277.863281 L 815.933594 282.597656 L 814.582031 282.597656 L 814.582031 277.863281"/><path fill="#0D0802" d="M 824.789062 276.746094 L 826.230469 276.746094 L 823.292969 282.730469 C 822.960938 283.410156 822.621094 283.851562 822.269531 284.058594 C 821.917969 284.265625 821.355469 284.371094 820.589844 284.371094 L 819.824219 284.371094 L 819.824219 283.285156 L 820.699219 283.285156 C 821.082031 283.285156 821.371094 283.234375 821.5625 283.128906 C 821.757812 283.023438 821.9375 282.816406 822.109375 282.496094 L 819.292969 276.746094 L 820.789062 276.746094 L 822.773438 281.210938"/><path fill="#0D0802" d="M 829.035156 280.589844 C 829 280.964844 828.9375 281.273438 828.847656 281.511719 L 831.949219 281.511719 L 831.949219 277.863281 L 829.230469 277.863281 Z M 833.300781 281.511719 L 834.144531 281.511719 L 834.144531 283.925781 L 832.882812 283.925781 L 832.882812 282.597656 L 827.75 282.597656 L 827.75 283.925781 L 826.484375 283.925781 L 826.484375 281.511719 L 826.851562 281.511719 C 827.160156 281.511719 827.375 281.453125 827.492188 281.332031 C 827.613281 281.214844 827.683594 281 827.703125 280.691406 L 827.972656 276.746094 L 833.300781 276.746094"/><path fill="#0D0802" d="M 840.96875 276.746094 L 842.089844 276.746094 L 842.089844 282.597656 L 840.792969 282.597656 L 840.792969 278.402344 L 836.777344 282.597656 L 835.730469 282.597656 L 835.730469 276.746094 L 837.039062 276.746094 L 837.039062 280.835938"/><path fill="#0D0802" d="M 848.597656 279.5625 L 848.597656 277.675781 L 845.984375 277.675781 C 845.71875 277.675781 845.53125 277.730469 845.429688 277.835938 C 845.324219 277.945312 845.273438 278.132812 845.273438 278.398438 L 845.273438 278.839844 C 845.273438 279.105469 845.324219 279.292969 845.429688 279.398438 C 845.53125 279.507812 845.71875 279.5625 845.984375 279.5625 Z M 845.449219 276.746094 L 849.949219 276.746094 L 849.949219 282.597656 L 848.597656 282.597656 L 848.597656 280.449219 L 846.609375 280.449219 L 845.085938 282.597656 L 843.609375 282.597656 L 845.21875 280.371094 C 844.773438 280.332031 844.449219 280.191406 844.238281 279.949219 C 844.027344 279.703125 843.921875 279.339844 843.921875 278.851562 L 843.921875 278.273438 C 843.921875 277.742188 844.042969 277.355469 844.285156 277.109375 C 844.53125 276.867188 844.917969 276.746094 845.449219 276.746094"/></g></svg></div>
+    <div class="sp s"></div>
+    <div class="anat" data-st>
+      <div><span class="n">01</span><b>два квадрата</b><p>простая, устойчивая геометрия&nbsp;— основа, которая не&nbsp;зависит от&nbsp;трендов</p></div>
+      <div><span class="n">02</span><b>сдвиг и&nbsp;поворот</b><p>второй квадрат смещён и&nbsp;повёрнут&nbsp;— статичная фигура получает движение</p></div>
+      <div><span class="n">03</span><b>пустота для&nbsp;«01»</b><p>срезанный угол освобождает место для&nbsp;цифры&nbsp;— символа первенства и&nbsp;уникальности</p></div>
+    </div>
+    <div class="sp"></div>
+
+    <div class="sub c" data-r><span class="lbl">2.2</span><h3><span class="ln"><span>вариативность</span></span></h3></div>
+    <div class="vers" data-st>
+      <figure><div class="pic glass w"><img width="100" height="27" data-vvsz decoding="async" src="i/logo-word.svg" alt="Шрифтовая версия ДС01"></div><figcaption><b>шрифтовая</b><span>для&nbsp;навигации, колонтитулов и&nbsp;узких форматов</span></figcaption></figure>
+      <figure><div class="pic glass"><img width="180" height="152" data-vvsz decoding="async" src="i/logo.svg" alt="Основной логотип"></div><figcaption><b>основная</b><span>динамичная композиция: самостоятельно или&nbsp;со&nbsp;слоганами</span></figcaption></figure>
+      <figure><div class="pic glass"><img width="98" height="90" data-vvsz decoding="async" src="i/logo-sq.svg" alt="Статичная квадратная версия"></div><figcaption><b>статичная</b><span>квадрат из&nbsp;основной композиции&nbsp;— для&nbsp;аватаров и&nbsp;графики</span></figcaption></figure>
+    </div>
+    <div class="sp"></div>
+
+    <div class="fx">
+      <div class="txt" data-st>
+        <div class="sub fxh"><span class="lbl">2.3</span><h3>3D-графика</h3></div>
+        <p class="q">стеклянные кубы раскладывают белый свет на&nbsp;спектр <span>— розовый, зелёный и&nbsp;голубой</span></p>
+        <p>логотип остаётся плоским и&nbsp;строгим, а&nbsp;графика вокруг него становится объёмной. это&nbsp;метафора гибкости студии: один и&nbsp;тот&nbsp;же луч даёт разные цвета в&nbsp;зависимости от&nbsp;грани.</p>
+        <p>кубы смоделированы в&nbsp;3ds Max: материал стекла и&nbsp;градиент по&nbsp;граням.</p>
+        <div class="cubes">
+          <figure class="glass"><img width="555" height="544" data-vvsz decoding="async" src="i/cube.png" alt="Стеклянный куб" loading="lazy"></figure>
+          <figure class="glass"><img width="631" height="584" data-vvsz decoding="async" src="i/c4.png" alt="Куб в повороте" loading="lazy"></figure>
+          <figure class="glass"><img width="555" height="544" data-vvsz decoding="async" src="i/cube.png" alt="Куб, зеркальный ракурс" loading="lazy" style="scale:-1 1"></figure>
+        </div>
+      </div>
+      <div class="gal">
+        <figure class="hero-c glass" data-tilt><img width="631" height="584" data-vvsz decoding="async" src="i/c4.png" alt="Стеклянный куб с радужными бликами" loading="lazy"><figcaption class="lbl">3D · стекло · дисперсия</figcaption></figure>
+        <figure class="t" data-clip><img width="1522" height="2048" data-vvsz decoding="async" src="i/g2.jpg" srcset="i/s/g2.jpg 900w, i/g2.jpg 1522w" sizes="100vw" alt="Песочные часы с кубом ДС01" loading="lazy"></figure>
+        <figure class="t" data-clip><img width="1526" height="2048" data-vvsz decoding="async" src="i/g3.jpg" srcset="i/s/g3.jpg 900w, i/g3.jpg 1526w" sizes="100vw" alt="Акриловая папка с графикой" loading="lazy"></figure>
+        <figure class="t" data-clip><img width="1518" height="2048" data-vvsz decoding="async" src="i/g4.jpg" srcset="i/s/g4.jpg 900w, i/g4.jpg 1518w" sizes="100vw" alt="Шоппер и термос с графикой" loading="lazy"></figure>
+        <figure class="t" data-clip><img width="1518" height="2048" data-vvsz decoding="async" src="i/g1.jpg" srcset="i/s/g1.jpg 900w, i/g1.jpg 1518w" sizes="100vw" alt="Ноутбук с графикой ДС01" loading="lazy"></figure>
+      </div>
+    </div>
+    <div class="sp"></div>
+
+    <div class="sub" data-r><span class="lbl">2.4</span><h3><span class="ln"><span>цветовая палитра</span></span></h3></div>
+    <div class="pal">
+      <div class="sw dark cut" style="background:#0D0802;--i:0"><span class="lbl">основной</span><div><p class="nm">составной чёрный</p><p class="cd">#0D0802 · CMYK 80 73 65 93</p></div></div>
+      <div class="sw" style="background:#F963C9;--i:1"><span class="lbl">блик</span><div><p class="nm">розовый</p><p class="cd">#F963C9</p></div></div>
+      <div class="sw" style="background:#C3E496;--i:2"><span class="lbl">блик</span><div><p class="nm">зелёный</p><p class="cd">#C3E496</p></div></div>
+      <div class="sw" style="background:#70D5FF;--i:3"><span class="lbl">блик</span><div><p class="nm">голубой</p><p class="cd">#70D5FF</p></div></div>
+    </div>
+    <div class="palnote" data-st>
+      <p>палитра почти монохромна: знак, текст и&nbsp;сайт работают только в&nbsp;составном чёрном на&nbsp;белом. так&nbsp;бренд выглядит строго и&nbsp;не&nbsp;спорит с&nbsp;работами студии.</p>
+      <p>розовый, зелёный и&nbsp;голубой&nbsp;— не&nbsp;фирменные плашки, а&nbsp;цвета спектра внутри стекла. они&nbsp;появляются только в&nbsp;3D-графике и&nbsp;дают стилю живость без&nbsp;лишнего шума.</p>
+    </div>
+    <div class="sp"></div>
+
+    <div class="sub" data-r><span class="lbl">2.5</span><h3><span class="ln"><span>типографика</span></span></h3></div>
+    <div class="tspec" data-tspec>
+      <div class="face glass">
+        <p class="nm">Tactic<br>Sans</p>
+        <p class="glyph" aria-hidden="true">Аа</p>
+        <p class="abc">аб вг дж зк лм нп рс тф хц шщ ыэ юя 0123456789</p>
+        <div class="w"><div><b>Medium</b><small>логотип, шрифтовые композиции</small></div><div><span>Regular</span><small>заголовки, текст, колонтитулы</small></div></div>
+      </div>
+      <div class="hier glass dark">
+        <span class="lbl">иерархия набора</span>
+        <ol>
+          <li style="font-size:clamp(20px,2.2vw,40px);--k:0"><span>заголовок 1</span><span><i>24 pt</i></span></li>
+          <li style="font-size:clamp(15px,1.3vw,24px);--k:1"><span>колонтитул</span><span><i>12 pt</i></span></li>
+          <li style="font-size:clamp(14px,1.2vw,22px);--k:2"><span>заголовок 2</span><span><i>11 pt</i></span></li>
+          <li style="font-size:clamp(13px,1vw,18px);--k:3"><span>подзаголовок, основной набор</span><span><i>9 pt</i></span></li>
+          <li style="font-size:clamp(11px,.8vw,15px);--k:4"><span>добавочный набор, колонцифра</span><span><i>7 pt</i></span></li>
+        </ol>
+        <p>современный гротеск без&nbsp;засечек. заголовки набираются строчными&nbsp;— это&nbsp;снимает пафос и&nbsp;делает тон&nbsp;разговорным</p>
+      </div>
+    </div>
+    <div class="sp xs"></div>
+    <div class="comps" data-fade>
+      <figure class="glass wh"><div class="img"><img width="410" height="188" data-vvsz decoding="async" src="i/type-comp.svg" alt="Шрифтовая композиция «а хороший дизайн это»" loading="lazy"></div><figcaption><b>лесенка</b><span>строки сдвигаются ступенями и&nbsp;ведут взгляд сверху вниз</span></figcaption></figure>
+      <figure class="glass wh"><div class="img"><img width="314" height="108" data-vvsz decoding="async" src="i/type-comp2.svg" alt="Шрифтовая композиция «дизайн это»" loading="lazy"></div><figcaption><b>разрез</b><span>слово «это» разрезано пополам&nbsp;— зритель сам достраивает недостающую часть</span></figcaption></figure>
+    </div>
+  </div>
+  <div class="sp"></div>
+</section>
+
+<!-- 03 носители -->
+<section id="media">
+  <div class="wrap">
+    <header class="shead" data-r><div class="idx lbl"><span>03</span><span>деловая документация и&nbsp;мерч</span></div><h2><span class="ln"><span>носители</span></span></h2><p class="lead">белая основа, чёрный знак и&nbsp;стеклянный куб&nbsp;— одна система на&nbsp;бумаге, пластике, акриле и&nbsp;текстиле</p></header>
+  </div>
+  <div class="sp s"></div>
+  <div class="hs" data-hs>
+    <div class="track"><article class="card" style="--ar:1.502"><div class="ph"><img src="i/p/24_0.jpg" srcset="i/s/p_24_0.jpg 1200w, i/p/24_0.jpg 3064w" sizes="(max-width:760px) 100vw, 45vw" alt="деловой комплект" loading="eager" decoding="async" width="3064" height="2040"></div><div class="meta"><div><h3>деловой комплект</h3><p>папка, визитки и&nbsp;конверт: куб на&nbsp;обложке, текст и&nbsp;знак&nbsp;— по&nbsp;модульной сетке</p></div><span class="n">01</span></div></article><article class="card" style="--ar:0.7461"><div class="ph"><img src="i/p/01_1.jpg" srcset="i/s/p_01_1.jpg 900w, i/p/01_1.jpg 1522w" sizes="(max-width:760px) 100vw, 45vw" alt="бейдж сотрудника" loading="eager" decoding="async" width="1522" height="2040"></div><div class="meta"><div><h3>бейдж сотрудника</h3><p>фирменный ланъярд с&nbsp;логотипом и&nbsp;карточка с&nbsp;кубом</p></div><span class="n">02</span></div></article><article class="card" style="--ar:0.7451"><div class="ph"><img src="i/p/03_0.jpg" srcset="i/s/p_03_0.jpg 900w, i/p/03_0.jpg 1520w" sizes="(max-width:760px) 100vw, 45vw" alt="упаковка" loading="eager" decoding="async" width="1520" height="2040"></div><div class="meta"><div><h3>упаковка</h3><p>коробка с&nbsp;фирменным скотчем для&nbsp;отправки материалов клиентам</p></div><span class="n">03</span></div></article><article class="card" style="--ar:0.7451"><div class="ph"><img src="i/p/03_1.jpg" srcset="i/s/p_03_1.jpg 900w, i/p/03_1.jpg 1520w" sizes="(max-width:760px) 100vw, 45vw" alt="блокнот" loading="eager" decoding="async" width="1520" height="2040"></div><div class="meta"><div><h3>блокнот</h3><p>слоган «идеи, проекты, люди» и&nbsp;куб на&nbsp;обложке</p></div><span class="n">04</span></div></article><article class="card" style="--ar:0.7441"><div class="ph"><img src="i/p/11_1.jpg" srcset="i/s/p_11_1.jpg 900w, i/p/11_1.jpg 1518w" sizes="(max-width:760px) 100vw, 45vw" alt="шоппер и термос" loading="eager" decoding="async" width="1518" height="2040"></div><div class="meta"><div><h3>шоппер и&nbsp;термос</h3><p>графика с&nbsp;кубом работает как&nbsp;самостоятельный принт</p></div><span class="n">05</span></div></article><article class="card" style="--ar:0.7441"><div class="ph"><img src="i/p/16_1.jpg" srcset="i/s/p_16_1.jpg 900w, i/p/16_1.jpg 1518w" sizes="(max-width:760px) 100vw, 45vw" alt="ноутбук" loading="eager" decoding="async" width="1518" height="2040"></div><div class="meta"><div><h3>ноутбук</h3><p>наклейка превращает технику команды в&nbsp;носитель</p></div><span class="n">06</span></div></article><article class="card" style="--ar:0.7451"><div class="ph"><img src="i/p/16_0.jpg" srcset="i/s/p_16_0.jpg 900w, i/p/16_0.jpg 1520w" sizes="(max-width:760px) 100vw, 45vw" alt="акриловая папка" loading="eager" decoding="async" width="1520" height="2040"></div><div class="meta"><div><h3>акриловая папка</h3><p>прозрачный акрил продолжает тему стекла</p></div><span class="n">07</span></div></article><article class="card" style="--ar:0.7461"><div class="ph"><img src="i/p/21_0.jpg" srcset="i/s/p_21_0.jpg 900w, i/p/21_0.jpg 1522w" sizes="(max-width:760px) 100vw, 45vw" alt="тубус и коробка" loading="eager" decoding="async" width="1522" height="2040"></div><div class="meta"><div><h3>тубус и&nbsp;коробка</h3><p>упаковка для&nbsp;макетов и&nbsp;подарков клиентам</p></div><span class="n">08</span></div></article><article class="card" style="--ar:0.748"><div class="ph"><img src="i/p/15_0.jpg" srcset="i/s/p_15_0.jpg 900w, i/p/15_0.jpg 1526w" sizes="(max-width:760px) 100vw, 45vw" alt="подарочный бокс" loading="eager" decoding="async" width="1526" height="2040"></div><div class="meta"><div><h3>подарочный бокс</h3><p>акриловый бокс «наши дизайнеры» для&nbsp;партнёров</p></div><span class="n">09</span></div></article><article class="card" style="--ar:0.7461"><div class="ph"><img src="i/p/12_0.jpg" srcset="i/s/p_12_0.jpg 900w, i/p/12_0.jpg 1522w" sizes="(max-width:760px) 100vw, 45vw" alt="песочные часы" loading="eager" decoding="async" width="1522" height="2040"></div><div class="meta"><div><h3>песочные часы</h3><p>предмет для&nbsp;стола со&nbsp;стеклянным кубом и&nbsp;слоганом</p></div><span class="n">10</span></div></article><article class="card" style="--ar:0.7461"><div class="ph"><img src="i/p/12_1.jpg" srcset="i/s/p_12_1.jpg 900w, i/p/12_1.jpg 1522w" sizes="(max-width:760px) 100vw, 45vw" alt="органайзер" loading="eager" decoding="async" width="1522" height="2040"></div><div class="meta"><div><h3>органайзер</h3><p>бренд остаётся на&nbsp;рабочем месте клиента</p></div><span class="n">11</span></div></article><article class="card" style="--ar:0.6863"><div class="ph"><img src="i/p/09_1.jpg" srcset="i/s/p_09_1.jpg 900w, i/p/09_1.jpg 1400w" sizes="(max-width:760px) 100vw, 45vw" alt="бутылка и чехол" loading="eager" decoding="async" width="1400" height="2040"></div><div class="meta"><div><h3>бутылка и&nbsp;чехол</h3><p>мерч для&nbsp;команды и&nbsp;гостей студии</p></div><span class="n">12</span></div></article></div>
+    <div class="hsui"><div class="prog"><i></i></div><div class="btns"><button type="button" data-hp aria-label="Предыдущий носитель"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m7 7-7-7 7-7"/></svg></button><button type="button" data-hn aria-label="Следующий носитель"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button></div></div>
+  </div>
+  <div class="sp"></div>
+</section>
+
+<!-- 04 соцсети -->
+<section class="wrap" id="social">
+  <header class="shead" data-r><div class="idx lbl"><span>04</span><span>коммуникация</span></div><h2><span class="ln"><span>соцсети</span></span></h2><p class="lead">контент, который показывает экспертизу ДС01 и&nbsp;приносит пользу аудитории: регулярные публикации, интерактив, прямые эфиры</p></header>
+  <div class="sp s"></div>
+  <div class="soc">
+    <div class="plat" data-st>
+      <div><span class="n">01</span><h3>telegram</h3><p>прямое общение с&nbsp;клиентами и&nbsp;комьюнити</p></div>
+      <div><span class="n">02</span><h3>behance</h3><p>портфолио и&nbsp;экспертная аудитория</p></div>
+      <div><span class="n">03</span><h3>linkedin</h3><p>деловые контакты и&nbsp;студия как&nbsp;работодатель</p></div>
+    </div>
+    <figure class="glass" data-fade><img src="i/soc.webp" srcset="i/s/soc.webp 1100w, i/soc.webp 2200w" sizes="(max-width:900px) 92vw, 60vw" alt="Три экрана соцсетей студии" loading="lazy" decoding="async" width="2200" height="1196"></figure>
+  </div>
+  <div class="sp"></div>
+</section>
+
+<!-- 05 сайт -->
+<section id="site">
+  <div class="wrap">
+    <header class="shead" data-r><div class="idx lbl"><span>05</span><span>digital</span></div><h2><span class="ln"><span>сайт</span></span></h2><p class="lead">на&nbsp;сайте нет&nbsp;графики и&nbsp;цвета&nbsp;— только составной чёрный, чтобы весь акцент ушёл на&nbsp;кейсы. перед дизайном собраны прототипы для&nbsp;desktop и&nbsp;mobile</p></header>
+  </div>
+  <div class="sp s"></div>
+  <div class="wrap"><div class="film glass" data-fade><video autoplay muted loop playsinline preload="metadata" poster="film-poster.jpg" aria-label="Анимация главной страницы сайта на ноутбуке"><source src="film.mp4" type="video/mp4"></video></div></div>
+  <div class="sp"></div>
+  <div class="wrap">
+    <div class="sub" data-r><span class="lbl">5.1</span><h3><span class="ln"><span>экраны</span></span></h3></div>
+    <div class="screens" data-st>
+      <figure><div class="fr"><img width="1920" height="1080" data-vvsz decoding="async" src="i/scr1.jpg" alt="Главная" loading="lazy"></div><div class="meta"><div><h3>главная</h3><p>навигация по&nbsp;углам экрана, в&nbsp;центре&nbsp;— визуал</p></div><span class="n">01</span></div></figure>
+      <figure><div class="fr"><img width="1914" height="1074" data-vvsz decoding="async" src="i/scr3.jpg" alt="Лента кейсов" loading="lazy"></div><div class="meta"><div><h3>кейсы</h3><p>сетка проектов без&nbsp;лишних подписей</p></div><span class="n">02</span></div></figure>
+      <figure><div class="fr"><img width="1904" height="1075" data-vvsz decoding="async" src="i/scr5.jpg" alt="Наши дизайнеры" loading="lazy"></div><div class="meta"><div><h3>наши дизайнеры</h3><p>команда как&nbsp;часть продукта</p></div><span class="n">03</span></div></figure>
+      <figure><div class="fr"><img width="1920" height="1080" data-vvsz decoding="async" src="i/scr6.jpg" alt="Страница о пространстве студии" loading="lazy"></div><div class="meta"><div><h3>пространство</h3><p>интерьер офиса как&nbsp;часть контента сайта</p></div><span class="n">04</span></div></figure>
+    </div>
+    <div class="sp"></div>
+    <div class="cols c2">
+      <figure data-clip><img width="2400" height="1683" data-vvsz decoding="async" src="i/s2.jpg" srcset="i/s/s2.jpg 1200w, i/s2.jpg 2400w" sizes="100vw" alt="Мобильная главная на стеклянном столе" loading="lazy"></figure>
+      <figure data-clip><img width="2400" height="1715" data-vvsz decoding="async" src="i/s4.jpg" srcset="i/s/s4.jpg 1200w, i/s4.jpg 2400w" sizes="100vw" alt="Страница услуг на телефоне" loading="lazy"></figure>
+    </div>
+  </div>
+  <div class="sp xs"></div>
+  <div class="wrap"><figure class="bleed par" data-clip style="aspect-ratio:2400/1500"><img width="2400" height="1687" data-vvsz decoding="async" src="i/s3.jpg" srcset="i/s/s3.jpg 1200w, i/s3.jpg 2400w" sizes="100vw" alt="Сайт на ноутбуке и телефоне" loading="lazy"></figure></div>
+  <div class="sp"></div>
+</section>
+
+<!-- 06 интерьер -->
+<section id="interior">
+  <div class="wrap">
+    <header class="shead" data-r><div class="idx lbl"><span>06</span><span>пространство</span></div><h2><span class="ln"><span>интерьер</span></span></h2><p class="lead">офис студии&nbsp;— не&nbsp;только место для&nbsp;работы, но&nbsp;и&nbsp;инструмент маркетинга: клиент приходит и&nbsp;сразу видит, как&nbsp;студия работает с&nbsp;брендом</p></header>
+  </div>
+  <div class="sp s"></div>
+  <div class="wrap"><figure class="istage" data-clip><img width="2400" height="1079" data-vvsz decoding="async" src="i/n/n1.jpg" srcset="i/s/n_n1.jpg 1200w, i/n/n1.jpg 2400w" sizes="100vw" alt="Офис ДС01: навигация, слоган и стеклоблоки" loading="lazy" data-zoom><figcaption class="cap glass"><span class="lbl">пространство</span><p>стеклоблоки, белая мебель и&nbsp;металл повторяют палитру и&nbsp;материалы фирменного стиля</p></figcaption></figure></div>
+  <div class="sp"></div>
+  <div class="wrap irows">
+    <article class="irow"><div class="ph par" data-clip><img width="2400" height="1354" data-vvsz decoding="async" src="i/n/n2.jpg" srcset="i/s/n_n2.jpg 1200w, i/n/n2.jpg 2400w" sizes="100vw" alt="Навигация: номер зоны 03 на колонне и указатели" loading="lazy"></div><div class="txt" data-st><div class="top2"><span class="n">01</span><span class="lbl">навигация</span></div><h3>номера зон и&nbsp;указатели</h3><p>подвесные кубы и&nbsp;блоки на&nbsp;колоннах упрощают ориентирование и&nbsp;повторяют модульную логику фирменного стиля</p></div></article>
+    <article class="irow rev"><div class="ph par" data-clip><img width="2400" height="1655" data-vvsz decoding="async" src="i/n/n8.jpg" srcset="i/s/n_n8.jpg 1200w, i/n/n8.jpg 2400w" sizes="100vw" alt="Слоган «наша фишка» и логотип на стене" loading="lazy"></div><div class="txt" data-st><div class="top2"><span class="n">02</span><span class="lbl">коммуникация</span></div><h3>слоганы на&nbsp;стенах</h3><p>шрифтовые композиции переходят из&nbsp;брендбука в&nbsp;пространство&nbsp;— офис сам становится носителем бренда</p></div></article>
+    <article class="irow"><div class="ph par" data-clip><img width="2400" height="1614" data-vvsz decoding="async" src="i/n/n3.jpg" srcset="i/s/n_n3.jpg 1200w, i/n/n3.jpg 2400w" sizes="100vw" alt="Колонны из стеклоблоков в рабочей зоне" loading="lazy"></div><div class="txt" data-st><div class="top2"><span class="n">03</span><span class="lbl">материалы</span></div><h3>стекло и&nbsp;свет</h3><p>колонны из&nbsp;стеклоблоков, стеклянные столики и&nbsp;опоры столов продолжают тему дисперсии из&nbsp;3D-графики</p></div></article>
+    <article class="irow rev"><div class="ph par" data-clip><img width="2400" height="1354" data-vvsz decoding="async" src="i/n/n4.jpg" srcset="i/s/n_n4.jpg 1200w, i/n/n4.jpg 2400w" sizes="100vw" alt="Стена «наши дизайнеры» в зоне команды" loading="lazy"></div><div class="txt" data-st><div class="top2"><span class="n">04</span><span class="lbl">команда</span></div><h3>стена команды</h3><p>слоган «наши дизайнеры» и&nbsp;знак ДС01 в&nbsp;рабочей зоне: бренд говорит не&nbsp;только с&nbsp;клиентами, но&nbsp;и&nbsp;с&nbsp;командой</p></div></article>
+  </div>
+  <div class="sp"></div>
+  <div class="wrap">
+    <div class="sub" data-r><span class="lbl">6.1</span><h3><span class="ln"><span>бренд в&nbsp;работе</span></span></h3></div>
+    <div class="bento" data-st>
+      <figure class="b1"><img width="1520" height="2040" data-vvsz decoding="async" src="i/p/03_1.jpg" srcset="i/s/p_03_1.jpg 900w, i/p/03_1.jpg 1520w" sizes="100vw" alt="Блокнот «идеи, проекты, люди»" loading="lazy"><figcaption>блокнот</figcaption></figure>
+      <figure class="b2"><img width="2400" height="1351" data-vvsz decoding="async" src="i/n/n5.jpg" srcset="i/s/n_n5.jpg 1200w, i/n/n5.jpg 2400w" sizes="100vw" alt="Подвесная навигация в рабочей зоне" loading="lazy"><figcaption>навигация в&nbsp;рабочей зоне</figcaption></figure>
+      <figure class="b3"><img width="3064" height="2040" data-vvsz decoding="async" src="i/p/24_0.jpg" srcset="i/s/p_24_0.jpg 1200w, i/p/24_0.jpg 3064w" sizes="100vw" alt="Деловой комплект ДС01" loading="lazy"><figcaption>деловой комплект</figcaption></figure>
+      <figure class="b4"><img width="2400" height="1471" data-vvsz decoding="async" src="i/n/n0.jpg" srcset="i/s/n_n0.jpg 1200w, i/n/n0.jpg 2400w" sizes="100vw" alt="Лаунж с видом на город" loading="lazy" style="object-position:40% 60%"><figcaption>лаунж</figcaption></figure>
+      <figure class="b5"><img width="1522" height="2040" data-vvsz decoding="async" src="i/p/12_0.jpg" srcset="i/s/p_12_0.jpg 900w, i/p/12_0.jpg 1522w" sizes="100vw" alt="Песочные часы с кубом" loading="lazy"><figcaption>предметы для&nbsp;стола</figcaption></figure>
+      <figure class="b6"><img width="2400" height="1655" data-vvsz decoding="async" src="i/n/n8.jpg" srcset="i/s/n_n8.jpg 1200w, i/n/n8.jpg 2400w" sizes="100vw" alt="Слоган «наша фишка» на стене" loading="lazy" style="object-position:20% 50%"><figcaption>слоган на&nbsp;стене</figcaption></figure>
+      <figure class="b7"><img width="1518" height="2040" data-vvsz decoding="async" src="i/p/11_1.jpg" srcset="i/s/p_11_1.jpg 900w, i/p/11_1.jpg 1518w" sizes="100vw" alt="Шоппер и термос ДС01" loading="lazy"><figcaption>мерч</figcaption></figure>
+    </div>
+  </div>
+  <div class="sp"></div>
+</section>
+
+<!-- 07 продвижение -->
+<section class="wrap" id="growth">
+  <header class="shead" data-r><div class="idx lbl"><span>07</span><span>стратегия</span></div><h2><span class="ln"><span>продвижение</span></span></h2><p class="lead">четыре канала, через которые студия выходит к&nbsp;своей аудитории</p></header>
+  <div class="sp s"></div>
+  <div class="steps" data-st>
+    <div class="glass"><span class="n">01</span><p>блог в&nbsp;соцсетях, регулярный тематический контент, реклама у&nbsp;блогеров</p></div>
+    <div class="glass"><span class="n">02</span><p>«творческая лаборатория ДС01»: закрытые мероприятия с&nbsp;мастер-классами и&nbsp;экспертами</p></div>
+    <div class="glass"><span class="n">03</span><p>приглашения-перформансы, которые подчёркивают статус студии</p></div>
+    <div class="glass"><span class="n">04</span><p>коллаборации с&nbsp;неконкурирующими брендами и&nbsp;образовательная программа со&nbsp;стажировками</p></div>
+  </div>
+  <div class="sp s"></div>
+  <figure class="bleed par" data-clip style="aspect-ratio:2400/1500"><img width="2400" height="1710" data-vvsz decoding="async" src="i/s6.jpg" srcset="i/s/s6.jpg 1200w, i/s6.jpg 2400w" sizes="100vw" alt="Ноутбук с сайтом ДС01 на белом столе" loading="lazy"></figure>
+  <div class="sp"></div>
+</section>
+
+<!-- 08 брендбук -->
+<section class="wrap" id="brandbook">
+  <header class="shead" data-r><div class="idx lbl"><span>08</span><span>документ</span></div><h2><span class="ln"><span>брендбук</span></span></h2><p class="lead">исследование, концепция, логотип и&nbsp;его&nbsp;версии, сетки, типографика, палитра, 3D-графика, носители, интерьер, сайт и&nbsp;стратегия</p></header>
+  <div class="sp s"></div>
+  <div class="bbhead">
+    <p class="num" data-count="74"><span class="v">74</span><small>разворота</small></p>
+    <a class="go" href="https://drive.google.com/file/d/1FXz20cEmMBkyXLAHLhsRiAJv3Ybu-eHD/view?usp=drive_link" target="_blank" rel="noopener">открыть pdf <span aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+  </div>
+  <div class="sp xs"></div>
+  <div class="sl" data-sl aria-roledescription="карусель" aria-label="Развороты брендбука">
+    <div class="sl-stage">
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-01.jpg" alt="Обложка брендбука"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-07.jpg" alt="Концепция"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-08.jpg" alt="Архетип"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-10.jpg" alt="SWOT-анализ"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-11.jpg" alt="PEST-анализ"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-13.jpg" alt="Основной логотип"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-15.jpg" alt="Вариативность логотипа"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-16.jpg" alt="Модульная сетка"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-20.jpg" alt="Охранное поле"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-26.jpg" alt="Типографика"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-29.jpg" alt="Палитра"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-31.jpg" alt="Графика"></figure>
+      <figure class="sl-item"><img width="1920" height="675" data-vvsz decoding="async" src="i/bb-44.jpg" alt="Интерьер как способ продвижения"></figure>
+      <figure class="sl-item"><img width="1920" height="676" data-vvsz decoding="async" src="i/bb-51.jpg" alt="Структура интерфейса сайта"></figure>
+      <figure class="sl-item"><img width="1920" height="676" data-vvsz decoding="async" src="i/bb-55.jpg" alt="Сетка десктоп-версии"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-58.jpg" alt="Прототип десктоп-версии"></figure>
+      <figure class="sl-item"><img width="1920" height="677" data-vvsz decoding="async" src="i/bb-66.jpg" alt="Стратегия"></figure>
+    </div>
+    <div class="sl-ui"><span class="count" aria-live="polite">01 / 17</span><span class="sbar"><i></i></span><div class="btns"><button type="button" data-prev aria-label="Назад"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m7 7-7-7 7-7"/></svg></button><button type="button" data-next aria-label="Вперёд"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button></div></div>
+  </div>
+  <div class="sp"></div>
+</section>
+
+<!-- финал -->
+<section class="outro" id="links">
+  <div class="big" data-spread-out aria-hidden="true"><img width="536" height="547" data-vvsz decoding="async" src="i/L1.png" alt=""><img width="445" height="547" data-vvsz decoding="async" src="i/L2.png" alt=""><img width="415" height="547" data-vvsz decoding="async" src="i/L3.png" alt=""><img width="412" height="547" data-vvsz decoding="async" src="i/L4.png" alt=""></div>
+  <div class="sp s"></div>
+  <div class="marq" aria-label="Фирменный стиль ДС01 в офисе и на носителях"><div class="run"><figure style="--ar:1.773"><img src="i/m/n2.jpg" alt="" loading="lazy" decoding="async" width="1773" height="1000"></figure><figure style="--ar:1.632"><img src="i/m/n0.jpg" alt="" loading="lazy" decoding="async" width="1632" height="1000"></figure><figure style="--ar:0.993"><img src="i/m/29_1.jpg" alt="" loading="lazy" decoding="async" width="993" height="1000"></figure><figure style="--ar:1.776"><img src="i/m/n5.jpg" alt="" loading="lazy" decoding="async" width="1776" height="1000"></figure><figure style="--ar:1.399"><img src="i/m/s4.jpg" alt="" loading="lazy" decoding="async" width="1399" height="1000"></figure><figure style="--ar:1.487"><img src="i/m/n3.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1000"></figure><figure style="--ar:0.995"><img src="i/m/31_1.jpg" alt="" loading="lazy" decoding="async" width="995" height="1000"></figure><figure style="--ar:1.776"><img src="i/m/n5.jpg" alt="" loading="lazy" decoding="async" width="1776" height="1000"></figure><figure style="--ar:1.404"><img src="i/m/s6.jpg" alt="" loading="lazy" decoding="async" width="1404" height="1000"></figure><figure style="--ar:0.746"><img src="i/m/21_1.jpg" alt="" loading="lazy" decoding="async" width="746" height="1000"></figure><figure style="--ar:1.773"><img src="i/m/n4.jpg" alt="" loading="lazy" decoding="async" width="1773" height="1000"></figure><figure style="--ar:1.426"><img src="i/m/s2.jpg" alt="" loading="lazy" decoding="async" width="1426" height="1000"></figure><figure style="--ar:1.773"><img src="i/m/n2.jpg" alt="" loading="lazy" decoding="async" width="1773" height="1000"></figure><figure style="--ar:1.632"><img src="i/m/n0.jpg" alt="" loading="lazy" decoding="async" width="1632" height="1000"></figure><figure style="--ar:0.993"><img src="i/m/29_1.jpg" alt="" loading="lazy" decoding="async" width="993" height="1000"></figure><figure style="--ar:1.776"><img src="i/m/n5.jpg" alt="" loading="lazy" decoding="async" width="1776" height="1000"></figure><figure style="--ar:1.399"><img src="i/m/s4.jpg" alt="" loading="lazy" decoding="async" width="1399" height="1000"></figure><figure style="--ar:1.487"><img src="i/m/n3.jpg" alt="" loading="lazy" decoding="async" width="1487" height="1000"></figure><figure style="--ar:0.995"><img src="i/m/31_1.jpg" alt="" loading="lazy" decoding="async" width="995" height="1000"></figure><figure style="--ar:1.776"><img src="i/m/n5.jpg" alt="" loading="lazy" decoding="async" width="1776" height="1000"></figure><figure style="--ar:1.404"><img src="i/m/s6.jpg" alt="" loading="lazy" decoding="async" width="1404" height="1000"></figure><figure style="--ar:0.746"><img src="i/m/21_1.jpg" alt="" loading="lazy" decoding="async" width="746" height="1000"></figure><figure style="--ar:1.773"><img src="i/m/n4.jpg" alt="" loading="lazy" decoding="async" width="1773" height="1000"></figure><figure style="--ar:1.426"><img src="i/m/s2.jpg" alt="" loading="lazy" decoding="async" width="1426" height="1000"></figure></div></div>
+  <div class="sp s"></div>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://www.behance.net/gallery/223413085/dizajn-proekt-dizajn-studii-ds01" target="_blank" rel="noopener"><span>behance<small>дизайн-проект дизайн-студии ДС01</small></span><span class="arr" aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+      <a href="https://drive.google.com/file/d/1FXz20cEmMBkyXLAHLhsRiAJv3Ybu-eHD/view?usp=drive_link" target="_blank" rel="noopener"><span>брендбук<small>pdf, 74&nbsp;разворота</small></span><span class="arr" aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+    </div>
+    <footer class="lbl"><span>виктория · графический дизайнер</span><span>2025</span></footer>
+  </div>
+</section>
+
+<script>/* vv-typo: неразрывные пробелы после коротких слов и против «висячих» последних слов */
+(function(){try{var SH=/(?<=^|[\s(«"—])(в|во|с|со|к|ко|о|об|обо|у|и|а|но|на|по|от|до|за|из|не|ни|для|без|под|над|при|про|что|как|или|его|её|их|мы|вы|я|это|все|всё|бы|ли|же)\s+/gi;
+var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('script,style,svg,textarea,code')?2:1}}),ns=[];while(w.nextNode())ns.push(w.currentNode);
+ns.forEach(function(n){var t=n.nodeValue;if(!/[А-Яа-яЁё]/.test(t))return;var u=t.replace(SH,function(m,b){return b+'\u00a0'}).replace(/ — /g,'\u00a0— ').replace(/(\d) (\d{3})/g,'$1\u00a0$2');if(u!==t)n.nodeValue=u});
+[].forEach.call(document.querySelectorAll('p,li,blockquote,figcaption,dd'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),last=null;while(tw.nextNode()){if(tw.currentNode.nodeValue.trim())last=tw.currentNode}
+ if(!last)return;var s=last.nodeValue.replace(/\s+$/,''),i=s.lastIndexOf(' ');if(i<1)return;var tok=s.slice(i+1);if(tok.replace(/[.,!?»…:;)]/g,'').length>9)return;var j=s.lastIndexOf(' ',i-1);if(i-j-1+tok.length+1>22)return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;if(cw&&(i-j+tok.length)*fs*.6>cw*.8)return;
+ last.nodeValue=s.slice(0,i)+'\u00a0'+tok+last.nodeValue.slice(s.length)});
+[].forEach.call(document.querySelectorAll('p,li,dd,figcaption'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(tw.nextNode())a.push(tw.currentNode);a.forEach(function(n){var t=n.nodeValue,re=/[A-Za-zА-Яа-яЁё0-9]+(?:-[A-Za-zА-Яа-яЁё0-9]+)+/g;if(!re.test(t)||n.parentNode.closest('vv-nw'))return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;re.lastIndex=0;var f=document.createDocumentFragment(),last=0,m;while((m=re.exec(t))){f.appendChild(document.createTextNode(t.slice(last,m.index)));if(cw&&m[0].length*fs*.6>cw*.7){f.appendChild(document.createTextNode(m[0]))}else{var e=document.createElement('vv-nw');e.textContent=m[0];f.appendChild(e)}last=m.index+m[0].length}f.appendChild(document.createTextNode(t.slice(last)));n.parentNode.replaceChild(f,n)})});
+var st=document.createElement('style');st.textContent='vv-nw{white-space:nowrap}';document.head.appendChild(st);}catch(e){}})();</script>
+<script src="../../assets/gsap.min.js"></script>
+<script src="../../assets/ScrollTrigger.min.js"></script>
+<script>window.ScrollTrigger&&ScrollTrigger.config({ignoreMobileResize:true})</script>
+<script src="../../assets/lenis.min.js"></script>
+<script>
+(function(){
+  var H=document.documentElement; H.classList.add('js');
+  if('scrollRestoration' in history)history.scrollRestoration='manual';if(!location.hash)window.scrollTo(0,0);
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMob=window.innerWidth<=760;
+  function $$(s,r){return [].slice.call((r||document).querySelectorAll(s))}
+
+  $$('video[autoplay]').forEach(function(v){v.muted=true;var p=v.play();if(p&&p.catch)p.catch(function(){})});
+
+  /* ---------- пояснение справа — по верхнему краю букв заголовка ---------- */
+  var cv=document.createElement('canvas').getContext('2d');
+  function alignHeads(){
+    $$('.shead').forEach(function(sh){
+      var h=sh.querySelector('h2');if(!h)return;
+      if(window.innerWidth<1000){sh.style.removeProperty('--lt');return}
+      var cs=getComputedStyle(h),fs=parseFloat(cs.fontSize),lh=parseFloat(cs.lineHeight)||fs;
+      cv.font=cs.fontWeight+' '+fs+'px '+cs.fontFamily;
+      var m=cv.measureText(h.textContent.trim()),fa=m.fontBoundingBoxAscent,fd=m.fontBoundingBoxDescent;
+      if(!fa)return;
+      var top=(lh-(fa+fd))/2+fa-m.actualBoundingBoxAscent;
+      // первая строка пояснения: подтягиваем верх строчных букв к верху заголовка
+      var ls=getComputedStyle(sh.querySelector('.lead')),lfs=parseFloat(ls.fontSize),llh=parseFloat(ls.lineHeight)||lfs*1.65;
+      cv.font=ls.fontWeight+' '+lfs+'px '+ls.fontFamily;var lm=cv.measureText('х'),lfa=lm.fontBoundingBoxAscent,lfd=lm.fontBoundingBoxDescent;
+      var ltop=(llh-(lfa+lfd))/2+lfa-lm.actualBoundingBoxAscent;
+      sh.style.setProperty('--lt',Math.max(0,top-ltop)+'px');
+    });
+  }
+  alignHeads();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(alignHeads);
+  window.addEventListener('resize',alignHeads);
+
+  /* ---------- разбивка абзацев на строки ---------- */
+  function splitLines(p){
+    var words=p.innerHTML.split(/ (?![^<]*>)/);
+    p.innerHTML=words.map(function(w){return '<span class="wd" style="display:inline-block">'+w+'</span>'}).join(' ');
+    var ws=p.querySelectorAll('.wd'),lines=[],top=null,cur=null;
+    [].forEach.call(ws,function(w){var t=w.offsetTop;if(t!==top){top=t;cur=[];lines.push(cur)}cur.push(w.innerHTML)});
+    p.innerHTML=lines.map(function(l){return '<span class="ln"><span>'+l.join(' ')+'</span></span>'}).join('');
+  }
+  function splitWords(p){var k=0;p.innerHTML=p.innerHTML.split(/ (?![^<]*>)/).map(function(w){return '<span class="wm"><span style="--d:'+(k++)+'">'+w+'</span></span>'}).join(' ')}
+  $$('[data-lines]').forEach(function(box){if(isMob){$$('p',box).forEach(splitWords);box.setAttribute('data-wr','');return}$$('p',box).forEach(splitLines);box.setAttribute('data-r','')});
+
+  /* типографика: алфавит по парам букв и сменяющийся глиф */
+  var abc=document.querySelector('.tspec .abc');
+  if(abc){abc.innerHTML=abc.textContent.split(' ').map(function(w,i){return '<span style="--k:'+i+'">'+w+'</span>'}).join(' ')}
+  var gl=document.querySelector('.tspec .glyph');
+  if(gl&&!reduce){var G=['Аа','Дд','Сс','Жж','Фф','Юю','01'],gi=0;setInterval(function(){gl.classList.add('out');setTimeout(function(){gi=(gi+1)%G.length;gl.textContent=G[gi];gl.classList.remove('out')},450)},2200)}
+
+  /* ---------- появление через IntersectionObserver ---------- */
+  $$('[data-r]').forEach(function(el){$$('.ln>span',el).forEach(function(s,i){s.style.setProperty('--d',i)})});
+  $$('[data-st]').forEach(function(el){[].forEach.call(el.children,function(c,i){c.style.setProperty('--i',i)})});
+  var targets=$$('[data-r],[data-wr],[data-st],[data-clip],[data-fade],[data-wipe],.pal,[data-tspec]');
+  if(reduce||!('IntersectionObserver' in window)){targets.forEach(function(t){t.classList.add('in')})}
+  else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px 6% 0px',threshold:0});
+    targets.forEach(function(t){io.observe(t)});
+    // страховка: если блок проскочили быстрой прокруткой, он всё равно появляется
+    var pend=targets.slice(),tk=false;
+    function sweep(){tk=false;var vh=window.innerHeight;pend=pend.filter(function(t){if(t.classList.contains('in'))return false;if(t.getBoundingClientRect().top<vh){t.classList.add('in');io.unobserve(t);return false}return true})}
+    window.addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(sweep)}},{passive:true});
+    window.addEventListener('load',sweep);
+  }
+
+  /* ---------- палитра: на сенсорных экранах плашки раскрываются по очереди ---------- */
+  if(!reduce&&(window.matchMedia('(hover: none)').matches||window.innerWidth<=1000)&&window.innerWidth>760){
+    var sws=$$('.pal .sw'),si=0;setInterval(function(){sws.forEach(function(x,i){x.classList.toggle('on',i===si)});si=(si+1)%sws.length},2200);
+  }
+
+  /* ---------- шапка ---------- */
+  var top=document.querySelector('.top'),hero=document.querySelector('.hero');
+  function hdr(){top.classList.toggle('solid',hero.getBoundingClientRect().bottom<70)}
+  window.addEventListener('scroll',hdr,{passive:true});hdr();
+
+  /* ---------- брендбук: счётчик ---------- */
+  var cnt=document.querySelector('[data-count]');
+  if(cnt){
+    var v=cnt.querySelector('.v'),N=+cnt.getAttribute('data-count');
+    if(!reduce&&'IntersectionObserver' in window){
+      v.textContent='0';
+      var run=0;
+      var cio=new IntersectionObserver(function(es){if(!es[0].isIntersecting){v.textContent='0';run++;return}
+        var id=++run,t0=performance.now(),D=2200;
+        (function f(t){if(id!==run)return;var k=Math.min(1,Math.max(0,(t-t0)/D)),e=1-Math.pow(1-k,3);v.textContent=Math.round(N*e);if(k<1)requestAnimationFrame(f)})(t0);
+      },{threshold:.5});
+      cio.observe(cnt);
+    }
+  }
+
+  /* ---------- носители: режим ленты ---------- */
+  var hs=document.querySelector('[data-hs]'),hst=null;
+  var pinMode=!!(window.gsap&&window.ScrollTrigger&&!reduce&&window.innerWidth>760&&window.innerHeight>480);
+  if(hs&&!isMob){
+    var tr=hs.querySelector('.track'),pg=hs.querySelector('.prog i'),cards=hs.querySelectorAll('.card');
+    function step(dir){
+      if(hst){var n=cards.length-1,p=hst.progress,t=Math.max(0,Math.min(n,Math.round(p*n)+dir))/n,y=hst.start+t*(hst.end-hst.start);
+        var y0=window.scrollY;if(window.__lenis)window.__lenis.scrollTo(y,{duration:1.1,force:true});else window.scrollTo({top:y,behavior:'smooth'});setTimeout(function(){if(Math.abs(window.scrollY-y0)<2)window.scrollTo(0,y)},350);}
+      else{var w=cards[0].getBoundingClientRect().width+parseFloat(getComputedStyle(tr).columnGap||0);tr.scrollBy({left:dir*w,behavior:'smooth'})}
+    }
+    hs.querySelector('[data-hp]').addEventListener('click',function(){step(-1)});
+    hs.querySelector('[data-hn]').addEventListener('click',function(){step(1)});
+    if(!pinMode){hs.classList.add('native');tr.addEventListener('scroll',function(){var m=tr.scrollWidth-tr.clientWidth;pg.style.transform='scaleX('+(m>0?tr.scrollLeft/m:0)+')'},{passive:true})}
+  }
+
+  if(!window.gsap||!window.ScrollTrigger||reduce){
+    H.classList.add('static');
+    var rv=document.querySelector('.hero .reveal');if(rv)rv.style.display='none';
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+
+  if(window.Lenis&&!isMob){
+    var lenis=new Lenis({lerp:.085,smoothWheel:true});window.__lenis=lenis;
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(function(t){lenis.raf(t*1000)});gsap.ticker.lagSmoothing(0);
+    $$('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();lenis.scrollTo(t,{offset:a.getAttribute('href')==='#hero'?0:-70,duration:1.6})}})});
+  }
+
+  /* ---------- HERO ---------- */
+  var word=document.querySelector('.word'),cube=word.querySelector('.cube'),gp=word.querySelector('.gp'),
+      ga=word.querySelector('.grp.a'),gb=word.querySelector('.grp.b'),
+      rvl=document.querySelector('.hero .reveal'),veil=document.querySelector('.hero .veil');
+  var dim=isMob?'height':'width';
+  var intro=gsap.timeline({defaults:{ease:'expo.out'}});
+  intro.from('.word .lw img',{yPercent:105,duration:1.6,stagger:.09},.1)
+       .from(ga,{[isMob?'y':'x']:function(){return (isMob?gp.offsetHeight:gp.offsetWidth)*.32},duration:1.8,ease:'power3.inOut'},.9)
+       .from(gb,{[isMob?'y':'x']:function(){return -(isMob?gp.offsetHeight:gp.offsetWidth)*.32},duration:1.8,ease:'power3.inOut'},.9)
+       .fromTo(cube,{scale:.25,rotation:-70,autoAlpha:0},{scale:1,rotation:0,autoAlpha:1,duration:2,ease:'expo.out'},1.6)
+       .from('.hero .tag .ln>span',{yPercent:110,duration:1.2,stagger:.1},2)
+       .from('.hero .hint>*',{autoAlpha:0,duration:1},2.5);
+  gsap.to(cube,{y:-12,rotation:6,duration:4,ease:'sine.inOut',yoyo:true,repeat:-1,delay:3.8});
+
+  // сначала уходит куб, затем расходятся буквы, и только потом раскрывается интерьер; буквы уходят за экран полностью
+  var sc=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom bottom',scrub:2.5}});
+  sc.to('.hero .tag,.hero .hint',{autoAlpha:0,y:-24,duration:.12,ease:'power1.out'},0)
+    .to(gp,{scale:1.8,rotation:90,autoAlpha:0,duration:.26,ease:'sine.in'},.02)
+    .to(ga,{xPercent:isMob?0:-240,yPercent:isMob?-280:0,duration:.8,ease:'sine.inOut'},.14)
+    .to(gb,{xPercent:isMob?0:240,yPercent:isMob?280:0,duration:.8,ease:'sine.inOut'},.14)
+    .to([ga,gb],{autoAlpha:0,duration:.2},.62)
+    .fromTo(rvl,{clipPath:'inset(50% 50% 50% 50% round 24px)'},{clipPath:'inset(0% 0% 0% 0% round 0px)',duration:.4,ease:'sine.inOut'},.24)
+    .to(veil,{opacity:1,duration:.2},.85);
+  function heroTop(){if(window.scrollY<4&&!location.hash){sc.progress(0);if(sc.scrollTrigger&&sc.scrollTrigger.getTween)try{var tw=sc.scrollTrigger.getTween();tw&&tw.progress(1)}catch(e){}}}
+  addEventListener('load',function(){setTimeout(heroTop,200)});addEventListener('pageshow',function(e){if(e.persisted)heroTop()});
+
+  /* ---------- логотип: сборка из фигур ---------- */
+  var lg=document.querySelector('.lg');
+  if(lg){
+    var ltl=gsap.timeline({paused:true,defaults:{ease:'expo.out'}});
+    ltl.from(lg.querySelector('.sq1'),{scaleY:0,transformOrigin:'50% 100%',duration:1.3})
+       .from(lg.querySelector('.sq2'),{rotation:-62,svgOrigin:'849.93 253.47',autoAlpha:0,duration:1.6},.35)
+       .from(lg.querySelector('.tri'),{scale:0,svgOrigin:'849.95 253.33',duration:1.1},.9)
+       .from(lg.querySelector('.num'),{autoAlpha:0,y:6,duration:.9},1.3)
+       .from(lg.querySelectorAll('.txt path'),{autoAlpha:0,y:6,duration:.8,stagger:.03},1.25);
+    var lio=new IntersectionObserver(function(es){if(es[0].isIntersecting){ltl.play();lio.disconnect()}},{rootMargin:'0px 0px -15% 0px'});
+    lio.observe(lg);
+  }
+
+  /* ---------- 3D-куб ---------- */
+  var tc=document.querySelector('[data-tilt] img');
+  if(tc){
+    gsap.fromTo(tc,{rotation:-12,scale:.92},{rotation:14,scale:1.04,ease:'none',scrollTrigger:{trigger:tc.parentNode,start:'top bottom',end:'bottom top',scrub:true}});
+    var box=tc.parentNode;
+    box.addEventListener('mousemove',function(e){var r=box.getBoundingClientRect();gsap.to(tc,{x:(e.clientX-r.left-r.width/2)*.06,y:(e.clientY-r.top-r.height/2)*.06,duration:.8,ease:'power3.out'})});
+    box.addEventListener('mouseleave',function(){gsap.to(tc,{x:0,y:0,duration:1,ease:'power3.out'})});
+  }
+
+  /* ---------- параллакс ---------- */
+  $$('.par img').forEach(function(im){
+    gsap.fromTo(im,{yPercent:-8},{yPercent:0,ease:'none',scrollTrigger:{trigger:im.parentNode,start:'top bottom',end:'bottom top',scrub:true}});
+  });
+  var zm=document.querySelector('[data-zoom]');
+  if(zm)gsap.fromTo(zm,{scale:1.14},{scale:1,ease:'none',scrollTrigger:{trigger:zm.parentNode,start:'top bottom',end:'bottom center',scrub:true}});
+
+  /* ---------- лента носителей ---------- */
+  if(hs&&!isMob&&pinMode){
+    var dist=function(){return tr.scrollWidth-window.innerWidth};
+    var htw=gsap.to(tr,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:hs,start:'top 96px',end:function(){return '+='+dist()},pin:true,scrub:1,invalidateOnRefresh:true,anticipatePin:1,
+      onUpdate:function(s){pg.style.transform='scaleX('+s.progress+')'}}});
+    hst=htw.scrollTrigger;
+  }
+
+  /* ---------- финал ---------- */
+  var so=document.querySelector('[data-spread-out]');
+  if(so){gsap.from(so.children,{yPercent:100,autoAlpha:0,duration:1.4,ease:'expo.out',stagger:.08,scrollTrigger:{trigger:so,start:'top 90%',once:true}});
+    gsap.fromTo(so,{gap:'1vw'},{gap:'5vw',ease:'none',scrollTrigger:{trigger:so,start:'top bottom',end:'bottom top',scrub:true}})}
+
+  function toTop(){if(location.hash)return;window.scrollTo(0,0);if(window.__lenis)window.__lenis.scrollTo(0,{immediate:true,force:true})}
+  [0,60,300].forEach(function(t){setTimeout(toTop,t)});
+  window.addEventListener('load',function(){toTop();setTimeout(toTop,50);ScrollTrigger.refresh();alignHeads()});
+  $$('img').forEach(function(im){if(!im.complete)im.addEventListener('load',function(){ScrollTrigger.refresh()},{once:true})});
+})();
+
+/* ---------- слайдер брендбука ---------- */
+[].forEach.call(document.querySelectorAll('[data-sl]'),function(sl){
+  var items=sl.querySelectorAll('.sl-item'),n=items.length,cur=0,cnt=sl.querySelector('.count'),bar=sl.querySelector('.sbar i'),stage=sl.querySelector('.sl-stage'),timer=null,visible=false,hover=false;
+  function pad(x){return (x<10?'0':'')+x}
+  function ui(){cnt.textContent=pad(cur+1)+' / '+pad(n);bar.style.setProperty('--p',(cur+1)/n)}
+  items[0].classList.add('cur');ui();
+  function go(i){i=(i+n)%n;if(i===cur)return;items[cur].classList.remove('cur');items[i].classList.add('cur');cur=i;ui()}
+  sl.querySelector('[data-next]').addEventListener('click',function(){go(cur+1);restart()});
+  sl.querySelector('[data-prev]').addEventListener('click',function(){go(cur-1);restart()});
+  var x0=null;
+  stage.addEventListener('pointerdown',function(e){x0=e.clientX});
+  stage.addEventListener('pointerup',function(e){if(x0===null)return;var dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40){go(cur+(dx<0?1:-1));restart()}});
+  stage.addEventListener('mouseenter',function(){hover=true});stage.addEventListener('mouseleave',function(){hover=false});
+  function tick(){if(visible&&!hover&&!document.hidden)go(cur+1)}
+  function restart(){clearInterval(timer);timer=setInterval(tick,4500)}
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){visible=es[0].isIntersecting},{threshold:.3}).observe(sl);else visible=true;
+  restart();
+});
+</script>
+
+
+<!-- vv-back: кнопка возврата в портфолио -->
+<link rel="stylesheet" href="../../assets/onest.css">
+<a href="../../index.html#case-ds01" id="vv-back" aria-label="Все проекты"><span class="vv-i"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="vv-t">Все проекты</span></a>
+<style>
+#vv-back{position:fixed;left:max(20px,env(safe-area-inset-left));bottom:max(20px,env(safe-area-inset-bottom));z-index:2147483000;display:inline-flex;align-items:center;gap:12px;height:52px;padding:0 22px 0 7px;border-radius:999px;
+background:rgba(12,12,12,.7);color:#fff!important;-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 40px rgba(0,0,0,.25);
+font:500 14px/1 Onest,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.005em;text-decoration:none!important;opacity:0;transform:translateY(12px);animation:vvIn .9s cubic-bezier(.19,1,.22,1) .9s forwards;transition:background .4s,border-color .4s}
+#vv-back .vv-i{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#fff;color:#0b0b0b;transition:transform .5s cubic-bezier(.19,1,.22,1)}
+#vv-back:hover{background:rgba(12,12,12,.9);border-color:rgba(255,255,255,.3)}
+#vv-back:hover .vv-i{transform:translateX(-3px)}
+@keyframes vvIn{to{opacity:1;transform:none}}
+@media (max-width:600px){#vv-back{height:46px;gap:10px;padding:0 18px 0 5px;font-size:13px}#vv-back .vv-i{width:34px;height:34px}}
+@media print{#vv-back{display:none}}
+</style>
+<script>/* vv-return: назад на главную — шторка цветом кейса и возврат через историю (точно на то же место) */
+(function(){var b=document.getElementById('vv-back');if(!b)return;var going=false;
+function ret(e){if(e)e.preventDefault();if(going)return;going=true;var bg='#000';try{bg=sessionStorage.getItem('vv-retbg')||getComputedStyle(document.body).backgroundColor}catch(x){}
+ var o=document.createElement('div');o.style.cssText='position:fixed;inset:0;z-index:2147483647;background:'+bg+';opacity:0;transition:opacity .45s cubic-bezier(.4,0,.2,1);pointer-events:none';document.documentElement.appendChild(o);
+ requestAnimationFrame(function(){o.style.opacity='1'});
+ setTimeout(function(){var fromHub=false;try{fromHub=sessionStorage.getItem('vv-scroll')!==null}catch(x){}
+   if(fromHub&&history.length>1)history.back();else location.href=b.href},470)}
+b.addEventListener('click',ret);
+addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.fullscreenElement)ret(e)});
+addEventListener('pageshow',function(e){if(e.persisted){going=false;[].forEach.call(document.querySelectorAll('body~div,html>div'),function(d){if(d.style&&d.style.zIndex==='2147483647')d.remove()})}})})();</script>
+<script>/* vv-guard: если анимация по какой-то причине не сработала, блок всё равно проявится, когда окажется на экране (кроме первого экрана и анимаций, привязанных к прокрутке) */
+(function(){if(!('IntersectionObserver' in window))return;
+function stOf(t){var st=t.scrollTrigger,r=t;while(r.parent&&r.parent!==gsap.globalTimeline){r=r.parent;st=st||r.scrollTrigger}return st||r.scrollTrigger}
+function safe(t){if(t.progress()!==0)return false;var st=stOf(t);if(!st)return false;var v=st.vars||{};return !v.scrub&&!v.pin&&!st.pin}
+function arm(){if(!window.gsap)return;var els=[].filter.call(document.querySelectorAll('[style*="opacity: 0"],[style*="visibility: hidden"],[style*="inset(100%"],.split .w>span'),function(el){if(el.closest('.hero,#hero,header,.top'))return false;return gsap.getTweensOf(el).some(safe)});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){var el=e.target;clearTimeout(el._vg);if(!e.isIntersecting)return;el._vg=setTimeout(function(){gsap.getTweensOf(el).forEach(function(t){if(safe(t))t.progress(1)});io.unobserve(el)},1300)})},{threshold:.2});
+[].forEach.call(els,function(el){io.observe(el)})}if(document.readyState==='complete')setTimeout(arm,1200);else addEventListener('load',function(){setTimeout(arm,1200)})})();</script>
+<script>/* vv-refresh: пересчёт точек анимаций после загрузки шрифтов и картинок, чтобы анимации не срабатывали за кадром */
+(function(){if(!window.ScrollTrigger)return;var t,h=0;function r(){clearTimeout(t);t=setTimeout(function(){try{ScrollTrigger.refresh()}catch(e){}},150)}
+if(document.fonts){try{document.fonts.addEventListener('loadingdone',r)}catch(e){}document.fonts.ready.then(r)}
+addEventListener('load',r);
+if(window.ResizeObserver){new ResizeObserver(function(){var nh=document.documentElement.scrollHeight;if(Math.abs(nh-h)>30){h=nh;r()}}).observe(document.body)}})();</script>
+</body>
+</html>

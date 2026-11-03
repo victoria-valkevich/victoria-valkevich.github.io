@@ -1,0 +1,1100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- vv-intro: плавное продолжение перехода с главной -->
+<script>(function(){try{var d=sessionStorage.getItem('vv-trans');if(!d)return;sessionStorage.removeItem('vv-trans');d=JSON.parse(d);var R=document.documentElement;R.style.background=d.bg;
+var o=document.createElement('div');o.id='vv-in';o.setAttribute('aria-hidden','true');
+o.style.cssText='position:fixed;inset:0;z-index:2147483646;background:'+d.bg+';opacity:1;transition:opacity .9s cubic-bezier(.4,0,.2,1);pointer-events:none';
+R.appendChild(o);var done=false,t0=Date.now();
+function go(){if(done)return;done=true;var w=Math.max(0,250-(Date.now()-t0));setTimeout(function(){requestAnimationFrame(function(){R.style.background='';o.style.opacity='0';setTimeout(function(){o.remove()},1000)})},w)}
+addEventListener('load',go);setTimeout(go,1400)}catch(e){}})();</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>«Академия VQ»&nbsp;— кейс</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400&family=Manrope:wght@300;400;500&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Тёмная тема по бренду: глубокий сине-графитовый, фирменный синий #283C4E, голубой #7CA6B2, белый.
+   Заголовки — Unbounded Light (шрифт логотипа), основной — Manrope Light (шрифт носителей).
+   Ключевой элемент — живой фирменный градиент (WebGL, с CSS-запасным вариантом). */
+:root{
+  --deep:#10161C; --navy:#283C4E; --sky:#7CA6B2; --white:#FFFFFF; --black:#1D1D1B;
+  --ink:#EEF2F3; --mut:rgba(238,242,243,.66); --dim:rgba(238,242,243,.42);
+  --line:rgba(238,242,243,.15);
+  --display:"Unbounded","Manrope",Arial,sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --g:clamp(16px,4.4vw,110px);
+  --gut:max(var(--g),env(safe-area-inset-left,0px));
+  --gutr:max(var(--g),env(safe-area-inset-right,0px));
+  --ease:cubic-bezier(.2,.7,.15,1);
+  --h2:clamp(28px,3vw,64px);
+  --gap:clamp(96px,9vw,170px);
+  --btn:52px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--deep);color:var(--ink);font-family:var(--body);font-weight:300;font-size:clamp(15px,.45vw + 10px,19px);line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--deep)}
+img,video,canvas{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.02em;line-height:1.1}
+p,li,dd{margin:0;text-wrap:pretty}
+.wrap{padding-left:var(--gut);padding-right:var(--gutr)}
+.eyebrow,.lbl{font-size:clamp(11px,.2vw + 9px,13px);letter-spacing:.22em;text-transform:uppercase;color:var(--mut);font-weight:400}
+.lead{font-size:clamp(16px,.5vw + 11px,21px);line-height:1.6;max-width:38em}
+.muted{color:var(--mut)}
+.nw{white-space:nowrap}
+section{padding-block:clamp(64px,6.5vw,130px)}
+.sec-head{display:grid;gap:16px 6vw;margin-bottom:clamp(32px,3.4vw,64px);align-items:start;scroll-margin-top:80px}
+.sec-head .t{display:grid;gap:16px}
+.sec-head h2{font-size:var(--h2)}
+@media (min-width:1000px){.sec-head.two{grid-template-columns:1fr 1fr}}
+figure{margin:0}
+.navy{background:var(--navy)}
+
+/* живой градиент */
+.fx{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.flow{position:absolute;inset:0;overflow:hidden;z-index:0;display:none}
+html.nogl .flow{display:block}
+html.nogl .fx{display:none}
+.flow i{position:absolute;border-radius:50%}
+.flow .b1{width:95vmax;height:95vmax;left:-30vmax;top:-40vmax;background:radial-gradient(closest-side,#283C4E,rgba(40,60,78,0));animation:d1 26s ease-in-out infinite alternate}
+.flow .b2{width:80vmax;height:80vmax;right:-25vmax;top:-10vmax;background:radial-gradient(closest-side,rgba(124,166,178,.95),rgba(124,166,178,0));animation:d2 30s ease-in-out infinite alternate}
+.flow .b3{width:70vmax;height:70vmax;left:10vmax;bottom:-45vmax;background:radial-gradient(closest-side,rgba(190,212,222,.7),rgba(190,212,222,0));animation:d3 24s ease-in-out infinite alternate}
+.flow .b4{width:55vmax;height:55vmax;left:35vmax;top:-20vmax;background:radial-gradient(closest-side,rgba(150,152,190,.4),rgba(150,152,190,0));animation:d4 34s ease-in-out infinite alternate}
+@keyframes d1{to{transform:translate(18vmax,10vmax) scale(1.1)}}
+@keyframes d2{to{transform:translate(-14vmax,16vmax) scale(.9)}}
+@keyframes d3{to{transform:translate(22vmax,-12vmax) scale(1.15)}}
+@keyframes d4{to{transform:translate(-20vmax,14vmax) scale(1.2)}}
+.grain{position:absolute;inset:0;z-index:1;opacity:.09;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* header */
+.top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;pointer-events:none}
+.top .wrap{position:relative}
+.top:not(.solid) nav a{text-shadow:0 1px 10px rgba(16,22,28,.5)}
+.top .bar{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;height:56px;border-radius:999px;transition:background .5s,box-shadow .5s,padding .5s,margin .5s,height .5s}
+.top.solid .bar{margin-top:12px;height:50px;padding-inline:clamp(18px,1.6vw,30px);margin-inline:calc(-1 * clamp(18px,1.6vw,30px));background:rgba(16,22,28,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 12px 34px -20px rgba(0,0,0,.6),inset 0 0 0 1px var(--line)}
+.top .mark{display:flex;align-items:center;min-height:44px;min-width:44px;text-decoration:none;line-height:0}
+.top .mark img{display:block;height:21px;width:auto;opacity:0;transform:translateY(-6px);transition:opacity .5s,transform .5s}
+.top.solid .mark img{opacity:1;transform:none}
+.top nav{display:flex;gap:clamp(20px,2vw,40px);font-size:clamp(10px,.2vw + 8px,12px);letter-spacing:.22em;text-transform:uppercase}
+.top nav a{text-decoration:none;opacity:.92;padding-block:14px;margin-block:-14px}
+.top nav a:hover,.top nav a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:6px}
+@media (max-width:900px){.top nav a:not(.keep){display:none}}
+
+/* hero */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;padding:0;background:#16212B;isolation:isolate;display:flex;flex-direction:column}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(16,22,28,.35) 0%,rgba(16,22,28,0) 22%,rgba(16,22,28,0) 60%,rgba(16,22,28,.55) 100%)}
+.hero-c{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,2vw,34px);padding:96px var(--gutr) 24px var(--gut);text-align:center}
+.hero h1{margin:0;line-height:0;width:clamp(240px,30vw,560px)}
+.hero h1 img{width:100%;filter:drop-shadow(0 20px 60px rgba(16,22,28,.28))}
+.hero .sub{font-size:clamp(15px,1.05vw,20px);color:rgba(238,242,243,.86);max-width:28em;line-height:1.5}
+.hero-in{position:relative;z-index:2}
+.slogan{display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgba(255,255,255,.55);padding-top:clamp(10px,1vw,16px);font-size:clamp(13px,1.1vw,22px);letter-spacing:.01em;color:rgba(255,255,255,.92)}
+.hero .slogan{margin-bottom:clamp(26px,3vw,56px)}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 28px;padding-block:clamp(16px,1.4vw,28px) max(clamp(16px,1.4vw,28px),env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);font-size:clamp(13px,.35vw + 9px,17px)}
+.meta dt{font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.meta dd{margin:0;line-height:1.45}
+@media (min-width:900px){.meta{grid-template-columns:1fr .7fr 1fr 2.2fr}}
+
+/* intro */
+.thesis{font-family:var(--display);font-weight:300;font-size:clamp(28px,3.6vw,76px);line-height:1.12;letter-spacing:-.03em;max-width:15em}
+.thesis em{font-style:normal;color:var(--sky)}
+.cols{display:grid;gap:40px;margin-top:clamp(44px,4.5vw,90px)}
+.k{text-transform:uppercase;font-size:clamp(11px,.2vw + 9px,13px);letter-spacing:.22em;font-weight:500;color:var(--mut);margin:0 0 16px}
+.cols p+p{margin-top:12px}
+.cols ul{margin:0;padding:0;list-style:none}
+.cols li{padding:10px 0;border-top:1px solid var(--line)}
+.cols li:last-child{border-bottom:1px solid var(--line)}
+@media (min-width:900px){.cols{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(40px,4vw,96px)}}
+
+/* rows */
+.rows{margin:0;padding:0;display:grid;border-top:1px solid var(--line)}
+.rows>*{list-style:none;display:grid;grid-template-columns:clamp(40px,4.5vw,96px) 1fr;gap:6px 24px;padding:clamp(16px,1.4vw,26px) 0;border-bottom:1px solid var(--line);align-items:center}
+.rows .n{font-family:var(--display);font-size:clamp(16px,1.1vw,24px);color:var(--sky);line-height:1}
+.rows h3{font-size:clamp(18px,1.35vw,28px);line-height:1.15}
+.rows p{color:var(--mut);grid-column:2}
+@media (min-width:1000px){.rows>*{grid-template-columns:clamp(56px,5.4vw,120px) minmax(0,1fr) minmax(0,1.4fr)}.rows p{grid-column:auto}}
+.res h3 span{display:block;font-family:var(--body);font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+
+/* слоган на живом градиенте */
+.slg{position:relative;overflow:hidden;isolation:isolate;min-height:min(100svh,920px);display:flex;align-items:flex-end;padding:0;background:#5d7787}
+.slg::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(16,22,28,0) 35%,rgba(16,22,28,.55) 100%)}
+.slg .in{position:relative;z-index:2;width:100%;padding-block:clamp(120px,14vw,260px) clamp(36px,4vw,80px);display:grid;gap:clamp(18px,2vw,30px)}
+.slg .lbl{color:rgba(255,255,255,.82)}
+.slg .q{font-family:var(--display);font-weight:300;font-size:clamp(30px,4.6vw,100px);line-height:1.04;letter-spacing:-.035em;max-width:11em;color:var(--white)}
+.slg .slogan{margin-top:clamp(20px,3vw,60px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px}
+.slg .slogan div{display:grid;gap:6px}
+.slg .slogan b{font-weight:400;font-size:clamp(16px,1.3vw,26px)}
+.slg .slogan span{font-size:clamp(13px,.3vw + 10px,16px);color:rgba(255,255,255,.78)}
+@media (min-width:900px){.slg .slogan{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* concept */
+.assoc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border-block:1px solid var(--line)}
+.assoc div{background:var(--deep);padding:clamp(18px,1.6vw,30px) clamp(0px,1vw,20px) clamp(18px,1.6vw,30px) 0;display:grid;gap:8px;align-content:start}
+.assoc h3{font-size:clamp(17px,1.4vw,30px)}
+.assoc h3 b{font-weight:300;color:var(--sky)}
+.assoc p{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px)}
+@media (min-width:900px){.assoc{grid-template-columns:repeat(4,minmax(0,1fr))}.assoc div{padding-left:clamp(14px,1.2vw,24px)}}
+@media (max-width:899px){.assoc div:nth-child(even){padding-left:16px}.assoc div:nth-child(odd){padding-right:12px}}
+.concept-text{display:grid;gap:16px;border-left:1px solid var(--line);padding-left:clamp(20px,2vw,44px);margin-top:clamp(32px,3vw,64px);max-width:64em}
+.concept-text .name{font-family:var(--display);font-weight:300;font-size:clamp(20px,1.7vw,36px);line-height:1.25;letter-spacing:-.02em}
+
+/* logo */
+.logo-sec{position:relative;overflow:hidden;padding:0;isolation:isolate;display:flex;background:var(--deep)}
+.logo-sec::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(closest-side at 50% 50%,#2c4256 0%,#18222c 55%,rgba(16,22,28,0) 100%);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 18%,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 18%,#000 82%,transparent 100%)}
+.logo-sec .in{flex:1;display:grid;grid-template-rows:auto 1fr auto}
+.logo-sec .row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.logo-sec h2{font-size:var(--h2)}
+.logo-stage{display:flex;align-items:center;justify-content:center}
+.logo-mark{width:min(34vw,560px)}
+.logo-mark img{width:100%;opacity:0;transform:translateY(18px);transition:opacity 1.6s var(--ease),transform 1.6s var(--ease)}
+.logo-mark.on img,html:not(.js) .logo-mark img{opacity:1;transform:none}
+.logo-sec .desc{max-width:40em}
+.logo-sec .desc ul{margin:12px 0 0;padding:0;list-style:none;color:var(--mut)}
+.logo-sec .desc li::before{content:"— ";color:var(--sky)}
+@media (max-width:820px){.logo-sec .row{flex-direction:column;gap:10px}.logo-sec .row .lbl{order:-1}.logo-mark{width:68vw}}
+@media (min-width:821px) and (max-width:1100px){.logo-mark{width:46vw}}
+
+/* construction */
+.pat{display:grid;gap:clamp(12px,1.2vw,24px)}
+@media (min-width:1000px){.pat{grid-template-columns:1.2fr 1fr}}
+.pat .card{position:relative;border:1px solid var(--line);padding:clamp(20px,2vw,40px);display:grid;gap:18px;align-content:space-between;overflow:hidden;min-height:clamp(380px,40vw,600px);background:rgba(238,242,243,.02)}
+.pat .card .gr{display:flex;align-items:center;justify-content:center;padding-block:clamp(10px,2vw,30px)}
+.pat .card .gr img{max-height:clamp(200px,26vw,420px);width:auto;clip-path:inset(0 0 100% 0);opacity:0;transition:clip-path 2.4s cubic-bezier(.33,0,.15,1),opacity 1.6s ease}
+.pat .card.drawn .gr img{clip-path:inset(0 0 0 0);opacity:1}
+.pat .card p{color:var(--mut);max-width:34em}
+.pat .card h3{font-size:clamp(20px,1.5vw,32px)}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(12px,1.2vw,24px)}
+.facts div{background:var(--deep);padding:clamp(16px,1.6vw,30px);display:grid;gap:6px;align-content:start}
+.facts b{font-family:var(--display);font-weight:300;font-size:clamp(24px,2.6vw,56px);line-height:1;letter-spacing:-.03em}
+.facts span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px)}
+@media (min-width:900px){.facts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* palette */
+.pal{display:flex;height:clamp(360px,58svh,640px);overflow:hidden;border:1px solid var(--line)}
+.col{position:relative;flex:var(--f,1) 1 0;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(16px,1.6vw,32px);transition:flex-grow .8s var(--ease);color:var(--black);background-size:cover;background-position:center}
+.col:hover{flex-grow:calc(var(--f,1) * 1.7)}
+.col.dark{color:var(--white)}
+.col .nm{font-family:var(--display);font-weight:300;font-size:clamp(15px,1.2vw,25px);line-height:1.15;letter-spacing:-.02em}
+.col .cd{font-size:clamp(11px,.25vw + 9px,14px);line-height:1.6;opacity:.82;font-variant-numeric:tabular-nums;margin-top:10px;white-space:nowrap}
+@media (max-width:760px){.pal{flex-direction:column;height:auto}.col{min-height:120px;flex-direction:row;align-items:center;justify-content:flex-start;gap:20px}.col .cd{white-space:normal}.col:hover{flex-grow:1}}
+
+/* typography */
+.fonts{display:grid;gap:36px;margin-top:clamp(36px,4vw,80px)}
+@media (min-width:900px){.fonts{grid-template-columns:1fr 1fr}}
+.fonts .lbl{margin-bottom:clamp(12px,1.2vw,26px)}
+.fonts .spec{font-size:clamp(40px,5vw,118px);line-height:1;letter-spacing:-.03em}
+.fonts .spec.d{font-family:var(--display);font-weight:300}
+.fonts .abc{margin-top:18px;color:var(--mut);font-size:clamp(14px,.4vw + 10px,19px);letter-spacing:.04em}
+.fonts .abc.d{font-family:var(--display);font-weight:300;letter-spacing:0}
+.rule-name{margin-top:clamp(36px,3vw,60px);padding-top:22px;border-top:1px solid var(--line);color:var(--mut);max-width:44em}
+
+/* логотип на градиенте */
+.lg-grid{display:grid;gap:clamp(10px,1vw,20px)}
+.lg-grid figure{position:relative;overflow:hidden}
+.lg-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.lg-grid figure:hover img{transform:scale(1.03)}
+.lg-grid figcaption{position:absolute;left:clamp(14px,1.4vw,26px);bottom:clamp(12px,1.2vw,22px);font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase}
+.lg-grid .on-dark figcaption{color:rgba(255,255,255,.8)}
+.lg-grid .on-light figcaption{color:rgba(29,29,27,.55)}
+@media (min-width:900px){.lg-grid{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr}.lg-grid .big{grid-row:1/3}}
+
+/* носители: брендбук + ИИ вперемешку */
+.mix{display:grid;gap:clamp(28px,3vw,56px)}
+.mrow{display:flex;gap:clamp(10px,1.2vw,22px);align-items:flex-start}
+.mrow figure{min-width:0;display:grid;gap:14px}
+.mrow .im{overflow:hidden;background:#1b252e}
+.mrow img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.mrow figure:hover img{transform:scale(1.03)}
+.mrow figcaption{display:grid;gap:4px}
+.mrow figcaption b{font-family:var(--display);font-weight:300;font-size:clamp(16px,1.15vw,23px);letter-spacing:-.02em}
+.mrow figcaption span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,15px)}
+.mrow figcaption i{font-style:normal;font-size:clamp(10px,.15vw + 8px,11px);letter-spacing:.2em;text-transform:uppercase;color:var(--sky)}
+@media (max-width:700px){.mrow{flex-direction:column;gap:28px}.mrow figure{width:100%;flex:none!important}}
+
+/* бренд в среде: редакционная сетка */
+.gal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.gal figure{position:relative;overflow:hidden;background:#1b252e;aspect-ratio:3/4}
+.gal figure.w{grid-column:span 2;aspect-ratio:3/2}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.gal figure:hover img{transform:scale(1.04)}
+.gal figure::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(238,242,243,.06);pointer-events:none}
+@media (min-width:900px){
+  .gal{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:clamp(300px,30vw,560px) clamp(300px,30vw,560px)}
+  .gal figure,.gal figure.w{aspect-ratio:auto}
+  .gal figure.g1{grid-column:1/4;grid-row:1}.gal figure.g2{grid-column:4/10;grid-row:1}.gal figure.g3{grid-column:10/13;grid-row:1}
+  .gal figure.g4{grid-column:1/7;grid-row:2}.gal figure.g5{grid-column:7/10;grid-row:2}.gal figure.g6{grid-column:10/13;grid-row:2}
+  .gal.rev figure.g1{grid-column:1/7;grid-row:1}.gal.rev figure.g2{grid-column:7/10;grid-row:1}.gal.rev figure.g3{grid-column:10/13;grid-row:1}
+  .gal.rev figure.g4{grid-column:1/4;grid-row:2}.gal.rev figure.g5{grid-column:4/10;grid-row:2}.gal.rev figure.g6{grid-column:10/13;grid-row:2}
+}
+.rules{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-block:clamp(40px,4vw,80px)}
+.rules div{background:var(--deep);padding:clamp(20px,1.8vw,34px);display:grid;gap:10px;align-content:start}
+.rules .n{font-family:var(--display);color:var(--sky);font-size:clamp(14px,.9vw,18px)}
+.rules h3{font-size:clamp(18px,1.35vw,27px)}
+.rules p{color:var(--mut)}
+@media (min-width:900px){.rules{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* slider */
+.fit{max-width:min(100%,calc(78svh * 1920 / 1358));margin-inline:auto}
+.sl-stage{position:relative;aspect-ratio:1920/1358;max-width:100%;overflow:hidden;background:rgba(238,242,243,.05);touch-action:pan-y;cursor:grab;-webkit-user-select:none;user-select:none}
+.sl-stage:active{cursor:grabbing}
+.sl-item{position:absolute;inset:0;margin:0;overflow:hidden;visibility:hidden}
+.sl-item img{width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;user-select:none;pointer-events:none}
+.sl-item.cur,.sl-item.prev{visibility:visible}
+.sl-item.cur{z-index:2;clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)}
+.sl-item.cur img{transform:scale(1);transition:transform 1.8s var(--ease)}
+.sl-item.cur.enter-r{clip-path:inset(0 0 0 100%);transition:none}
+.sl-item.cur.enter-l{clip-path:inset(0 100% 0 0);transition:none}
+.sl-item.cur.enter-r img,.sl-item.cur.enter-l img{transform:scale(1.15);transition:none}
+.sl-item.prev{z-index:1}
+.sl-item.prev img{opacity:.35;transition:opacity 1.3s ease}
+.sl-ui{display:flex;flex-wrap:wrap;align-items:center;gap:16px 26px;margin-top:clamp(16px,1.4vw,28px)}
+.count{font-family:var(--display);font-weight:300;font-size:clamp(18px,1.2vw,26px);font-variant-numeric:tabular-nums;min-width:4.5em}
+.prog{flex:1 1 160px;height:1px;background:var(--line);position:relative;overflow:hidden}
+.prog i{position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .9s var(--ease)}
+.btns{display:flex;gap:10px}
+.btns button{width:var(--btn);height:var(--btn);border-radius:50%;border:1px solid var(--dim);background:transparent;color:var(--ink);font-size:17px;cursor:pointer;transition:background .3s,color .3s;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.btns button:hover,.btns button:focus-visible{background:var(--ink);color:var(--deep);outline:none}
+.go{display:inline-flex;align-items:center;gap:14px;height:var(--btn);padding:0 clamp(18px,1.6vw,26px);border:1px solid var(--dim);border-radius:999px;text-decoration:none;font-size:clamp(10px,.2vw + 8px,12px);letter-spacing:.22em;text-transform:uppercase;transition:background .35s,color .35s,gap .35s;white-space:nowrap;background:transparent;color:var(--ink);font-family:inherit;cursor:pointer}
+.go:hover,.go:focus-visible{background:var(--ink);color:var(--deep);gap:22px;outline:none}
+
+.links{background:var(--navy)}
+.link-list{display:grid;border-top:1px solid var(--line)}
+.link-list a{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:clamp(20px,2.2vw,44px) 0;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .45s var(--ease)}
+.link-list a:hover,.link-list a:focus-visible{padding-left:24px;outline:none}
+.link-list .t{font-family:var(--display);font-weight:300;font-size:clamp(28px,3.6vw,80px);line-height:1;letter-spacing:-.03em}
+.link-list .d{display:block;font-family:var(--body);font-size:clamp(12px,.25vw + 10px,15px);color:var(--mut);margin-top:10px;letter-spacing:0}
+.link-list .arr{font-size:clamp(24px,2.4vw,48px);font-weight:200}
+footer{padding-block:36px;font-size:13px;color:var(--mut)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.w>span{display:inline-block}
+:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+[hidden]{display:none!important}
+
+/* ритм блоков айдентики */
+section.idg{padding-top:var(--gap)!important;padding-bottom:0!important}
+section.idg.last{padding-bottom:var(--gap)!important}
+.logo-sec.idg .in{padding:0 var(--gutr) 0 var(--gut);gap:clamp(24px,3vw,48px)}
+.logo-sec.idg .logo-stage{padding-block:clamp(32px,5vw,90px)}
+
+@media (max-width:1100px){:root{--gap:clamp(80px,10vw,120px)}}
+@media (max-width:820px){
+  section{padding-block:clamp(44px,11vw,72px)}
+  .sec-head{margin-bottom:24px}
+  .top .bar{height:52px}
+  .top.solid .bar{margin:10px 0 0;height:48px;padding-inline:18px}
+  .top .wrap{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+  .top:not(.solid) .wrap{padding-left:var(--gut);padding-right:var(--gutr)}
+  .hero h1{width:66vw}
+  .hero .sub{font-size:15px;max-width:20em}
+  .hero .meta div:last-child{grid-column:1/-1}
+  .slogan{font-size:12px}
+}
+@media (max-width:700px){
+  :root{--gap:72px;--btn:46px}
+  .sl-ui{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px 20px}
+  .sl-ui .count{min-width:0;font-size:20px}
+  .sl-ui .btns{grid-column:1;grid-row:2}
+  .sl-ui .go{grid-column:2;grid-row:2;justify-self:end;padding:0 18px}
+}
+@media (max-width:430px){.sl-ui .go .hs{display:none}}
+.io .rv,.io [data-stagger]>*{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+.io .rv.vis,.io [data-stagger]>*.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.pat .card .gr img{clip-path:none;opacity:1}}
+
+/* ===== бренд в пространстве: редакционная раскладка ===== */
+#space{padding-bottom:clamp(64px,6.5vw,130px)}
+.env-hero{position:relative;overflow:hidden;aspect-ratio:21/9;max-height:92svh;margin:0 0 clamp(48px,6vw,120px)}
+.env-hero img,.env-a img,.env-b img,.env-c img{width:100%;height:100%;object-fit:cover}
+.env-hero img{transform:scale(1.08);object-position:50% 18%}
+.env-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,22,28,0) 55%,rgba(16,22,28,.55) 100%);pointer-events:none}
+.env-hero figcaption{position:absolute;left:0;right:0;bottom:clamp(18px,2vw,36px);z-index:2}
+.env-a,.env-b,.env-c{display:grid;gap:clamp(20px,2.4vw,48px);align-items:end}
+.env-a figure,.env-b figure,.env-c figure{margin:0;overflow:hidden;position:relative}
+.env-a figure img,.env-b figure img,.env-c figure img{transform:scale(1.08)}
+.env-q{font-family:var(--display);font-weight:300;font-size:clamp(26px,3vw,60px);line-height:1.1;letter-spacing:-.03em;margin-bottom:clamp(16px,1.6vw,28px);text-wrap:balance}
+.env-txt .muted{max-width:30em}
+.env-p{aspect-ratio:4/5}
+.env-w{display:grid;gap:16px}
+.env-w .fr,.env-w2 .fr{aspect-ratio:6/5;overflow:hidden}
+.env-w img{display:block}
+.env-b figcaption,.env-c figcaption{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;max-width:34em;padding-top:4px}
+.env-b figcaption .n,.env-c figcaption .n,.env-strip-h .n{font-family:var(--display);font-size:clamp(14px,1vw,20px);color:var(--sky);grid-row:span 2}
+.env-b figcaption span:nth-child(2),.env-c figcaption span:nth-child(2),.env-strip-h p>span:first-child{font-family:var(--display);font-weight:300;font-size:clamp(17px,1.2vw,24px);letter-spacing:-.02em;color:var(--ink)}
+.env-b figcaption .muted,.env-c figcaption .muted{font-size:clamp(13px,.3vw + 10px,16px)}
+.env-s,.env-s2{aspect-ratio:4/5}
+.env-b,.env-c{margin-top:clamp(56px,7vw,140px)}
+.env-w{overflow:visible!important}
+
+.env-w2{display:grid;gap:16px;overflow:visible!important}
+@media (min-width:900px){
+  .env-a{grid-template-columns:repeat(12,minmax(0,1fr))}
+  .env-a .env-txt{grid-column:1/7;align-self:center;padding-bottom:6vw}
+  .env-a .env-p{grid-column:8/13;margin-top:-4vw}
+  .env-b{grid-template-columns:repeat(12,minmax(0,1fr));align-items:start}
+  .env-b .env-w{grid-column:1/9}
+  .env-b .env-s{grid-column:9/13;margin-top:18vw}
+  .env-c{grid-template-columns:repeat(12,minmax(0,1fr));align-items:start}
+  .env-c .env-s2{grid-column:1/6;margin-top:10vw}
+  .env-c .env-w2{grid-column:6/13}
+}
+@media (max-width:899px){.env-hero{aspect-ratio:4/3}.env-s,.env-s2{width:72%;margin-left:auto}.env-c .env-s2{margin-left:0}}
+.env-strip{margin-top:clamp(72px,8vw,160px)}
+.env-strip-h{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;margin-bottom:clamp(20px,2vw,36px)}
+.env-strip-h p{display:grid;gap:4px;max-width:40em}
+.env-strip-h p .muted{font-size:clamp(13px,.3vw + 10px,16px)}
+.marq{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.marq-t{display:flex;gap:clamp(10px,1vw,18px);width:max-content;animation:marq 70s linear infinite}
+.marq:hover .marq-t{animation-play-state:paused}
+.marq figure{margin:0;height:clamp(200px,20vw,320px);flex:none;overflow:hidden}
+.marq img{height:100%;width:auto;display:block;transition:transform 1.2s var(--ease)}
+.marq figure:hover img{transform:scale(1.05)}
+@keyframes marq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marq{overflow-x:auto}.marq-t{animation:none}}
+
+/* ===== v2 ===== */
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* hero v2: живой шейдерный градиент, логотип по центру, линия слогана */
+.hero{background:#16222D}
+.hero .fx{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+.hero.gl .flow{display:none}
+.hero::after{background:radial-gradient(120% 80% at 50% 45%,rgba(16,22,28,0) 40%,rgba(16,22,28,.35) 100%),linear-gradient(180deg,rgba(16,22,28,.2) 0%,rgba(16,22,28,0) 22%,rgba(16,22,28,0) 62%,rgba(16,22,28,.62) 100%)}
+.hero-c{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--gutr) 18svh var(--gut);pointer-events:none}
+.hero-logo{width:min(46vw,760px);filter:drop-shadow(0 24px 60px rgba(16,22,28,.28))}
+.hero-k{margin-top:clamp(22px,2.4vw,44px);font-size:clamp(15px,1.05vw,21px);color:rgba(238,242,243,.86);max-width:30em;line-height:1.5}
+.hero-in{z-index:4}
+.slogan{position:relative;display:flex;justify-content:space-between;padding-top:clamp(14px,1.2vw,22px);margin-bottom:clamp(26px,2.6vw,48px);font-family:var(--display);font-weight:300;font-size:clamp(12px,1vw,19px);letter-spacing:.02em;color:rgba(238,242,243,.92)}
+.slogan .ln{position:absolute;left:0;right:0;top:0;height:1px;background:rgba(238,242,243,.85);transform-origin:left}
+.hero .meta{border-top:0;padding-top:0}
+.hero .meta dd{color:rgba(238,242,243,.92)}
+html.js .hero-logo{opacity:0;filter:blur(18px);transform:scale(1.04);transition:opacity 1.8s var(--ease),filter 1.8s var(--ease),transform 2.2s var(--ease)}
+html.js .hero-k,html.js .slogan span,html.js .hero .meta>div{opacity:0;transform:translateY(16px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+html.js .slogan .ln{transform:scaleX(0);transition:transform 1.8s cubic-bezier(.65,0,.15,1)}
+html.js .hero.in .hero-logo{opacity:1;filter:blur(0);transform:none}
+html.js .hero.in .hero-k,html.js .hero.in .slogan span,html.js .hero.in .meta>div{opacity:1;transform:none}
+html.js .hero.in .slogan .ln{transform:none}
+html.js .hero.in .hero-k{transition-delay:.6s}
+html.js .hero.in .slogan .ln{transition-delay:.8s}
+html.js .hero.in .slogan span:nth-of-type(1){transition-delay:1.2s}html.js .hero.in .slogan span:nth-of-type(2){transition-delay:1.3s}html.js .hero.in .slogan span:nth-of-type(3){transition-delay:1.4s}html.js .hero.in .slogan span:nth-of-type(4){transition-delay:1.5s}
+html.js .hero.in .meta>div:nth-child(1){transition-delay:1.5s}html.js .hero.in .meta>div:nth-child(2){transition-delay:1.6s}html.js .hero.in .meta>div:nth-child(3){transition-delay:1.7s}html.js .hero.in .meta>div:nth-child(4){transition-delay:1.8s}
+@media (max-width:820px){
+  .hero-c{padding-bottom:22svh}
+  .hero-logo{width:74vw}
+  .hero-k{font-size:15px;max-width:20em}
+  .slogan{font-size:12px;margin-bottom:0}
+  .hero .title{padding-bottom:max(30px,env(safe-area-inset-bottom,0px))}
+  .hero .meta-m{margin-top:18px}
+}
+
+/* graphics v2 */
+.gfx2{display:grid;gap:clamp(12px,1.2vw,24px)}
+.gfx2 figure{position:relative;overflow:hidden;background:#1a232c}
+.gfx2 img{width:100%;height:100%;object-fit:cover}
+.gfx2 figcaption{position:absolute;left:clamp(14px,1.4vw,26px);bottom:clamp(12px,1.2vw,22px);font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.86);text-shadow:0 1px 10px rgba(0,0,0,.5)}
+@media (min-width:900px){.gfx2{grid-template-columns:.82fr 1.6fr}.gfx2 figure{aspect-ratio:auto;height:clamp(420px,42vw,780px)}}
+@media (max-width:899px){.gfx2 figure:first-child{aspect-ratio:4/5}.gfx2 figure:last-child{aspect-ratio:16/10}}
+
+/* носители v2: ряды с общей высотой, подписи */
+.carr{display:grid;gap:clamp(28px,3vw,56px)}
+.crow{display:flex;gap:clamp(10px,1.2vw,22px);align-items:flex-start}
+.crow figure{flex:var(--a) 1 0;min-width:0;display:grid;gap:14px}
+.crow .im{overflow:hidden;aspect-ratio:var(--a);background:#e9ecee}
+.crow .im.dk{background:#0d1217}
+.crow img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.crow figure:hover img{transform:scale(1.03)}
+.crow figcaption{display:grid;gap:4px}
+.crow figcaption b{font-family:var(--display);font-weight:300;font-size:clamp(16px,1.15vw,23px);letter-spacing:-.02em;line-height:1.2}
+.crow figcaption span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px)}
+@media (max-width:700px){.crow{flex-direction:column}.crow figure{flex:none;width:100%}}
+@media (min-width:701px) and (max-width:1000px){.crow.three{flex-wrap:wrap}.crow.three figure{flex:0 0 calc(50% - 11px)}}
+
+/* бренд в среде v2: редакционная сетка */
+.ed{display:grid;gap:clamp(12px,1.4vw,26px);grid-template-columns:repeat(12,minmax(0,1fr))}
+.ed figure{margin:0;display:grid;gap:12px;align-content:start}
+.ed .fr{position:relative;overflow:hidden;background:#1a232c}
+.ed .fr img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transform-origin:50% 50%}
+.ed figcaption{display:flex;gap:14px;align-items:baseline;font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.ed figcaption i{font-style:normal;font-family:var(--display);letter-spacing:0;color:var(--sky)}
+.ed .say{display:grid;align-content:end;gap:18px;padding-bottom:4px}
+.ed .say p{font-family:var(--display);font-weight:300;font-size:clamp(22px,2vw,42px);line-height:1.15;letter-spacing:-.03em}
+.ed .say span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px);max-width:26em}
+.e1{grid-column:1/8}.e1 .fr{aspect-ratio:1422/1130}
+.e2{grid-column:9/13;align-self:start;margin-top:clamp(40px,6vw,120px)}.e2 .fr{aspect-ratio:646/1006}
+.e3{grid-column:9/13;grid-row:2;align-self:end}
+.e1{grid-row:1/3}
+.e2{grid-row:1}
+.e4{grid-column:1/5}.e4 .fr{aspect-ratio:716/658}
+.e5{grid-column:6/13}.e5 .fr{aspect-ratio:1202/1010}
+.e6{grid-column:1/5}.e7{grid-column:5/9}.e8{grid-column:9/13}
+.e6 .fr,.e7 .fr,.e8 .fr{aspect-ratio:4/5}
+.e9{grid-column:2/8}.e9 .fr{aspect-ratio:694/590}
+.e10{grid-column:8/13}.e10 .fr{aspect-ratio:1086/890}
+.ed .row-gap{grid-column:1/-1;height:clamp(24px,4vw,80px)}
+.bigline{grid-column:1/-1;font-family:var(--display);font-weight:300;font-size:clamp(34px,5.6vw,120px);line-height:1;letter-spacing:-.04em;padding-block:clamp(30px,5vw,100px);text-align:center;color:transparent;-webkit-text-stroke:1px rgba(238,242,243,.55)}
+.bigline b{font-weight:300;color:var(--ink);-webkit-text-stroke:0}
+@media (max-width:900px){
+  .ed{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ed>*{grid-column:1/-1!important;grid-row:auto!important;margin-top:0!important}
+  .e6,.e7{grid-column:auto!important}
+  .e8{grid-column:1/-1!important}.e8 .fr{aspect-ratio:4/3}
+  .e2 .fr{aspect-ratio:4/5}
+  .ed .say{padding-block:8px 20px}
+  .bigline{-webkit-text-stroke-width:.8px}
+}
+.note{margin-top:clamp(28px,3vw,52px)}
+
+/* восстановленные блоки v1 */
+.walk{aspect-ratio:16/9;max-height:100svh;width:100%;position:relative;overflow:hidden;margin:0}
+.walk img{width:100%;height:100%;object-fit:cover}
+.walk .kbw{position:absolute;inset:0;overflow:hidden}
+.walk .kb{transform-origin:40% 50%;animation:kb 22s ease-in-out infinite alternate}
+.walk::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,22,28,0) 40%,rgba(16,22,28,.5) 100%);pointer-events:none}
+.walk .quote{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 var(--gutr) clamp(32px,4vw,80px) var(--gut);display:grid;gap:16px;color:#fff}
+.walk .quote .lbl{color:rgba(255,255,255,.8)}
+.walk .q{font-family:var(--display);font-weight:300;font-size:clamp(28px,4.2vw,90px);line-height:1.04;letter-spacing:-.03em;max-width:12em;text-shadow:0 2px 30px rgba(16,22,28,.25)}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.09)}}
+@media (max-width:820px){.walk{aspect-ratio:4/5;max-height:80svh}}
+.words4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(12px,1.2vw,24px)}
+.words4 div{background:var(--deep);padding:clamp(18px,1.6vw,30px);display:grid;gap:8px;align-content:start}
+.words4 h3{font-size:clamp(18px,1.4vw,30px)}
+.words4 p{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px)}
+@media (min-width:900px){.words4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* жёсткие переопределения первого экрана */
+.hero{display:block;height:100svh;min-height:600px}
+.hero-c{position:absolute;inset:0;z-index:3;flex:none;gap:0;padding:0 var(--gutr) 18svh var(--gut)}
+.hero-in{position:absolute;left:0;right:0;bottom:0;z-index:4}
+.hero .slogan{display:flex;justify-content:space-between;gap:12px;border-top:0;padding-top:clamp(14px,1.2vw,22px);margin-bottom:clamp(26px,2.6vw,48px)}
+.hero .title{padding-bottom:0}
+.hero .meta-m{display:none}
+@media (max-width:820px){
+  .hero .meta{display:none}
+  .hero .slogan{margin-bottom:0}
+  .hero .title{padding-bottom:max(30px,env(safe-area-inset-bottom,0px))}
+  .hero .meta-m{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:18px;padding-top:0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(238,242,243,.75)}
+  .hero-c{padding-bottom:22svh}
+}
+
+/* ===== v3 ===== */
+/* первый экран без линии слогана */
+.hero .meta{border-top:1px solid rgba(238,242,243,.22);padding-top:clamp(16px,1.4vw,26px)}
+.hero-c{padding-bottom:12svh}
+@media (max-width:820px){.hero .title{padding-top:16px;border-top:1px solid rgba(238,242,243,.22)}.hero .meta-m{margin-top:0}}
+
+/* пояснительный текст в шапках разделов — по правому краю */
+@media (min-width:1000px){
+  .sec-head.two>:last-child{justify-self:end;text-align:right;max-width:38em}
+  .sec-head.two>div:last-child p{margin-left:auto}
+}
+
+/* цитата-слоган на живом градиенте */
+#quote .kbw canvas.fx{position:absolute;inset:0;width:100%;height:100%;display:block}
+#quote .kbw{background:#3b5163}
+
+/* графика: два вертикальных кадра */
+@media (min-width:900px){.gfx2{grid-template-columns:1fr 1fr}.gfx2 figure{height:auto;aspect-ratio:4/5}}
+
+/* носители: равная высота в ряду */
+.crow{align-items:stretch}
+
+/* бренд в среде: ряды равной высоты */
+.ed2{display:grid;gap:clamp(28px,3vw,56px)}
+.erow{display:flex;gap:clamp(10px,1.2vw,22px);align-items:flex-start}
+.erow figure{flex:var(--a) 1 0;min-width:0;margin:0;display:grid;gap:12px}
+.erow .fr{position:relative;overflow:hidden;aspect-ratio:var(--a);background:#1a232c}
+.erow .fr img{width:100%;height:100%;object-fit:cover;transform:scale(1.06)}
+.erow figcaption{display:flex;gap:14px;align-items:baseline;font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.erow figcaption i{font-style:normal;font-family:var(--display);letter-spacing:0;color:var(--sky)}
+@media (max-width:700px){.erow{flex-direction:column}.erow figure{flex:none;width:100%}}
+@media (min-width:701px) and (max-width:1000px){.erow.three{flex-wrap:wrap}.erow.three figure{flex:0 0 calc(50% - 11px)}}
+.say2{display:grid;gap:16px;justify-items:end;text-align:right;padding-block:clamp(8px,2vw,40px)}
+.say2 p{font-family:var(--display);font-weight:300;font-size:clamp(24px,2.6vw,54px);line-height:1.12;letter-spacing:-.03em;max-width:16em}
+.say2 span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px);max-width:28em}
+.bigline{color:var(--ink);-webkit-text-stroke:0;padding-block:clamp(20px,4vw,80px)}
+@media (max-width:700px){.say2{justify-items:start;text-align:left}}
+
+/* ===== v4 ===== */
+/* первый экран: строго по центру */
+.hero-c{left:0;right:0;padding-left:var(--gut);padding-right:var(--gut);align-items:center;text-align:center}
+.hero-logo{display:block;margin-inline:auto}
+.hero-k{margin-inline:auto;text-align:center}
+/* цитата: заголовок слева, пояснение справа, по верхнему краю */
+.say2{display:grid;grid-template-columns:1fr;gap:16px;justify-items:start;text-align:left;align-items:start}
+.say2 p{max-width:14em}
+@media (min-width:900px){.say2{grid-template-columns:1fr 1fr;gap:6vw}.say2 span{justify-self:end;text-align:right;padding-top:.6em}}
+
+/* ===== v5 ===== */
+.bigline{text-align:left}
+/* носители: разнообразная сетка */
+.carr{display:grid;gap:clamp(36px,4vw,72px)}
+.cg{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(14px,1.4vw,24px);align-items:start}
+.cg figure{margin:0;display:grid;gap:14px;min-width:0}
+.cg .im{overflow:hidden;background:#0d1217}
+.cg img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.cg figure:hover img{transform:scale(1.03)}
+.cg figcaption{display:grid;gap:4px}
+.cg figcaption b{font-family:var(--display);font-weight:300;font-size:clamp(16px,1.15vw,23px);letter-spacing:-.02em;line-height:1.2}
+.cg figcaption span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px)}
+.cg .c1{grid-column:1/6;grid-row:1/3;align-self:stretch;grid-template-rows:1fr auto}
+.cg .c1 .im{height:100%;min-height:0}
+.cg .c2{grid-column:6/9;grid-row:1}.cg .c2 .im{aspect-ratio:3/4}
+.cg .c3{grid-column:9/13;grid-row:1}.cg .c3 .im{aspect-ratio:1/1}
+.cg .c4{grid-column:6/13;grid-row:2;align-self:stretch;display:grid;align-content:space-between;gap:24px;padding:clamp(22px,2.4vw,44px);background:linear-gradient(135deg,rgba(124,166,178,.22),rgba(238,242,243,.04) 60%),rgba(16,22,28,.35);border:1px solid var(--line)}
+.cg .c4 p{font-family:var(--display);font-weight:300;font-size:clamp(24px,2.4vw,48px);line-height:1.12;letter-spacing:-.03em;max-width:12em}
+.cg .c4 span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px);max-width:30em}
+@media (max-width:900px){
+  .cg{grid-template-columns:1fr 1fr}
+  .cg .c1{grid-column:1/-1;grid-row:auto}.cg .c1 .im{height:auto;aspect-ratio:4/5}
+  .cg .c2,.cg .c3{grid-row:auto;grid-column:auto}.cg .c2 .im,.cg .c3 .im{aspect-ratio:3/4}
+  .cg .c4{grid-column:1/-1;grid-row:auto}
+}
+@media (max-width:520px){.cg{grid-template-columns:1fr}.cg .c2,.cg .c3{grid-column:1/-1}}
+/* бегущая лента предметов */
+.mq{overflow:hidden;margin-inline:calc(-1 * var(--gut)) calc(-1 * var(--gutr));-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mq-t{display:flex;gap:clamp(12px,1.2vw,22px);width:max-content;animation:mq 60s linear infinite}
+.mq:hover .mq-t{animation-play-state:paused}
+.mq-i{margin:0;display:grid;gap:12px;flex:none;height:auto}
+.mq-i .im{height:clamp(200px,20vw,320px);aspect-ratio:var(--a);overflow:hidden}
+.mq-i img{width:100%;height:100%;object-fit:cover}
+.mq-i figcaption{font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mq-t{animation:none}.mq{overflow-x:auto}}
+@media (max-width:900px){.top .mark img{opacity:1;transform:none}}
+/* v6: цитата-лента между носителями */
+.cband{display:grid;gap:16px;align-items:start;padding:clamp(28px,3.4vw,64px) clamp(22px,3vw,56px);border-block:1px solid var(--line);background:linear-gradient(110deg,rgba(124,166,178,.16),rgba(238,242,243,.02) 55%)}
+.cband p{font-family:var(--display);font-weight:300;font-size:clamp(26px,3vw,60px);line-height:1.1;letter-spacing:-.03em;max-width:13em}
+.cband span{color:var(--mut);font-size:clamp(13px,.3vw + 10px,16px);max-width:30em}
+@media (min-width:900px){.cband{grid-template-columns:1fr 1fr;gap:6vw}.cband span{justify-self:end;text-align:right;padding-top:.6em}}
+/* v7: первый экран — центр между шапкой и данными проекта */
+.hero{display:flex;flex-direction:column}
+.hero-c{position:relative;inset:auto;flex:1 1 auto;padding:94px var(--gut) 24px}
+.hero-in{position:relative;left:auto;right:auto;bottom:auto;flex:none}
+@media (max-width:820px){.hero-c{padding:72px var(--gut) 24px}}
+/* палитра на телефоне: одинаковая вёрстка всех цветов */
+@media (max-width:760px){.col{flex:none!important;align-items:flex-start;min-height:0;padding:20px}.col>span{display:none}}
+/* цитата на градиенте: без полос */
+#quote .kbw canvas.fx{image-rendering:auto}
+/* v8: планшет без пустот */
+@media (min-width:600px){.fonts{grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,64px)}.fonts .spec{font-size:clamp(34px,5vw,118px)}}
+@media (min-width:701px) and (max-width:1000px){.erow.three,.crow.three{flex-wrap:nowrap}.erow.three figure,.crow.three figure{flex:var(--a) 1 0}}
+@media (min-width:600px) and (max-width:899px){.gfx2{grid-template-columns:1fr 1fr}.gfx2 figure:first-child,.gfx2 figure:last-child{aspect-ratio:4/5}}
+@media (min-width:761px) and (max-width:1000px){.pal{flex-direction:column;height:auto}.col{flex:none!important;min-height:0;flex-direction:row;align-items:center;justify-content:space-between;gap:20px;padding:22px 28px}.col>span{display:none}.col .cd{white-space:normal;text-align:right}.col:hover{flex-grow:1}}
+@media (min-width:761px) and (max-width:1000px){.col>div{display:flex;justify-content:space-between;align-items:center;width:100%;gap:24px}.col .cd{margin-top:0}}
+</style>
+<style id="vvsz-style">:where(img[data-vvsz]){height:auto}html{scroll-behavior:auto!important}</style>
+<style id="vv-safe">@media (max-width:700px){h1,h2,h3{overflow-wrap:break-word;max-width:100%}}</style>
+<style id="vv-compat">.vv-arrow{display:inline-block;width:1em;height:1em;vertical-align:-.12em;flex:none;overflow:visible}.arr .vv-arrow{display:block}body{overflow-x:hidden;overflow-x:clip}@supports not (height:100svh){.hero,.ring__st{height:100vh}}@supports not (color:color-mix(in srgb,white,black)){:root{--mut:rgba(237,237,237,.56);--dim:rgba(237,237,237,.34);--line:rgba(237,237,237,.14)}.hdr__in{background:rgba(0,0,0,.92)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}</style></head>
+<body>
+
+
+<header class="top" id="top">
+  <div class="wrap"><div class="bar">
+    <a class="mark keep" href="#hero" aria-label="«Академия VQ» — в начало"><img decoding="async" src="i/mark.png" alt="" width="400" height="206"></a>
+    <nav aria-label="Разделы кейса">
+      <a href="#concept">Концепция</a>
+      <a class="keep" href="#identity">Айдентика</a>
+      <a href="#print">Носители</a>
+      <a href="#space">Бренд в среде</a>
+      <a href="#brandbook">Гайдлайн</a>
+    </nav>
+  </div></div>
+</header>
+
+<section class="hero" id="hero">
+  <canvas class="fx" aria-hidden="true"></canvas>
+  <div class="flow" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><i class="b5"></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="hero-c">
+    <h1 class="sr">Академия VQ — фирменный стиль</h1>
+    <img decoding="async" class="hero-logo" src="i/logo.png" srcset="i/sm/logo.png 900w, i/logo.png 1600w" sizes="(max-width:820px) 74vw, 760px" alt="Логотип «Академия VQ»" width="1600" height="731">
+    <p class="hero-k">Фирменный стиль образовательной платформы о развитии жизненного потенциала</p>
+  </div>
+  <div class="hero-in">
+    <div class="wrap title">
+      <p class="meta-m"><span>ГК&nbsp;«Интеллект»</span><span>2025</span><span>Графический дизайнер</span></p>
+    </div>
+    <dl class="meta wrap">
+      <div><dt>Заказчик</dt><dd>ГК&nbsp;«Интеллект»</dd></div>
+      <div><dt>Год</dt><dd>2025</dd></div>
+      <div><dt>Роль</dt><dd>Графический дизайнер</dd></div>
+      <div><dt>Объём</dt><dd><span class="nw">Концепция&nbsp;·</span> <span class="nw">Логотип&nbsp;·</span> <span class="nw">Гайдлайн&nbsp;·</span> <span class="nw">Полиграфия&nbsp;·</span> <span class="nw">Мерч</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="intro">
+  <div class="wrap">
+    <p class="eyebrow rv" style="margin-bottom:24px">Ключевая идея</p>
+    <p class="thesis split">Знания, самореализация и <em>энергия</em>, соединённые в одной точке</p>
+    <div class="cols">
+      <div class="rv">
+        <p class="k">Задача</p>
+        <p>Разработать фирменный стиль «Академии VQ» — образовательной платформы, построенной вокруг понятия VQ (vitality quotient), коэффициента жизненной силы.</p>
+        <p>Стиль должен был отделить академию от типовых онлайн-курсов, показать её как среду для развития и одинаково хорошо работать на любых носителях — от визитки до мерча.</p>
+      </div>
+      <div class="rv">
+        <p class="k">Что должен транслировать стиль</p>
+        <ul>
+          <li>Личный рост и движение вперёд</li>
+          <li>Союз энергии и осознанности</li>
+          <li>Научную глубину и ясность мышления</li>
+          <li>Современную образовательную среду</li>
+        </ul>
+      </div>
+      <div class="rv">
+        <p class="k">Выполненные работы</p>
+        <ul>
+          <li>Концепция и визуальный язык</li>
+          <li>Логотип и фирменный знак</li>
+          <li>Модульная сетка, охранное поле, правила масштабирования</li>
+          <li>Палитра, типографика, фирменная графика</li>
+          <li>Полиграфия: бланк, визитка, пропуск, конверт, флаер, коробка</li>
+          <li>Мерч: ручка, кружка</li>
+          <li>Гайдлайн</li>
+          <li>Визуализация бренда в пространстве</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vq" class="navy">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">О бренде</p><h2 class="split">Коэффициент жизненной силы</h2></div>
+      <div class="rv" style="display:grid;gap:14px">
+        <p class="lead">VQ — это способность человека направлять свой потенциал на улучшение качества жизни и вдохновлять других. Чем выше VQ, тем быстрее человек учится и развивается, а значит, получает устойчивое преимущество.</p>
+        <p class="muted">На этой идее построено позиционирование академии: здесь проходят путь от освоения новых навыков до роли наставника.</p>
+      </div>
+    </div>
+    <ol class="rows">
+      <li class="rv"><span class="n">01</span><h3>Новые навыки</h3><p>Практические знания, с которых начинается развитие.</p></li>
+      <li class="rv"><span class="n">02</span><h3>Качество жизни</h3><p>Обучение, которое приводит к ощутимым изменениям, а не к формальному сертификату.</p></li>
+      <li class="rv"><span class="n">03</span><h3>Цели и ценности</h3><p>Понимание, куда направить свою энергию.</p></li>
+      <li class="rv"><span class="n">04</span><h3>Лидерство</h3><p>Способность управлять своей жизнью и становиться наставником для других.</p></li>
+    </ol>
+  </div>
+</section>
+
+<figure class="bleed walk" id="quote"><div class="kbw"><canvas class="fx" aria-hidden="true"></canvas></div>
+  <figcaption class="quote"><span class="lbl">Слоган — смысловая основа стиля</span><p class="q split">Жизнь. Энергия. Сила. Мотивация.</p></figcaption></figure>
+
+<section id="concept" class="idg">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Концепция</p><h2 class="split">Градиент как путь развития</h2></div>
+      <p class="lead muted rv">Главный визуальный элемент — градиент. Он передаёт переход от неосознанного к целенаправленному: момент, когда интуитивный импульс превращается в структурированное знание.</p>
+    </div>
+    <div class="assoc" data-stagger>
+      <div><h3>Хаос&nbsp;<b><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></b> фокус</h3><p>Размытые цветовые поля — исходное состояние. Чёткий знак поверх них — точка фокуса.</p></div>
+      <div><h3>Пассивность&nbsp;<b><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></b> действие</h3><p>Градиент всегда в движении, как человек, который постоянно учится и усиливает свой VQ.</p></div>
+      <div><h3>Сомнение&nbsp;<b><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></b> ясность</h3><p>Цвет переходит от глубокого синего к светлому голубому и белому — от потенциала к его реализации.</p></div>
+      <div><h3>Энергия&nbsp;<b>+</b> разум</h3><p>Интуиция и знание объединены в одном образе — так же, как буквы V и Q в знаке.</p></div>
+    </div>
+    <div class="concept-text">
+      <p class="name split">Не просто образовательная платформа, а экосистема развития жизненного потенциала</p>
+      <p class="rv">Идея стиля — слияние: знания, самореализация и энергия встречаются в одной точке. Поэтому градиент собран только из фирменных цветов, а логотип построен на соединении двух букв. Оба элемента говорят об одном и том же — о цельности и движении.</p>
+    </div>
+  </div>
+</section>
+
+<section class="logo-sec idg" id="identity">
+  <div class="in wrap">
+    <div class="row"><h2 class="split">Логотип</h2><span class="lbl">Визуальная идентификация</span></div>
+    <div class="logo-stage"><div class="logo-mark" data-on><img decoding="async" src="i/logo.png" srcset="i/sm/logo.png 900w, i/logo.png 1600w" sizes="(max-width:700px) 70vw, 600px" alt="Логотип «Академия VQ»" width="1600" height="731"></div></div>
+    <div class="row bot"><div class="desc rv">
+      <p>Знак построен на слиянии. Буквы V и Q не стоят рядом, а перетекают друг в друга, как молекулы или нейронные связи. Так знак выражает:</p>
+      <ul><li>цельность личности;</li><li>союз энергии (V) и осознанности (Q);</li><li>непрерывную передачу знаний и мотивации.</li></ul>
+    </div></div>
+  </div>
+</section>
+
+<section id="construct" class="idg">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Визуальная идентификация</p><h2 class="split">Конструкция и правила</h2></div>
+      <p class="lead muted rv">Логотип существует в двух версиях. Фирменный знак используется на ручках, кружках, коробках и обороте полиграфии. Основной логотип со шрифтовым блоком — на лицевой стороне бланков, визиток, флаеров и конвертов.</p>
+    </div>
+    <div class="pat">
+      <div class="card"><div><p class="k">Модульная сетка</p><h3>Модуль из буквы «и»</h3></div><div class="gr"><img decoding="async" src="i/grid.png" alt="Модульная сетка логотипа: 13x, 3,9x, 7x, 1x" loading="lazy" width="1880" height="1240"></div><p>Вся конструкция построена на модуле 1x, взятом из буквы «и» в шрифтовой части. Поэтому знак и надпись связаны общими пропорциями, а не просто выровнены относительно друг друга.</p></div>
+      <div class="card"><div><p class="k">Охранное поле</p><h3>Свободная зона вокруг знака</h3></div><div class="gr"><img decoding="async" src="i/field.png" alt="Охранное поле фирменного знака" loading="lazy" width="1780" height="960"></div><p>Размер охранного поля равен знаку, уменьшенному в 1,5 раза. В этой зоне не размещаются другие элементы, чтобы знак считывался цельно.</p></div>
+    </div>
+    <div class="facts" data-stagger>
+      <div><b>15×10 мм</b><span>минимальный размер логотипа</span></div>
+      <div><b>8×5 мм</b><span>минимальный размер знака</span></div>
+      <div><b>4</b><span>цветовые версии: синий, голубой, чёрный и белый на градиенте</span></div>
+      <div><b>6</b><span>запретов: тень, искажение, контур, обводка, сложный фон, нефирменные цвета</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="palette" class="idg">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Визуальная идентификация</p><h2 class="split">Цветовая палитра</h2></div>
+      <p class="lead muted rv">Синий, голубой и белый отражают ценности академии: научную глубину, личностный рост и ясность мышления. Из этих же цветов строится фирменный градиент — основной фон для логотипа и носителей.</p>
+    </div>
+    <div class="pal" data-pal>
+      <div class="col dark" style="--f:2;background:#283C4E"><span></span><div><p class="nm">Фирменный синий</p><p class="cd">#283C4E<br>RGB 40 60 78<br>CMYK 87 66 45 44</p></div></div>
+      <div class="col" style="--f:1.8;background:#7CA6B2"><span></span><div><p class="nm">Фирменный голубой</p><p class="cd">#7CA6B2<br>RGB 124 166 178<br>CMYK 56 22 26 3</p></div></div>
+      <div class="col" style="--f:1.3;background:#FFFFFF"><span></span><div><p class="nm">Белый</p><p class="cd">#FFFFFF<br>RGB 255 255 255<br>CMYK 0 0 0 0</p></div></div>
+      <div class="col dark" style="--f:1.3;background:#1D1D1B;box-shadow:inset 1px 0 0 var(--line)"><span></span><div><p class="nm">Чёрный</p><p class="cd">#1D1D1B<br>RGB 29 29 27<br>CMYK 0 0 0 100</p></div></div>
+      <div class="col dark" style="--f:2.2;background-image:url(i/sm/grad-wide.jpg)"><span></span><div><p class="nm">Фирменный градиент</p><p class="cd">Синий #283C4E<br>Голубой #7CA6B2<br>Белый #FFFFFF</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="type" class="idg">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Визуальная идентификация</p><h2 class="split">Типографика</h2></div>
+      <p class="lead muted rv">Unbounded — современный гротеск с широкими округлыми формами — используется в шрифтовой части логотипа. Manrope — нейтральный и хорошо читаемый гротеск для носителей и гайдлайна. Оба шрифта применяются в начертании Light, которое создаёт ощущение лёгкости и ясности.</p>
+    </div>
+    <div class="fonts">
+      <div class="rv"><p class="lbl">Логотип</p><p class="spec d">Unbounded<br>Light</p><p class="abc d">АаБбВвГг 0123456789</p></div>
+      <div class="rv"><p class="lbl">Носители и гайдлайн</p><p class="spec b">Manrope<br>Light</p><p class="abc">АаБбВвГгДдЕеЁёЖж 0123456789</p></div>
+    </div>
+    <p class="rule-name rv">В шрифтовом блоке логотипа рисунок букв Unbounded доработан вручную: это повышает выразительность и читаемость на малых размерах.</p>
+  </div>
+</section>
+
+<section id="graphics" class="idg last">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Фирменная графика</p><h2 class="split">Градиент и слоган</h2></div>
+      <p class="lead muted rv">Графика строится на градиентах — от глубоких насыщенных оттенков к ярким и светлым. Слоган «Жизнь. Энергия. Сила. Мотивация.» встроен в стиль как его смысловая основа: тонкая линия и четыре слова поверх градиента.</p>
+    </div>
+    <div class="gfx2" data-stagger>
+      <figure><img decoding="async" src="i/p-dipL.jpg" srcset="i/sm/p-dipL.jpg 838w, i/p-dipL.jpg 1676w" sizes="(max-width:900px) 100vw, 70vw" alt="Слоган на обложке блокнота" loading="lazy" width="1676" height="2036"><figcaption>Слоган на обложке</figcaption></figure>
+      <figure><img decoding="async" src="i/p-sleeve.jpg" srcset="i/sm/p-sleeve.jpg 759w, i/p-sleeve.jpg 1518w" sizes="(max-width:900px) 100vw, 70vw" alt="Чехол с фирменным градиентом" loading="lazy" width="1518" height="2036"><figcaption>Градиент как фактура</figcaption></figure>
+    </div>
+    <div class="words4" data-stagger>
+      <div><h3>Жизнь</h3><p>Рост и движение</p></div>
+      <div><h3>Энергия</h3><p>Внутренний импульс</p></div>
+      <div><h3>Сила</h3><p>Устойчивость и уверенность</p></div>
+      <div><h3>Мотивация</h3><p>Импульс, который запускает трансформацию</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="print" class="navy">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Полиграфия и мерч</p><h2 class="split">Носители</h2></div>
+      <p class="lead muted rv">Принцип един для всех предметов: градиент работает как обложка и фактура, знак — как подпись. Визуализации носителей созданы с помощью генеративных нейросетей, технические параметры печати зафиксированы в гайдлайне.</p>
+    </div>
+    <div class="carr">
+
+<div class="crow rv"><figure style="--a:0.7475"><div class="im dk"><img decoding="async" src="i/p-giftbox.jpg" srcset="i/sm/p-giftbox.jpg 761w, i/p-giftbox.jpg 1522w" sizes="(max-width:900px) 100vw, 70vw" alt="Приветственный набор" loading="lazy" width="1522" height="2036"></div><figcaption><b>Приветственный набор</b><span>Блокнот, бутылка и карты в коробке с градиентом</span></figcaption></figure><figure style="--a:0.6660"><div class="im dk"><img decoding="async" src="i/p-dipR.jpg" srcset="i/sm/p-dipR.jpg 678w, i/p-dipR.jpg 1356w" sizes="(max-width:900px) 100vw, 70vw" alt="Бейдж участника" loading="lazy" width="1356" height="2036"></div><figcaption><b>Бейдж участника</b><span>Лента и карта с фирменным градиентом</span></figcaption></figure><figure style="--a:0.7475"><div class="im dk"><img decoding="async" src="i/p-tote.jpg" srcset="i/sm/p-tote.jpg 761w, i/p-tote.jpg 1522w" sizes="(max-width:900px) 100vw, 70vw" alt="Шопер" loading="lazy" width="1522" height="2036"></div><figcaption><b>Шопер</b><span>Градиент на всю площадь ткани</span></figcaption></figure></div>
+<div class="cband rv"><p>«Люди с высоким VQ меняют мир»</p><span>Фирменные фразы на носителях обращаются к участнику напрямую и продолжают идею бренда: развитие начинается с внутренней энергии.</span></div>
+<div class="mq rv" aria-label="Носители: бутылка, сертификат, шопер, ноутбук, конверт, книга, кружка"><div class="mq-t"><figure class="mq-i" style="--a:0.9390"><div class="im"><img decoding="async" src="i/p-bottle.jpg" srcset="i/sm/p-bottle.jpg 354w, i/p-bottle.jpg 708w" sizes="(max-width:700px) 360px, 560px" alt="Бутылка" loading="lazy" width="708" height="754"></div><figcaption>Бутылка</figcaption></figure><figure class="mq-i" style="--a:1.6885"><div class="im"><img decoding="async" src="i/p-cert.jpg" srcset="i/sm/p-cert.jpg 515w, i/p-cert.jpg 1030w" sizes="(max-width:700px) 360px, 560px" alt="Сертификат" loading="lazy" width="1030" height="610"></div><figcaption>Сертификат</figcaption></figure><figure class="mq-i" style="--a:1.1804"><div class="im"><img decoding="async" src="i/p-itote.jpg" srcset="i/sm/p-itote.jpg 445w, i/p-itote.jpg 890w" sizes="(max-width:700px) 360px, 560px" alt="Шопер в городе" loading="lazy" width="890" height="754"></div><figcaption>Шопер в городе</figcaption></figure><figure class="mq-i" style="--a:1.2371"><div class="im"><img decoding="async" src="i/p-laptop.jpg" srcset="i/sm/p-laptop.jpg 407w, i/p-laptop.jpg 814w" sizes="(max-width:700px) 360px, 560px" alt="Ноутбук" loading="lazy" width="814" height="658"></div><figcaption>Ноутбук</figcaption></figure><figure class="mq-i" style="--a:1.0623"><div class="im"><img decoding="async" src="i/p-envelope.jpg" srcset="i/sm/p-envelope.jpg 324w, i/p-envelope.jpg 648w" sizes="(max-width:700px) 360px, 560px" alt="Конверт и открытка" loading="lazy" width="648" height="610"></div><figcaption>Конверт и открытка</figcaption></figure><figure class="mq-i" style="--a:1.3593"><div class="im"><img decoding="async" src="i/p-book2.jpg" srcset="i/sm/p-book2.jpg 401w, i/p-book2.jpg 802w" sizes="(max-width:700px) 360px, 560px" alt="Книга" loading="lazy" width="802" height="590"></div><figcaption>Книга</figcaption></figure><figure class="mq-i" style="--a:0.9264"><div class="im"><img decoding="async" src="i/p-mug.jpg" srcset="i/sm/p-mug.jpg 466w, i/p-mug.jpg 932w" sizes="(max-width:700px) 360px, 560px" alt="Кружка и блокнот" loading="lazy" width="932" height="1006"></div><figcaption>Кружка и блокнот</figcaption></figure><figure class="mq-i" aria-hidden="true" style="--a:0.9390"><div class="im"><img decoding="async" src="i/p-bottle.jpg" srcset="i/sm/p-bottle.jpg 354w, i/p-bottle.jpg 708w" sizes="(max-width:700px) 360px, 560px" alt="Бутылка" loading="lazy" width="708" height="754"></div><figcaption>Бутылка</figcaption></figure><figure class="mq-i" aria-hidden="true" style="--a:1.6885"><div class="im"><img decoding="async" src="i/p-cert.jpg" srcset="i/sm/p-cert.jpg 515w, i/p-cert.jpg 1030w" sizes="(max-width:700px) 360px, 560px" alt="Сертификат" loading="lazy" width="1030" height="610"></div><figcaption>Сертификат</figcaption></figure><figure class="mq-i" aria-hidden="true" style="--a:1.1804"><div class="im"><img decoding="async" src="i/p-itote.jpg" srcset="i/sm/p-itote.jpg 445w, i/p-itote.jpg 890w" sizes="(max-width:700px) 360px, 560px" alt="Шопер в городе" loading="lazy" width="890" height="754"></div><figcaption>Шопер в городе</figcaption></figure><figure class="mq-i" aria-hidden="true" style="--a:1.2371"><div class="im"><img decoding="async" src="i/p-laptop.jpg" srcset="i/sm/p-laptop.jpg 407w, i/p-laptop.jpg 814w" sizes="(max-width:700px) 360px, 560px" alt="Ноутбук" loading="lazy" width="814" height="658"></div><figcaption>Ноутбук</figcaption></figure><figure class="mq-i" aria-hidden="true" style="--a:1.0623"><div class="im"><img decoding="async" src="i/p-envelope.jpg" srcset="i/sm/p-envelope.jpg 324w, i/p-envelope.jpg 648w" sizes="(max-width:700px) 360px, 560px" alt="Конверт и открытка" loading="lazy" width="648" height="610"></div><figcaption>Конверт и открытка</figcaption></figure><figure class="mq-i" aria-hidden="true" style="--a:1.3593"><div class="im"><img decoding="async" src="i/p-book2.jpg" srcset="i/sm/p-book2.jpg 401w, i/p-book2.jpg 802w" sizes="(max-width:700px) 360px, 560px" alt="Книга" loading="lazy" width="802" height="590"></div><figcaption>Книга</figcaption></figure><figure class="mq-i" aria-hidden="true" style="--a:0.9264"><div class="im"><img decoding="async" src="i/p-mug.jpg" srcset="i/sm/p-mug.jpg 466w, i/p-mug.jpg 932w" sizes="(max-width:700px) 360px, 560px" alt="Кружка и блокнот" loading="lazy" width="932" height="1006"></div><figcaption>Кружка и блокнот</figcaption></figure></div></div>
+<div class="crow rv"><figure style="--a:1.7119"><div class="im dk"><img decoding="async" src="i/p-lpress.jpg" srcset="i/sm/p-lpress.jpg 505w, i/p-lpress.jpg 1010w" sizes="(max-width:900px) 100vw, 70vw" alt="Брендированная стена" loading="lazy" width="1010" height="590"></div><figcaption><b>Брендированная стена</b><span>Объёмный знак на фоне фирменного градиента</span></figcaption></figure><figure style="--a:1.1627"><div class="im dk"><img decoding="async" src="i/p-hoodie.jpg" srcset="i/sm/p-hoodie.jpg 343w, i/p-hoodie.jpg 686w" sizes="(max-width:900px) 100vw, 70vw" alt="Худи" loading="lazy" width="686" height="590"></div><figcaption><b>Худи</b><span>Мерч для участников и команды</span></figcaption></figure></div>
+
+    </div>
+  </div>
+</section>
+
+<section id="space">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Визуализация</p><h2 class="split">Бренд в среде академии</h2></div>
+      <p class="lead muted rv">Чтобы показать, как стиль работает за пределами печатных носителей, пространство академии визуализировано с помощью генеративных нейросетей: ресепшн, пресс-волл, лаунж-зона, рабочие места. В интерьере градиент становится мягкими световыми волнами, а палитра остаётся сине-голубой.</p>
+    </div>
+
+<div class="ed2">
+  <div class="erow "><figure style="--a:1.3238"><div class="fr" data-par><img decoding="async" src="i/m-reception.jpg" srcset="i/sm/m-reception.jpg 691w, i/m-reception.jpg 1382w" sizes="(max-width:900px) 100vw, 70vw" alt="Ресепшн: знак и девиз" loading="lazy" width="1382" height="1044"></div><figcaption><i>01</i>Ресепшн: знак и девиз</figcaption></figure><figure style="--a:1.1048"><div class="fr" data-par><img decoding="async" src="i/p-stote.jpg" srcset="i/sm/p-stote.jpg 643w, i/p-stote.jpg 1286w" sizes="(max-width:900px) 100vw, 70vw" alt="Шопер в городе" loading="lazy" width="1286" height="1164"></div><figcaption><i>02</i>Шопер в городе</figcaption></figure></div>
+  <div class="say2 rv"><p>«Пространство для интеллектуального роста»</p><span>Фирменная фраза работает как подпись к знаку на стенах, обложках и экранах.</span></div>
+  <div class="erow "><figure style="--a:1.4132"><div class="fr" data-par><img decoding="async" src="i/n-office.jpg" srcset="i/sm/n-office.jpg 708w, i/n-office.jpg 1416w" sizes="(max-width:900px) 100vw, 70vw" alt="Пресс-волл с градиентом" loading="lazy" width="1416" height="1002"></div><figcaption><i>03</i>Пресс-волл с градиентом</figcaption></figure><figure style="--a:0.8027"><div class="fr" data-par><img decoding="async" src="i/m-more.jpg" srcset="i/sm/m-more.jpg 419w, i/m-more.jpg 838w" sizes="(max-width:900px) 100vw, 70vw" alt="Девиз в интерьере" loading="lazy" width="838" height="1044"></div><figcaption><i>04</i>Девиз в интерьере</figcaption></figure></div>
+  <p class="bigline rv">Больше, чем обучение</p>
+  <div class="erow three"><figure style="--a:1.1186"><div class="fr" data-par><img decoding="async" src="i/m-terrace.jpg" srcset="i/sm/m-terrace.jpg 547w, i/m-terrace.jpg 1094w" sizes="(max-width:900px) 100vw, 70vw" alt="Вид с террасы" loading="lazy" width="1094" height="978"></div><figcaption><i>05</i>Вид с террасы</figcaption></figure><figure style="--a:1.0838"><div class="fr" data-par><img decoding="async" src="i/m-lounge.jpg" srcset="i/sm/m-lounge.jpg 530w, i/m-lounge.jpg 1060w" sizes="(max-width:900px) 100vw, 70vw" alt="Лаунж-зона" loading="lazy" width="1060" height="978"></div><figcaption><i>06</i>Лаунж-зона</figcaption></figure><figure style="--a:1.2202"><div class="fr" data-par><img decoding="async" src="i/p-books.jpg" srcset="i/sm/p-books.jpg 543w, i/p-books.jpg 1086w" sizes="(max-width:900px) 100vw, 70vw" alt="Знания. Люди. Возможности." loading="lazy" width="1086" height="890"></div><figcaption><i>07</i>Знания. Люди. Возможности.</figcaption></figure></div>
+  <div class="erow "><figure style="--a:1.4334"><div class="fr" data-par><img decoding="async" src="i/p-office.jpg" srcset="i/sm/p-office.jpg 721w, i/p-office.jpg 1442w" sizes="(max-width:900px) 100vw, 70vw" alt="Рабочее пространство" loading="lazy" width="1442" height="1006"></div><figcaption><i>08</i>Рабочее пространство</figcaption></figure><figure style="--a:0.9264"><div class="fr" data-par><img decoding="async" src="i/p-mug.jpg" srcset="i/sm/p-mug.jpg 466w, i/p-mug.jpg 932w" sizes="(max-width:900px) 100vw, 70vw" alt="Кружка и блокнот" loading="lazy" width="932" height="1006"></div><figcaption><i>09</i>Кружка и блокнот</figcaption></figure></div>
+</div>
+  </div>
+</section>
+
+<section id="brandbook" class="navy">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Гайдлайн</p><h2 class="split">Единые правила бренда</h2></div>
+      <p class="lead muted rv">Гайдлайн описывает бренд и концепцию, конструкцию и версии логотипа, охранное поле, масштабирование и ошибки использования, палитру, типографику и графику, а также технические параметры полиграфии и мерча.</p>
+    </div>
+    <div class="sl fit rv" data-sl aria-roledescription="карусель" aria-label="Страницы гайдлайна">
+      <div class="sl-stage">
+<figure class="sl-item"><img decoding="async" src="i/bb-01.jpg" srcset="i/sm/bb-01.jpg 960w, i/bb-01.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Обложка гайдлайна" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-03.jpg" srcset="i/sm/bb-03.jpg 960w, i/bb-03.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Объёмный знак" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-04.jpg" srcset="i/sm/bb-04.jpg 960w, i/bb-04.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Содержание" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-15.jpg" srcset="i/sm/bb-15.jpg 960w, i/bb-15.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Адаптация знака" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-17.jpg" srcset="i/sm/bb-17.jpg 960w, i/bb-17.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Модульная сетка" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-19.jpg" srcset="i/sm/bb-19.jpg 960w, i/bb-19.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Охранное поле" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-21.jpg" srcset="i/sm/bb-21.jpg 960w, i/bb-21.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Масштабирование" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-23.jpg" srcset="i/sm/bb-23.jpg 960w, i/bb-23.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Ошибки использования" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-25.jpg" srcset="i/sm/bb-25.jpg 960w, i/bb-25.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Цветовые версии логотипа" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-27.jpg" srcset="i/sm/bb-27.jpg 960w, i/bb-27.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Типографика" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-29.jpg" srcset="i/sm/bb-29.jpg 960w, i/bb-29.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Коррекция шрифта" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-31.jpg" srcset="i/sm/bb-31.jpg 960w, i/bb-31.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Графика и слоган" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-34.jpg" srcset="i/sm/bb-34.jpg 960w, i/bb-34.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Бланк и визитка" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-36.jpg" srcset="i/sm/bb-36.jpg 960w, i/bb-36.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Пропуск" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-40.jpg" srcset="i/sm/bb-40.jpg 960w, i/bb-40.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Коробка" loading="lazy" width="1920" height="1358"></figure>
+<figure class="sl-item"><img decoding="async" src="i/bb-45.jpg" srcset="i/sm/bb-45.jpg 960w, i/bb-45.jpg 1920w" sizes="(max-width:900px) 100vw, 70vw" alt="Кружка" loading="lazy" width="1920" height="1358"></figure>
+      </div>
+      <div class="sl-ui"><span class="count" aria-live="polite">01 / 16</span><span class="prog"><i></i></span><div class="btns"><button type="button" data-prev aria-label="Назад"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m7 7-7-7 7-7"/></svg></button><button type="button" data-next aria-label="Вперёд"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button></div><a class="go" data-link href="https://drive.google.com/file/d/1CrJh6XgzkVdqd8qfnlHdebRrZDevTPx6/view?usp=drive_link"><span class="hs">Открыть </span>гайдлайн <span aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="result">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Вывод</p><h2 class="split">Как дизайн решает задачу</h2></div>
+      <p class="lead rv">Нужно было превратить абстрактное понятие «коэффициент жизненной силы» в узнаваемый и практичный стиль. Концепция, знак и правила сложились в единую систему, которую можно сразу передавать в производство.</p>
+    </div>
+    <div class="rows res">
+      <article class="rv"><span class="n">01</span><h3><span>Абстрактная идея</span>Понятный образ</h3><p>Градиент переводит VQ на язык визуальных образов: путь от неосознанного к целенаправленному, от глубокого синего к светлому голубому.</p></article>
+      <article class="rv"><span class="n">02</span><h3><span>Типовой образовательный бренд</span>Знак со смыслом</h3><p>Соединённые V и Q читаются как союз энергии и осознанности и выделяют академию среди стандартных образовательных брендов.</p></article>
+      <article class="rv"><span class="n">03</span><h3><span>Разные форматы</span>Две версии логотипа</h3><p>Основной логотип и фирменный знак с модульной сеткой, охранным полем и минимальными размерами подходят для любого носителя — от визитки до ручки.</p></article>
+      <article class="rv"><span class="n">04</span><h3><span>Макет без технических параметров</span>Готовность к печати</h3><p>Для каждого носителя прописаны формат, цветность, материал и тип печати, поэтому гайдлайн служит техническим заданием для подрядчиков.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="links" id="links">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Материалы проекта</p><h2 class="split">Смотреть целиком</h2></div></div>
+    <div class="link-list rv">
+      <a data-link href="https://drive.google.com/file/d/1CrJh6XgzkVdqd8qfnlHdebRrZDevTPx6/view?usp=drive_link"><span class="t">Гайдлайн<span class="d">PDF · Google Drive</span></span><span class="arr" aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span>Виктория · графический дизайнер</span><span>Проект ГК «Интеллект», 2025</span></div>
+</footer>
+
+<script>/* vv-typo: неразрывные пробелы после коротких слов и против «висячих» последних слов */
+(function(){try{var SH=/(?<=^|[\s(«"—])(в|во|с|со|к|ко|о|об|обо|у|и|а|но|на|по|от|до|за|из|не|ни|для|без|под|над|при|про|что|как|или|его|её|их|мы|вы|я|это|все|всё|бы|ли|же)\s+/gi;
+var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('script,style,svg,textarea,code')?2:1}}),ns=[];while(w.nextNode())ns.push(w.currentNode);
+ns.forEach(function(n){var t=n.nodeValue;if(!/[А-Яа-яЁё]/.test(t))return;var u=t.replace(SH,function(m,b){return b+'\u00a0'}).replace(/ — /g,'\u00a0— ').replace(/(\d) (\d{3})/g,'$1\u00a0$2');if(u!==t)n.nodeValue=u});
+[].forEach.call(document.querySelectorAll('p,li,blockquote,figcaption,dd'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),last=null;while(tw.nextNode()){if(tw.currentNode.nodeValue.trim())last=tw.currentNode}
+ if(!last)return;var s=last.nodeValue.replace(/\s+$/,''),i=s.lastIndexOf(' ');if(i<1)return;var tok=s.slice(i+1);if(tok.replace(/[.,!?»…:;)]/g,'').length>9)return;var j=s.lastIndexOf(' ',i-1);if(i-j-1+tok.length+1>22)return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;if(cw&&(i-j+tok.length)*fs*.6>cw*.8)return;
+ last.nodeValue=s.slice(0,i)+'\u00a0'+tok+last.nodeValue.slice(s.length)});
+[].forEach.call(document.querySelectorAll('p,li,dd,figcaption'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(tw.nextNode())a.push(tw.currentNode);a.forEach(function(n){var t=n.nodeValue,re=/[A-Za-zА-Яа-яЁё0-9]+(?:-[A-Za-zА-Яа-яЁё0-9]+)+/g;if(!re.test(t)||n.parentNode.closest('vv-nw'))return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;re.lastIndex=0;var f=document.createDocumentFragment(),last=0,m;while((m=re.exec(t))){f.appendChild(document.createTextNode(t.slice(last,m.index)));if(cw&&m[0].length*fs*.6>cw*.7){f.appendChild(document.createTextNode(m[0]))}else{var e=document.createElement('vv-nw');e.textContent=m[0];f.appendChild(e)}last=m.index+m[0].length}f.appendChild(document.createTextNode(t.slice(last)));n.parentNode.replaceChild(f,n)})});
+var st=document.createElement('style');st.textContent='vv-nw{white-space:nowrap}';document.head.appendChild(st);}catch(e){}})();</script>
+<script src="../../assets/gsap.min.js"></script>
+<script src="../../assets/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  [].forEach.call(document.querySelectorAll('a[data-link]'),function(a){
+    if(a.getAttribute('href')==='#')a.hidden=true;else{a.target='_blank';a.rel='noopener'}
+  });
+  var ll=document.getElementById('links');if(ll&&!ll.querySelector('.link-list a:not([hidden])'))ll.hidden=true;
+
+  // разбивка заголовков на слова для анимации (неразрывные пробелы сохраняют предлоги со словами)
+  [].forEach.call(document.querySelectorAll('.split'),function(el){
+    (function walk(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=document.createDocumentFragment();
+          n.textContent.split(/( +)/).forEach(function(p){
+            if(!p)return;
+            if(/^ +$/.test(p)){frag.appendChild(document.createTextNode(' '));return}
+            var w=document.createElement('span');w.className='w';var s=document.createElement('span');s.textContent=p;w.appendChild(s);frag.appendChild(w);
+          });
+          n.parentNode.replaceChild(frag,n);
+        } else if(n.nodeType===1&&n.tagName!=='BR')walk(n);
+      });
+    })(el);
+  });
+
+  [].forEach.call(document.querySelectorAll('a[href^="#"]'),function(a){
+    a.addEventListener('click',function(ev){
+      var id=a.getAttribute('href');if(id.length<2)return;var t=document.querySelector(id);if(!t)return;ev.preventDefault();
+      [].forEach.call(document.images,function(im){if(im.loading==='lazy')im.loading='eager'});
+      var n=0;(function go(){var y=t.getBoundingClientRect().top+window.scrollY;window.scrollTo({top:y,behavior:n?'auto':'smooth'});n++;
+        setTimeout(function(){if(Math.abs(t.getBoundingClientRect().top)>4&&n<6)go()},n==1?900:250)})();
+      try{history.replaceState(null,'',id)}catch(e){}
+    });
+  });
+  var top=document.getElementById('top'),hero=document.getElementById('hero');
+  function hs(){top.classList.toggle('solid',hero.getBoundingClientRect().bottom<70)}
+  window.addEventListener('scroll',hs,{passive:true});hs();
+
+  function onView(el,fn,th){
+    if(!('IntersectionObserver' in window)){fn(true);return}
+    new IntersectionObserver(function(es){es.forEach(function(e){fn(e.isIntersecting)})},{threshold:th||.2}).observe(el);
+  }
+  [].forEach.call(document.querySelectorAll('[data-on]'),function(el){onView(el,function(v){if(v)el.classList.add('on')},.2)});
+
+  // ===== первый экран: живой градиент на WebGL =====
+  function initFx(cv,box,seed,isHero){
+    if(!cv)return;
+    var gl=null;try{gl=cv.getContext('webgl',{antialias:false,alpha:false,premultipliedAlpha:false})||cv.getContext('experimental-webgl')}catch(e){}
+    if(!gl){cv.style.display='none';return}
+    if(isHero)box.classList.add('gl');
+    var vs='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+    var fs=[
+      '#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\nuniform vec2 r;uniform float t;uniform vec2 m;',
+      'vec3 hash3(vec2 p){vec3 q=vec3(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3)),dot(p,vec2(419.2,371.9)));return fract(sin(q)*43758.5453);}',
+      'float noise(vec2 x){vec2 i=floor(x),f=fract(x);vec2 u=f*f*(3.-2.*f);',
+      ' float a=hash3(i).x,b=hash3(i+vec2(1,0)).x,c=hash3(i+vec2(0,1)).x,d=hash3(i+vec2(1,1)).x;',
+      ' return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}',
+      'float fbm(vec2 p){float v=0.,a=.5;mat2 R=mat2(.8,.6,-.6,.8);for(int i=0;i<4;i++){v+=a*noise(p);p=R*p*2.02;a*=.5;}return v;}',
+      'void main(){vec2 uv=gl_FragCoord.xy/r;vec2 p=(gl_FragCoord.xy-.5*r)/r.y;',
+      ' float T=t*.05;p*=.5;p+=m*.12;',
+      ' vec2 q=vec2(fbm(p+vec2(0.,T)),fbm(p+vec2(5.2,1.3)-T*.8));',
+      ' vec2 w=vec2(fbm(p+1.7*q+vec2(1.7,9.2)+T*.6),fbm(p+1.7*q+vec2(8.3,2.8)-T*.5));',
+      ' float f=fbm(p+1.5*w);f=clamp((f-.42)*2.7+.56,0.,1.);',
+      ' vec3 deep=vec3(.075,.11,.145),navy=vec3(.157,.235,.306),steel=vec3(.31,.42,.50),sky=vec3(.486,.651,.698),mist=vec3(.80,.87,.89),lil=vec3(.58,.60,.75);',
+      ' vec3 c=mix(deep,navy,smoothstep(.0,.2,f));',
+      ' c=mix(c,steel,smoothstep(.15,.42,f));',
+      ' c=mix(c,sky,smoothstep(.38,.66,f+.15*(w.x-.5)));',
+      ' c=mix(c,mist,smoothstep(.56,.9,f)*.9);',
+      ' c=mix(c,lil,smoothstep(.55,.85,w.y)*.16);',
+      ' c*=mix(.86,1.05,smoothstep(0.,.9,uv.y*.5+uv.x*.5));',
+      ' c+=(fract(sin(dot(gl_FragCoord.xy+fract(t)*91.7,vec2(12.9898,78.233)))*43758.5453)-.5)*(3./255.);',
+      ' gl_FragColor=vec4(c,1.);}'
+    ].join('\n');
+    function sh(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){throw gl.getShaderInfoLog(s)}return s}
+    var pr;
+    try{pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw 'link'}
+    catch(e){if(isHero)box.classList.remove('gl');cv.style.display='none';return}
+    gl.useProgram(pr);
+    var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    var loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+    var uR=gl.getUniformLocation(pr,'r'),uT=gl.getUniformLocation(pr,'t'),uM=gl.getUniformLocation(pr,'m');
+    var scale=Math.min(1,(window.devicePixelRatio||1)*.6),W=0,H=0,mx=0,my=0,tx=0,ty=0,vis=true,start=performance.now()-seed;
+    function size(){var w=box.clientWidth,h=box.clientHeight;W=Math.max(2,Math.round(w*scale));H=Math.max(2,Math.round(h*scale));cv.width=W;cv.height=H;gl.viewport(0,0,W,H)}
+    size();window.addEventListener('resize',size);
+    box.addEventListener('pointermove',function(e){var r=box.getBoundingClientRect();tx=(e.clientX-r.left)/r.width-.5;ty=.5-(e.clientY-r.top)/r.height});
+    onView(box,function(v){vis=v},0);
+    function frame(now){
+      mx+=(tx-mx)*.03;my+=(ty-my)*.03;
+      gl.uniform2f(uR,W,H);gl.uniform1f(uT,(now-start)/1000);gl.uniform2f(uM,mx,my);
+      gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      if(!reduce)requestAnimationFrame(function(n){if(vis&&!document.hidden)frame(n);else setTimeout(function(){requestAnimationFrame(frame)},300)});
+    }
+    requestAnimationFrame(frame);
+  }
+  initFx(hero.querySelector('canvas.fx'),hero,20000,true);
+  (function(){var q=document.getElementById('quote');if(q)initFx(q.querySelector('canvas.fx'),q,64000,false)})();
+  // проявление первого экрана
+  requestAnimationFrame(function(){setTimeout(function(){hero.classList.add('in')},120)});
+
+  // конструкция логотипа прорисовывается сверху вниз
+  (function(){var cs=document.querySelectorAll('.pat .card');if(!('IntersectionObserver' in window)){[].forEach.call(cs,function(c){c.classList.add('drawn')});return}
+    var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var i=[].indexOf.call(cs,e.target);setTimeout(function(){e.target.classList.add('drawn')},i*250);o.unobserve(e.target)}})},{threshold:.25});[].forEach.call(cs,function(c){o.observe(c)})})();
+
+  if(!window.gsap&&!reduce&&'IntersectionObserver' in window){
+    document.documentElement.classList.add('io');
+    var els=[].slice.call(document.querySelectorAll('.rv,[data-stagger]>*'));
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target,i=t.parentNode&&t.parentNode.hasAttribute('data-stagger')?[].indexOf.call(t.parentNode.children,t):0;t.style.transitionDelay=(i*0.08)+'s';t.classList.add('vis');io.unobserve(t)}})},{threshold:.12});
+    els.forEach(function(el){io.observe(el)});
+  }
+  if(window.gsap&&window.ScrollTrigger&&!reduce){
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ignoreMobileResize:true});
+    var isMob=window.innerWidth<=820;
+    if(!isMob)gsap.to('.hero-c',{yPercent:-12,autoAlpha:.15,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+    gsap.utils.toArray('.split').forEach(function(el){
+      gsap.from(el.querySelectorAll('.w>span'),{yPercent:115,rotate:3,duration:1.3,ease:'expo.out',stagger:.05,scrollTrigger:{trigger:el,start:isMob?'top 88%':'top 92%',once:true}});
+    });
+    gsap.utils.toArray('.rv').forEach(function(el){
+      gsap.from(el,{y:isMob?36:48,autoAlpha:0,duration:1.2,ease:'power3.out',scrollTrigger:{trigger:el,start:isMob?'top 90%':'top 94%',once:true}});
+    });
+    gsap.utils.toArray('[data-stagger]').forEach(function(box){
+      [].forEach.call(box.children,function(ch,i){gsap.from(ch,{y:70,autoAlpha:0,duration:1.2,ease:'expo.out',delay:(i%3)*.08,scrollTrigger:{trigger:ch,start:'top 88%',once:true}})});
+    });
+    gsap.utils.toArray('.ed figure').forEach(function(f){
+      gsap.from(f,{y:80,autoAlpha:0,duration:1.4,ease:'expo.out',scrollTrigger:{trigger:f,start:'top 90%',once:true}});
+      if(!isMob){var im=f.querySelector('[data-par] img');if(im)gsap.fromTo(im,{yPercent:-4},{yPercent:4,ease:'none',scrollTrigger:{trigger:f,start:'top bottom',end:'bottom top',scrub:true}})}
+    });
+    gsap.from('[data-pal] .col',{clipPath:'inset(100% 0 0 0)',duration:.9,ease:'expo.out',stagger:.06,scrollTrigger:{trigger:'[data-pal]',start:'top 92%',once:true}});
+    gsap.from('[data-pal] .col>*',{y:30,autoAlpha:0,duration:.7,ease:'power3.out',stagger:.04,delay:.2,scrollTrigger:{trigger:'[data-pal]',start:'top 92%',once:true}});
+    var qf=document.getElementById('quote');
+    if(qf)gsap.fromTo(qf.querySelector('.kbw'),{clipPath:'inset(8% 6% 8% 6%)'},{clipPath:'inset(0% 0% 0% 0%)',ease:'none',scrollTrigger:{trigger:qf,start:'top bottom',end:'top 20%',scrub:1}});
+    window.addEventListener('load',function(){ScrollTrigger.refresh()});
+    [].forEach.call(document.images,function(im){if(!im.complete)im.addEventListener('load',function(){ScrollTrigger.refresh()},{once:true})});
+  }
+
+  [].forEach.call(document.querySelectorAll('[data-sl]'),function(sl){
+    var items=sl.querySelectorAll('.sl-item'),n=items.length,cur=0,cnt=sl.querySelector('.count'),bar=sl.querySelector('.prog i'),stage=sl.querySelector('.sl-stage'),timer=null,visible=false,hover=false;
+    function pad(x){return (x<10?'0':'')+x}
+    function ui(){cnt.textContent=pad(cur+1)+' / '+pad(n);bar.style.setProperty('--p',(cur+1)/n)}
+    items[0].classList.add('cur');ui();
+    function go(i,dir){
+      i=(i+n)%n;if(i===cur)return;
+      var a=items[cur],b=items[i];
+      [].forEach.call(items,function(x){if(x!==a&&x!==b)x.classList.remove('prev','cur','enter-r','enter-l')});
+      a.classList.remove('cur');a.classList.add('prev');
+      var im=b.querySelector('img');if(im.loading==='lazy')im.loading='eager';
+      b.classList.add('cur',dir<0?'enter-l':'enter-r');b.offsetWidth;b.classList.remove('enter-l','enter-r');
+      cur=i;ui();
+      setTimeout(function(){if(!a.classList.contains('cur'))a.classList.remove('prev')},1400);
+    }
+    sl.querySelector('[data-next]').addEventListener('click',function(){go(cur+1,1);restart()});
+    sl.querySelector('[data-prev]').addEventListener('click',function(){go(cur-1,-1);restart()});
+    var x0=null;
+    stage.addEventListener('pointerdown',function(e){x0=e.clientX});
+    stage.addEventListener('pointerup',function(e){if(x0===null)return;var dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40){go(cur+(dx<0?1:-1),dx<0?1:-1);restart()}});
+    stage.addEventListener('pointercancel',function(){x0=null});
+    stage.addEventListener('mouseenter',function(){hover=true});stage.addEventListener('mouseleave',function(){hover=false;x0=null});
+    function tick(){if(visible&&!hover&&!document.hidden)go(cur+1,1)}
+    function restart(){clearInterval(timer);timer=setInterval(tick,5000)}
+    onView(sl,function(v){visible=v;if(v&&!sl._pre){sl._pre=1;[].forEach.call(items,function(it){var im=it.querySelector('img');if(im.loading==='lazy')im.loading='eager'})}});
+    restart();
+  });
+})();
+
+</script>
+
+
+<!-- vv-back: кнопка возврата в портфолио -->
+<link rel="stylesheet" href="../../assets/onest.css">
+<a href="../../index.html#case-vq" id="vv-back" aria-label="Все проекты"><span class="vv-i"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="vv-t">Все проекты</span></a>
+<style>
+#vv-back{position:fixed;left:max(20px,env(safe-area-inset-left));bottom:max(20px,env(safe-area-inset-bottom));z-index:2147483000;display:inline-flex;align-items:center;gap:12px;height:52px;padding:0 22px 0 7px;border-radius:999px;
+background:rgba(12,12,12,.7);color:#fff!important;-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 40px rgba(0,0,0,.25);
+font:500 14px/1 Onest,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.005em;text-decoration:none!important;opacity:0;transform:translateY(12px);animation:vvIn .9s cubic-bezier(.19,1,.22,1) .9s forwards;transition:background .4s,border-color .4s}
+#vv-back .vv-i{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#fff;color:#0b0b0b;transition:transform .5s cubic-bezier(.19,1,.22,1)}
+#vv-back:hover{background:rgba(12,12,12,.9);border-color:rgba(255,255,255,.3)}
+#vv-back:hover .vv-i{transform:translateX(-3px)}
+@keyframes vvIn{to{opacity:1;transform:none}}
+@media (max-width:600px){#vv-back{height:46px;gap:10px;padding:0 18px 0 5px;font-size:13px}#vv-back .vv-i{width:34px;height:34px}}
+@media print{#vv-back{display:none}}
+</style>
+<script>/* vv-return: назад на главную — шторка цветом кейса и возврат через историю (точно на то же место) */
+(function(){var b=document.getElementById('vv-back');if(!b)return;var going=false;
+function ret(e){if(e)e.preventDefault();if(going)return;going=true;var bg='#000';try{bg=sessionStorage.getItem('vv-retbg')||getComputedStyle(document.body).backgroundColor}catch(x){}
+ var o=document.createElement('div');o.style.cssText='position:fixed;inset:0;z-index:2147483647;background:'+bg+';opacity:0;transition:opacity .45s cubic-bezier(.4,0,.2,1);pointer-events:none';document.documentElement.appendChild(o);
+ requestAnimationFrame(function(){o.style.opacity='1'});
+ setTimeout(function(){var fromHub=false;try{fromHub=sessionStorage.getItem('vv-scroll')!==null}catch(x){}
+   if(fromHub&&history.length>1)history.back();else location.href=b.href},470)}
+b.addEventListener('click',ret);
+addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.fullscreenElement)ret(e)});
+addEventListener('pageshow',function(e){if(e.persisted){going=false;[].forEach.call(document.querySelectorAll('body~div,html>div'),function(d){if(d.style&&d.style.zIndex==='2147483647')d.remove()})}})})();</script>
+<script>/* vv-anchor: плавный переход по якорям без CSS scroll-behavior (он ломает расчёт анимаций) */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented)return;var id=a.getAttribute('href');if(id.length<2)return;var t=document.querySelector(id);if(!t)return;e.preventDefault();var y=t.getBoundingClientRect().top+scrollY-(id==='#top'||id==='#hero'?0:64);window.scrollTo({top:y,behavior:'smooth'});history.replaceState(null,'',id)});</script>
+<script>/* vv-guard: если анимация по какой-то причине не сработала, блок всё равно проявится, когда окажется на экране (кроме первого экрана и анимаций, привязанных к прокрутке) */
+(function(){if(!('IntersectionObserver' in window))return;
+function stOf(t){var st=t.scrollTrigger,r=t;while(r.parent&&r.parent!==gsap.globalTimeline){r=r.parent;st=st||r.scrollTrigger}return st||r.scrollTrigger}
+function safe(t){if(t.progress()!==0)return false;var st=stOf(t);if(!st)return false;var v=st.vars||{};return !v.scrub&&!v.pin&&!st.pin}
+function arm(){if(!window.gsap)return;var els=[].filter.call(document.querySelectorAll('[style*="opacity: 0"],[style*="visibility: hidden"],[style*="inset(100%"],.split .w>span'),function(el){if(el.closest('.hero,#hero,header,.top'))return false;return gsap.getTweensOf(el).some(safe)});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){var el=e.target;clearTimeout(el._vg);if(!e.isIntersecting)return;el._vg=setTimeout(function(){gsap.getTweensOf(el).forEach(function(t){if(safe(t))t.progress(1)});io.unobserve(el)},1300)})},{threshold:.2});
+[].forEach.call(els,function(el){io.observe(el)})}if(document.readyState==='complete')setTimeout(arm,1200);else addEventListener('load',function(){setTimeout(arm,1200)})})();</script>
+<script>/* vv-refresh: пересчёт точек анимаций после загрузки шрифтов и картинок, чтобы анимации не срабатывали за кадром */
+(function(){if(!window.ScrollTrigger)return;var t,h=0;function r(){clearTimeout(t);t=setTimeout(function(){try{ScrollTrigger.refresh()}catch(e){}},150)}
+if(document.fonts){try{document.fonts.addEventListener('loadingdone',r)}catch(e){}document.fonts.ready.then(r)}
+addEventListener('load',r);
+if(window.ResizeObserver){new ResizeObserver(function(){var nh=document.documentElement.scrollHeight;if(Math.abs(nh-h)>30){h=nh;r()}}).observe(document.body)}})();</script>
+</body>
+</html>

@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- vv-intro: плавное продолжение перехода с главной -->
+<script>(function(){try{var d=sessionStorage.getItem('vv-trans');if(!d)return;sessionStorage.removeItem('vv-trans');d=JSON.parse(d);var R=document.documentElement;R.style.background=d.bg;
+var o=document.createElement('div');o.id='vv-in';o.setAttribute('aria-hidden','true');
+o.style.cssText='position:fixed;inset:0;z-index:2147483646;background:'+d.bg+';opacity:1;transition:opacity .9s cubic-bezier(.4,0,.2,1);pointer-events:none';
+R.appendChild(o);var done=false,t0=Date.now();
+function go(){if(done)return;done=true;var w=Math.max(0,250-(Date.now()-t0));setTimeout(function(){requestAnimationFrame(function(){R.style.background='';o.style.opacity='0';setTimeout(function(){o.remove()},1000)})},w)}
+addEventListener('load',go);setTimeout(go,1400)}catch(e){}})();</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Архив&nbsp;— кейс</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Архив — монохром: белая «бумага бирки», чёрный, серые градиенты-хронология. Один шрифт бренда — Manrope.
+   Структура и анимации — из шаблона кейса (Сеченова, 19). Одна светлая тема по замыслу: страница — это айдентика. */
+:root{
+  --white:#FFFFFF; --paper:#F0F0F0; --grey:#C8CACC; --graphite:#4A4A48; --coal:#222220; --ink:#0B0B0B;
+  --line:rgba(11,11,11,.16);
+  --display:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  --g:clamp(16px,4.4vw,110px);
+  --gut:max(var(--g),env(safe-area-inset-left,0px));
+  --gutr:max(var(--g),env(safe-area-inset-right,0px));
+  --ease:cubic-bezier(.2,.7,.15,1);
+  --h2:clamp(30px,3.3vw,70px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-weight:300;font-size:clamp(15px,.45vw + 10px,19px);line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;text-wrap:balance;text-transform:uppercase;letter-spacing:.05em;line-height:1.04}
+p,li,dd{margin:0;text-wrap:pretty}
+.wrap{padding-left:var(--gut);padding-right:var(--gutr)}
+.eyebrow,.lbl{font-size:clamp(11px,.2vw + 9px,13px);letter-spacing:.2em;text-transform:uppercase;color:var(--graphite);font-weight:500}
+.lead{font-size:clamp(16px,.5vw + 11px,21px);line-height:1.6;max-width:38em}
+.muted{color:var(--graphite)}
+section{padding-block:clamp(64px,6.5vw,130px)}
+.sec-head{display:grid;gap:16px 6vw;margin-bottom:clamp(32px,3.4vw,64px);align-items:start}
+.sec-head.two>.lead{margin-top:0}
+@media (min-width:1000px){.sec-head.two>.lead{margin-top:calc(clamp(11px,.2vw + 9px,13px) * 1.62 + 16px)}}
+.sec-head .t{display:grid;gap:16px}
+.sec-head h2{font-size:var(--h2)}
+@media (min-width:1000px){.sec-head.two{grid-template-columns:1fr 1fr}}
+figure{margin:0}
+.fit{max-width:min(100%,calc(78svh * 16 / 9));margin-inline:auto}
+.sl.fit{max-width:min(100%,calc(76svh * 5834 / 3685))}
+
+/* chronology — фирменные градиентные полосы */
+.chrono{display:flex;gap:clamp(4px,.5vw,10px)}
+.chrono i{flex:1 1 0;display:block}
+.chrono i:nth-child(1){background:linear-gradient(90deg,#FFFFFF,#A3A3A3)}
+.chrono i:nth-child(2){background:linear-gradient(90deg,#F6F6F6,#777776)}
+.chrono i:nth-child(3){background:linear-gradient(90deg,#DCDCDC,#4C4C4B)}
+.chrono i:nth-child(4){background:linear-gradient(90deg,#BEBEBE,#2A2A29)}
+.chrono i:nth-child(5){background:linear-gradient(90deg,#A2A2A2,#0B0B0B)}
+/* barcode line */
+.barcode{display:flex;align-items:stretch;gap:var(--bg,clamp(3px,.45vw,8px));height:var(--bh,clamp(30px,3.4vw,64px))}
+.barcode[data-grow]{gap:0;justify-content:flex-start;width:100%;overflow:hidden}
+.barcode i{display:block;background:currentColor;flex:0 0 auto}
+
+/* header */
+.top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;color:var(--ink);pointer-events:none}
+.top .bar{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;height:56px;padding-inline:0;transition:background .5s,box-shadow .5s,padding .5s,margin .5s,color .5s,height .5s}
+.top:not(.solid){color:var(--ink)}
+.top:not(.solid) .bar{background:transparent!important;box-shadow:none!important}
+.top.solid .bar{margin-top:12px;height:50px;padding-inline:clamp(18px,1.6vw,30px);margin-inline:calc(-1 * clamp(18px,1.6vw,30px));background:rgba(255,255,255,.94);box-shadow:0 12px 34px -22px rgba(11,11,11,.35),inset 0 0 0 1px rgba(11,11,11,.08)}
+.top .mark{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:600;font-size:clamp(15px,.9vw,19px);letter-spacing:.14em;text-decoration:none;white-space:nowrap}
+.top .mark .barcode{
+  --bh:18px;
+  --bg:2px;
+  width:32px;
+  min-width:32px;
+  flex-shrink:0;
+  margin-right:0px;
+  overflow:hidden;
+}
+.top nav{display:flex;gap:clamp(20px,2vw,40px);font-size:clamp(10px,.2vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+.top nav a{text-decoration:none;opacity:.85}
+.top nav a:hover,.top nav a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:6px}
+@media (max-width:700px){.top nav a:not(.keep){display:none}}
+@media (min-width:701px) and (max-width:900px){.top nav{gap:16px;letter-spacing:.14em}}
+
+/* hero */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden;padding:0;background:var(--white);display:grid;grid-template-rows:1fr auto}
+.hero .bg{position:relative;overflow:hidden}
+.hero .chrono{position:absolute;inset:clamp(64px,5.4vw,84px) 0 0 0}
+.hero .chrono i.vid{position:relative;overflow:hidden;background:var(--coal);flex-grow:1.7}
+.hero .chrono i.vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.hero .chrono i.vid::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.18),rgba(11,11,11,.28));pointer-events:none}
+.hero-in{position:relative;z-index:3;background:var(--white)}
+.hero .title{display:grid;gap:clamp(14px,1.4vw,26px);padding-block:clamp(22px,2.2vw,40px) max(clamp(22px,2.2vw,40px),env(safe-area-inset-bottom,0px))}
+.hero .row1{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.hero h1{font-size:clamp(52px,10vw,220px);letter-spacing:.06em;line-height:.86;margin-left:-.04em}
+.hero .side{text-align:right;font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:clamp(12px,.9vw,18px);line-height:1.35;padding-bottom:.4em}
+.hero .row2{display:flex;justify-content:space-between;align-items:center;gap:24px;color:var(--graphite)}
+.hero .sub{font-size:clamp(15px,1.1vw,22px)}
+.hero .meta-m{display:flex;gap:22px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;white-space:nowrap}
+.hero .barcode{--bh:clamp(26px,2.6vw,50px);color:var(--ink)}
+@media (max-width:820px){
+  .hero{min-height:620px}
+  .hero .chrono i.vid{flex-grow:4}
+  .hero .row1{flex-direction:column;align-items:flex-start;gap:8px}
+  .hero .side{text-align:left;padding:0}
+  .hero .row2{flex-direction:column;align-items:flex-start;gap:12px}
+  .hero h1{font-size:clamp(48px,17vw,96px)}
+}
+
+/* intro */
+.thesis{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:clamp(28px,3.6vw,78px);line-height:1.04;letter-spacing:.04em;max-width:16em}
+.cols{display:grid;gap:40px;margin-top:clamp(44px,4.5vw,90px)}
+.k{text-transform:uppercase;font-size:clamp(11px,.2vw + 9px,13px);letter-spacing:.2em;font-weight:600;color:var(--ink);margin:0 0 16px}
+.cols p+p{margin-top:12px}
+.cols ul{margin:0;padding:0;list-style:none}
+.cols li{padding:10px 0;border-top:1px solid var(--line)}
+.cols li:last-child{border-bottom:1px solid var(--line)}
+@media (min-width:900px){.cols{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(40px,4vw,96px)}}
+
+/* rows */
+.rows{margin:0;padding:0;display:grid;border-top:1px solid var(--line)}
+.rows>*{list-style:none;display:grid;grid-template-columns:clamp(40px,4.5vw,96px) 1fr;gap:6px 24px;padding:clamp(16px,1.4vw,26px) 0;border-bottom:1px solid var(--line);align-items:center}
+.rows .n{font-family:var(--display);font-weight:500;font-size:clamp(14px,1vw,20px);letter-spacing:.08em;color:var(--graphite);line-height:1;font-variant-numeric:tabular-nums}
+.rows h3{font-size:clamp(17px,1.35vw,28px);line-height:1.12}
+.rows p{color:var(--graphite);grid-column:2}
+.rows .verdict{grid-column:2;font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;color:var(--ink);font-weight:600;white-space:nowrap}
+.rows .verdict::before{content:"";display:inline-block;width:14px;height:9px;margin-right:10px;vertical-align:middle;background:linear-gradient(90deg,currentColor 0 2px,transparent 2px 4px,currentColor 4px 7px,transparent 7px 9px,currentColor 9px 14px)}
+@media (min-width:1000px){
+  .rows>*{grid-template-columns:clamp(56px,5.4vw,120px) minmax(0,1fr) minmax(0,1.4fr)}
+  .rows p{grid-column:auto}
+  .rows.v>*{grid-template-columns:clamp(56px,5.4vw,120px) minmax(0,1fr) minmax(0,1.4fr) 200px}
+  .rows .verdict{grid-column:auto;text-align:right}
+}
+.note{margin-top:22px;color:var(--graphite)}
+
+/* full-bleed barcode divider */
+.divider{background:var(--white);padding:clamp(40px,4vw,80px) 0;overflow:hidden}
+.divider .barcode{--bh:clamp(90px,11vw,200px)}
+
+/* concept */
+.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1vw,22px);align-items:stretch}
+.photos .ph{overflow:hidden;aspect-ratio:4/5;background:var(--white)}
+.photos img{width:100%;height:100%;object-fit:cover}
+@media (min-width:900px){.photos{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.concept-text{display:grid;gap:16px;border-left:1px solid var(--ink);padding-left:clamp(20px,2vw,44px);margin-top:clamp(32px,3vw,64px);max-width:64em}
+.concept-text .name{font-family:var(--display);font-weight:600;font-size:clamp(22px,1.9vw,40px);text-transform:uppercase;letter-spacing:.05em;line-height:1.1}
+
+/* logo */
+.logo-sec{position:relative;overflow:hidden;padding:0;background:var(--white)}
+.logo-sec .in{position:relative;display:flex;flex-direction:column;gap:clamp(36px,5vw,90px);padding-block:clamp(64px,6vw,120px) clamp(40px,4vw,72px)}
+.logo-sec .row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+.logo-sec .row.bot{align-items:flex-end}
+.logo-sec .row .lbl{line-height:1;padding-top:.5em}
+.logo-sec .row.bot .lbl{padding:0 0 .35em;text-align:right}
+.logo-sec h2{font-size:var(--h2)}
+.logo-mark{width:min(30vw,300px);margin:0 auto}
+.logo-mark img{width:100%;-webkit-mask-image:linear-gradient(90deg,#000 45%,transparent 55%);mask-image:linear-gradient(90deg,#000 45%,transparent 55%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-position:0 0;mask-position:0 0;transition:-webkit-mask-position 2.4s var(--ease),mask-position 2.4s var(--ease)}
+.js .logo-mark:not(.on) img{-webkit-mask-position:100% 0;mask-position:100% 0}
+.logo-sec .desc{max-width:36em}
+.logo-sec .stage{display:flex;justify-content:center}
+@media (max-width:820px){
+  .logo-sec{min-height:0}
+  .logo-sec .in{padding-block:56px 44px;gap:32px}
+  .logo-sec .row{flex-direction:column;align-items:flex-start;gap:10px}
+  .logo-sec .row .lbl{order:-1;padding:0}
+  .logo-sec .stage{margin:8px 0}
+  .logo-mark{width:52%;margin:0}
+  .logo-sec .row.bot{display:grid;grid-template-columns:1fr;gap:14px;border-top:1px solid var(--line);padding-top:18px}
+  .logo-sec .row.bot .lbl{order:-1;text-align:left}
+  .logo-sec .desc{max-width:none}
+}
+
+/* palette */
+.pal{display:flex;gap:0;height:clamp(360px,58svh,640px);overflow:hidden;border:1px solid var(--line)}
+.col{position:relative;flex:var(--f,1) 1 0;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(16px,1.6vw,32px);transition:flex-grow .8s var(--ease);color:var(--ink)}
+.col:hover{flex-grow:calc(var(--f,1) * 1.7)}
+.col.dark{color:var(--white)}
+.col .sw{font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;font-weight:500;opacity:.7}
+.col .nm{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(15px,1.2vw,26px);line-height:1.1}
+.col .cd{font-size:clamp(11px,.25vw + 9px,14px);line-height:1.6;opacity:.85;font-variant-numeric:tabular-nums;margin-top:10px;white-space:nowrap}
+@media (min-width:761px) and (max-width:1100px){.pal{flex-wrap:wrap;height:auto}.col{flex:1 1 33.333%;min-height:clamp(220px,28vw,300px)}.col:hover{flex-grow:1}}
+@media (max-width:760px){.pal{flex-direction:column;height:auto}.col{min-height:120px;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:14px}.col .cd{white-space:normal}.col:hover{flex-grow:1}}
+
+/* typography */
+.typo{position:relative;overflow:hidden;isolation:isolate;background:var(--ink);color:var(--white);padding-block:clamp(72px,6vw,120px) clamp(28px,3vw,56px);min-height:min(100svh,920px);display:flex;flex-direction:column;justify-content:space-between}
+.typo .lbl{color:rgba(255,255,255,.6)}
+.type-top{display:grid;gap:22px;align-items:start}
+.type-top h2{font-size:var(--h2)}
+.type-top p{color:rgba(255,255,255,.78)}
+@media (min-width:900px){.type-top{grid-template-columns:1fr 1fr}}
+.fonts{display:grid;gap:36px;margin-block:clamp(36px,4vw,80px)}
+@media (min-width:900px){.fonts{grid-template-columns:1fr 1fr}}
+.fonts .lbl{margin-bottom:clamp(12px,1.2vw,26px)}
+.fonts .spec{font-size:clamp(44px,5.8vw,136px);line-height:1}
+.fonts .spec.d{font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.fonts .spec.b{font-weight:200}
+.fonts>div{min-width:0}
+.abc{overflow-wrap:anywhere;font-size:clamp(14px,1vw,20px);letter-spacing:.08em;color:rgba(255,255,255,.55);margin-top:14px;line-height:1.5}
+
+/* chronology band */
+.poster{background:var(--white);padding:clamp(16px,2vw,40px);display:grid;gap:clamp(18px,2vw,36px)}
+.poster .chrono{height:clamp(260px,46svh,540px)}
+.poster-foot{display:grid;grid-template-columns:1fr 1.4fr auto;align-items:end;gap:clamp(16px,3vw,60px);border-top:1px solid var(--ink);padding-top:clamp(14px,1.4vw,26px)}
+.poster-foot p{font-size:clamp(11px,.25vw + 9px,14px);line-height:1.5;color:var(--graphite)}
+.poster-foot img{width:clamp(80px,8vw,150px)}
+@media (max-width:700px){.poster .chrono{height:62vw}.poster-foot{grid-template-columns:1fr auto}.poster-foot .cap{display:none}}
+
+/* pairs */
+.pair{display:grid;gap:clamp(40px,5vw,110px);align-items:center}
+@media (min-width:1000px){.pair{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.pair.rev{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.pair .txt{display:grid;gap:clamp(14px,1.3vw,24px);max-width:38em}
+.pair .txt h2{font-size:var(--h2)}
+.pair .txt.lined{border-left:1px solid var(--ink);padding-left:clamp(20px,2vw,44px)}
+.collage{width:100%;max-width:min(100%,calc(82svh * 4 / 5));justify-self:start}
+.collage .big{overflow:hidden;width:100%;aspect-ratio:4/5;max-width:100%;background:var(--white)}
+.collage .big img{width:100%;height:100%;object-fit:cover}
+.spec-list{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line)}
+.spec-list li{padding:10px 0;border-bottom:1px solid var(--line);font-size:.92em}
+.spec-list li:nth-child(odd){padding-right:16px}
+@media (max-width:999px){.collage{justify-self:start}}
+
+/* glass */
+.glass{display:grid;gap:clamp(28px,4vw,80px)}
+.g-left{display:flex;flex-direction:column;justify-content:space-between;gap:clamp(28px,3vw,56px);min-width:0}
+.g-txt{display:grid;gap:clamp(14px,1.3vw,24px);max-width:38em}
+.g-txt h2{font-size:var(--h2)}
+.glass figure{overflow:hidden;background:var(--white);max-width:100%}
+.glass img{width:100%;height:100%;object-fit:cover}
+.g-small{width:min(100%,max(460px,24vw));aspect-ratio:1100/939}
+@media (min-width:600px) and (max-width:999px){.glass{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}.g-small{display:none}}
+.g-big{aspect-ratio:4/5;max-height:88svh;width:100%}
+@media (min-width:1000px){.glass{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}.g-big{justify-self:end}}
+@media (max-width:999px){.g-small{display:none}}
+/* socials */
+.stackfull figure.social{width:100%;max-width:min(100%,1180px);margin-inline:auto}
+@media (min-width:1000px){.stackfull figure.social{max-width:min(calc(100% - 2 * var(--g)),72vw,1180px)}}
+/* tag passport */
+.tagrow{display:grid;gap:clamp(16px,2vw,36px);align-items:stretch}
+@media (min-width:760px) and (max-width:1099px){.tagrow{grid-template-columns:1fr;}.tagrow figure img{height:auto}}
+@media (min-width:1100px){.tagrow{grid-template-columns:1.5fr 1fr}}
+.tagrow figure{overflow:hidden;background:var(--white);max-width:100%}
+.tagrow figure img{width:100%;height:100%;object-fit:cover}
+.passport{background:var(--white);padding:clamp(22px,2.2vw,44px);display:flex;flex-direction:column;gap:clamp(18px,1.6vw,30px);min-width:0}
+.passport .ph-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.passport .ph-top img{width:clamp(56px,4.4vw,84px)}
+.passport dl{margin:0;display:grid;flex:1;align-content:space-between}
+.passport dl div{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:16px;padding:12px 0;border-top:1px solid var(--line)}
+.passport dt{font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.18em;text-transform:uppercase;color:var(--graphite);font-weight:500;padding-top:.25em}
+.passport dd{margin:0;font-size:.95em;line-height:1.45}
+.passport .chrono{height:clamp(46px,4vw,70px);gap:3px}
+.passport .note{margin:0;font-size:12px;color:var(--graphite)}
+
+/* slider */
+.sl-stage{position:relative;aspect-ratio:5834/3685;max-width:100%;overflow:hidden;background:var(--white);touch-action:pan-y;cursor:grab}
+.sl-stage:active{cursor:grabbing}
+.sl-item{position:absolute;inset:0;margin:0;overflow:hidden;visibility:hidden}
+.sl-item img{width:100%;height:100%;object-fit:cover}
+.sl-item.cur,.sl-item.prev{visibility:visible}
+.sl-item.cur{z-index:2;clip-path:inset(0 0 0 0);transition:clip-path 1.3s var(--ease)}
+.sl-item.cur img{transform:scale(1);transition:transform 1.8s var(--ease)}
+.sl-item.cur.enter-r{clip-path:inset(0 0 0 100%);transition:none}
+.sl-item.cur.enter-l{clip-path:inset(0 100% 0 0);transition:none}
+.sl-item.cur.enter-r img,.sl-item.cur.enter-l img{transform:scale(1.15);transition:none}
+.sl-item.prev{z-index:1}
+.sl-item.prev img{transform:scale(.92);opacity:.6;transition:transform 1.3s var(--ease),opacity 1.3s ease}
+.sl-ui{display:flex;flex-wrap:wrap;align-items:center;gap:16px 26px;margin-top:clamp(16px,1.4vw,28px)}
+.count{font-family:var(--display);font-weight:500;font-size:clamp(18px,1.3vw,28px);letter-spacing:.08em;font-variant-numeric:tabular-nums;min-width:4.5em}
+.sl-ui .bar{flex:1 1 160px;height:1px;background:var(--line);position:relative;overflow:hidden}
+.sl-ui .bar i{position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .9s var(--ease)}
+.btns{display:flex;gap:10px}
+.btns button{width:clamp(46px,3vw,58px);height:clamp(46px,3vw,58px);border-radius:0;border:1px solid var(--ink);background:transparent;color:var(--ink);font-size:19px;cursor:pointer;transition:background .3s,color .3s;font-family:inherit}
+.btns button:hover,.btns button:focus-visible{background:var(--ink);color:var(--white);outline:none}
+.go{display:inline-flex;align-items:center;gap:14px;padding:14px 26px;border:1px solid var(--ink);text-decoration:none;font-size:clamp(10px,.2vw + 8px,12px);letter-spacing:.2em;text-transform:uppercase;font-weight:500;transition:background .35s,color .35s,gap .35s;white-space:nowrap}
+.go:hover,.go:focus-visible{background:var(--ink);color:var(--white);gap:22px;outline:none}
+
+/* site */
+.browser{overflow:hidden;box-shadow:0 40px 80px -40px rgba(11,11,11,.4);background:var(--white);border:1px solid var(--line)}
+.browser .bar-top{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--graphite);background:#FAFAFA}
+.browser .dot{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.browser .url{margin-left:12px;padding:4px 14px;background:rgba(11,11,11,.06)}
+.browser video{width:100%;aspect-ratio:1440/818;object-fit:cover;background:var(--white)}
+.browser.fit,.site-ui{max-width:min(100%,calc(74svh * 1440 / 818));margin-inline:auto}
+
+/* stacks */
+.stackfull{display:grid;gap:0}
+.stackfull figure{overflow:hidden;margin:0}
+.stackfull img{width:100%}
+.sub-head{margin-top:clamp(64px,6.5vw,130px)}
+
+/* film */
+.player{position:relative;overflow:hidden;background:var(--white);border:1px solid var(--line)}
+.player video{width:100%;aspect-ratio:1400/900;object-fit:cover}
+.player.fit,.player-ui.fit{max-width:min(100%,calc(78svh * 1400 / 900))}
+.player-ui{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-top:clamp(14px,1.2vw,24px);margin-inline:auto}
+.player-ui .lbl{color:var(--graphite)}
+
+/* result */
+.res article:last-child{border-bottom:0}
+.res h3 span{display:block;font-family:var(--body);font-weight:500;font-size:clamp(10px,.15vw + 8px,12px);letter-spacing:.2em;color:var(--graphite);margin-bottom:8px}
+
+/* links */
+.links{background:var(--ink);color:var(--white)}
+.links .eyebrow{color:rgba(255,255,255,.6)}
+.link-list{display:grid;border-top:1px solid rgba(255,255,255,.22)}
+.link-list a{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:clamp(20px,2.2vw,44px) 0;border-bottom:1px solid rgba(255,255,255,.22);text-decoration:none;transition:padding .45s var(--ease)}
+.link-list a:hover,.link-list a:focus-visible{padding-left:24px;outline:none}
+.link-list .t{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:clamp(30px,4vw,88px);line-height:1;letter-spacing:.04em}
+.link-list .d{display:block;font-family:var(--body);font-weight:300;text-transform:none;font-size:clamp(12px,.25vw + 10px,15px);letter-spacing:.02em;color:rgba(255,255,255,.6);margin-top:10px}
+.link-list .arr{font-size:clamp(24px,2.4vw,48px);font-weight:200}
+.links .barcode{color:var(--white);margin-top:clamp(56px,6vw,120px);--bh:clamp(90px,11vw,200px)}
+footer{padding-block:36px;font-size:13px;color:var(--graphite)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+@media (max-width:820px){
+  section{padding-block:clamp(44px,11vw,72px)}
+  .sec-head{margin-bottom:24px}
+  .pair{gap:22px}
+  .sub-head{margin-top:56px}
+  .top .bar{height:52px}
+  .top.solid .bar{margin:10px 0 0;margin-inline:0;height:48px;padding-inline:18px}
+  .top .wrap{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+  .top:not(.solid) .wrap{padding-left:var(--gut);padding-right:var(--gutr)}
+}
+
+
+/* ===== mobile refinements ===== */
+@media (max-width:700px){
+  .lead{font-size:16px;line-height:1.55}
+  p,li,dd{text-wrap:wrap}
+  .hero .row1{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:12px}
+  .hero .side{text-align:right;font-size:10px;letter-spacing:.14em;padding-bottom:.5em}
+  .hero .row2 .sub{display:none}
+  .hero .row2{flex-direction:row;justify-content:flex-start}
+  .hero .meta-m{gap:14px;font-size:10px;letter-spacing:.16em}
+  .hero .title{gap:14px}
+  .sl-ui{display:grid;grid-template-columns:auto 1fr auto;gap:14px 16px;align-items:center}
+  .count{font-size:15px;min-width:0}
+  .btns{gap:6px}
+  .btns button{width:44px;height:44px;font-size:16px}
+  .sl-ui .go{grid-column:1/-1;justify-content:space-between;width:100%;padding:13px 16px;font-size:11px;letter-spacing:.16em}
+  .logo-sec .desc{font-size:15px;line-height:1.6}
+  .logo-sec .row.bot .lbl br{display:none}
+  .logo-sec .row.bot .lbl{font-size:10px}
+}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.w>span{display:inline-block}
+:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+</style>
+<style id="vvsz-style">:where(img[data-vvsz]){height:auto}html{scroll-behavior:auto!important}</style>
+<style id="vv-mfix">@media (max-width:700px){.hero h1{font-size:13.5vw!important}.hero .side{font-size:9px!important;letter-spacing:.12em!important}h2{overflow-wrap:break-word}}</style>
+<style id="vv-safe">@media (max-width:700px){h1,h2,h3{overflow-wrap:break-word;max-width:100%}}</style>
+<style id="vv-compat">.vv-arrow{display:inline-block;width:1em;height:1em;vertical-align:-.12em;flex:none;overflow:visible}.arr .vv-arrow{display:block}body{overflow-x:hidden;overflow-x:clip}@supports not (height:100svh){.hero,.ring__st{height:100vh}}@supports not (color:color-mix(in srgb,white,black)){:root{--mut:rgba(237,237,237,.56);--dim:rgba(237,237,237,.34);--line:rgba(237,237,237,.14)}.hdr__in{background:rgba(0,0,0,.92)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}</style></head>
+<body>
+
+
+
+<header class="top" id="top">
+  <div class="wrap"><div class="bar">
+    <a class="mark keep" href="#hero"><span class="barcode" data-bars="7" aria-hidden="true"></span>Архив</a>
+    <nav aria-label="Разделы кейса">
+      <a href="#concept">Концепция</a>
+      <a href="#identity">Айдентика</a>
+      <a href="#media">Носители</a>
+      <a href="#site">Сайт</a>
+      <a class="keep" href="#links">Материалы</a>
+    </nav>
+  </div></div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="bg">
+    <div class="chrono" data-hero aria-hidden="true"><i></i><i></i><i></i><i class="vid"><video autoplay muted loop playsinline preload="auto" poster="v/hero.jpg"><source src="v/hero.mp4" type="video/mp4"></video></i><i></i></div>
+      </div>
+  <div class="hero-in">
+    <div class="wrap title">
+      <div class="row1">
+        <h1 class="split">Архив</h1>
+        <p class="side rv">Шоурум<br>винтажной одежды</p>
+      </div>
+      <div class="barcode" data-bars="120" data-grow aria-hidden="true"></div>
+      <div class="row2">
+        <p class="sub rv">Айдентика, носители и&nbsp;сайт для&nbsp;шоурума архивной дизайнерской одежды</p>
+        <p class="meta-m rv"><span>Фриланс</span><span>Брендинг</span><span>Web</span><span>2025</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="intro">
+  <div class="wrap">
+    <p class="eyebrow rv" style="margin-bottom:24px">Ключевая идея проекта</p>
+    <p class="thesis split">1970–2025: мода, которую больше не&nbsp;создают</p>
+    <div class="cols">
+      <div class="rv">
+        <p class="k">Задача</p>
+        <p class="muted" style="font-size:.85em;letter-spacing:.04em">Фриланс-проект, 2025</p>
+        <p>«Архив»&nbsp;— шоурум архивной дизайнерской одежды: коллекции прошлых лет культовых брендов, лимитированные выпуски и&nbsp;редкие экземпляры.</p>
+        <p>Цель&nbsp;— сформировать образ не&nbsp;магазина, а&nbsp;пространства, где ценят историю моды, качество и&nbsp;подлинность вещей.</p>
+      </div>
+      <div class="rv">
+        <p class="k">Условия</p>
+        <ul>
+          <li>Ассортимент разных десятилетий и&nbsp;модных домов</li>
+          <li>Происхождение каждой вещи&nbsp;— часть её ценности</li>
+          <li>Айдентика&nbsp;— нейтральный фон, который не&nbsp;конкурирует с&nbsp;одеждой</li>
+          <li>Единая система для&nbsp;офлайна, соцсетей и&nbsp;сайта</li>
+        </ul>
+      </div>
+      <div class="rv">
+        <p class="k">Выполненные работы</p>
+        <ul>
+          <li>Концепция и&nbsp;визуальный язык</li>
+          <li>Логотип</li>
+          <li>Фирменная графика «Хронология»</li>
+          <li>Фирменная обработка фотографий</li>
+          <li>Полиграфия, бирки, шоппер, чехол для&nbsp;одежды</li>
+          <li>Соцсети и&nbsp;анимация</li>
+          <li>Дизайн сайта</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Ход&nbsp;работы</p><h2 class="split">Этапы проекта</h2></div></div>
+    <ol class="rows">
+      <li class="rv"><span class="n">01</span><h3>Анализ референсов</h3><p>Разбор fashion-кейсов: как&nbsp;градиент, акцентная типографика, фото и&nbsp;видео работают вместе с&nbsp;графикой.</p></li>
+      <li class="rv"><span class="n">02</span><h3>Концепция</h3><p>Образ архива&nbsp;— каталогизация, хранение, время. На&nbsp;нём построены знак, графика и&nbsp;подача фотографий.</p></li>
+      <li class="rv"><span class="n">03</span><h3>Логотип</h3><p>Знак-штрихкод из&nbsp;семи полос разной ширины и&nbsp;шрифтовой логотип. Используются вместе и&nbsp;по&nbsp;отдельности.</p></li>
+      <li class="rv"><span class="n">04</span><h3>Фирменная графика</h3><p>Градиентные полосы «Хронология» и&nbsp;линия штрихкода&nbsp;— два сквозных приёма, которые объединяют все носители.</p></li>
+      <li class="rv"><span class="n">05</span><h3>Обработка фото</h3><p>Эффект рифлёного стекла: вертикальные сдвиги делают снимок узнаваемым без&nbsp;логотипа.</p></li>
+      <li class="rv"><span class="n">06</span><h3>Носители</h3><p>Афиша, визитка, флаер, бирки, шоппер, чехол для&nbsp;одежды.</p></li>
+      <li class="rv"><span class="n">07</span><h3>Соцсети и&nbsp;анимация</h3><p>Оформление профиля, сетка публикаций, подборки образов, презентационная анимация.</p></li>
+      <li class="rv"><span class="n">08</span><h3>Сайт</h3><p>Главная страница интернет-магазина: новая коллекция, каталог, аксессуары, блок о&nbsp;шоуруме.</p></li>
+    </ol>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><div class="wrap"><div class="barcode" data-bars="110" data-grow></div></div></div>
+
+<section id="search">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Разработка концепции</p><h2 class="split">Три&nbsp;образа архива</h2></div>
+      <p class="lead muted rv">Визуальный язык построен на&nbsp;трёх метафорах. Все они сводятся к&nbsp;одной форме&nbsp;— ряду вертикальных полос, который стал и&nbsp;знаком, и&nbsp;фирменной графикой.</p>
+    </div>
+    <div class="rows v">
+      <div class="rv"><span class="n">01</span><h3>Штрихкод</h3><p>Отсылка к&nbsp;идентификации и&nbsp;каталогизации. Символ порядка, хранения и&nbsp;бережного отношения к&nbsp;объектам.</p><span class="verdict">Знак</span></div>
+      <div class="rv"><span class="n">02</span><h3>Корешки и&nbsp;вешалки</h3><p>Ряд книжных корешков или вешалок с&nbsp;одеждой&nbsp;— образ архивной коллекции, которую хранят и&nbsp;экспонируют как&nbsp;искусство.</p><span class="verdict">Ритм</span></div>
+      <div class="rv"><span class="n">03</span><h3>Хронология</h3><p>Полосы как&nbsp;отрезки времени: эволюция моды и&nbsp;дизайна.</p><span class="verdict">Графика</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="concept" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Итоговая концепция</p><h2 class="split">Основная концепция</h2></div></div>
+    <div class="photos" data-stagger>
+      <div class="ph"><img decoding="async" src="i/c4.jpg" alt="Портрет со стеклянным эффектом" loading="lazy" width="1200" height="1303"></div>
+      <div class="ph"><img decoding="async" src="i/c1.jpg" alt="Модель в кожаной куртке, стеклянный эффект" loading="lazy" width="1086" height="1367"></div>
+      <div class="ph"><img decoding="async" src="i/c2.jpg" alt="Модель в меховой шапке, стеклянный эффект" loading="lazy" width="1100" height="1630"></div>
+      <div class="ph"><img decoding="async" src="i/c3.jpg" alt="Модель сидит на полу, стеклянный эффект" loading="lazy" width="1100" height="939"></div>
+    </div>
+    <div class="concept-text" data-line>
+      <p class="name split">«Визуальная библиотека моды»</p>
+      <p class="rv">«Архив»&nbsp;— больше, чем шоурум. Каждая вещь здесь извлекается из&nbsp;визуальной библиотеки моды и&nbsp;показывается под&nbsp;современным углом.</p>
+      <p class="rv">Стеклянный эффект подчёркивает главную мысль: мода циклична, но каждое повторение несёт новое содержание. Отсюда принципы стиля: монохромная палитра, строгий гротеск, полосы-штрихкоды и&nbsp;много белого поля, на&nbsp;котором вещь читается как&nbsp;экспонат.</p>
+    </div>
+  </div>
+</section>
+
+<section class="logo-sec" id="identity">
+  <div class="in wrap">
+    <div class="row"><h2 class="split">Логотип</h2><span class="lbl">Визуальная идентификация</span></div>
+    <div class="stage">
+      <div class="logo-mark" data-on><img decoding="async" src="i/logo.svg" alt="Логотип Архив: штрихкод из семи полос и надпись" width="1785" height="1686"></div>
+    </div>
+    <div class="row bot"><p class="desc rv">Знак&nbsp;— штрихкод. Он маркирует вещь как&nbsp;единицу хранения и&nbsp;напоминает ряд вешалок или книжных корешков. Полосы разной ширины читаются как&nbsp;отрезки времени. Шрифтовая часть набрана гротеском с&nbsp;увеличенным межбуквенным интервалом.</p><span class="lbl rv">Знак используется <br>и&nbsp;самостоятельно</span></div>
+  </div>
+</section>
+
+<section id="palette">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Визуальная идентификация</p><h2 class="split">Цветовая палитра</h2></div>
+      <p class="lead muted rv">Монохромная палитра: белый&nbsp;— поле экспозиции, чёрный&nbsp;— текст каталога, серые оттенки&nbsp;— переходы между ними. Цвет и&nbsp;фактура остаются за&nbsp;одеждой.</p>
+    </div>
+    <div class="pal" data-pal>
+      <div class="col" style="--f:2.2;background:#FFFFFF"><span class="sw">01</span><div><p class="nm">Белый</p><p class="cd">#FFFFFF<br>RGB&nbsp;255&nbsp;255&nbsp;255</p></div></div>
+      <div class="col" style="--f:1.7;background:#F0F0F0"><span class="sw">02</span><div><p class="nm">Бумага бирки</p><p class="cd">#F0F0F0<br>RGB&nbsp;240&nbsp;240&nbsp;240</p></div></div>
+      <div class="col" style="--f:1.4;background:#C8CACC"><span class="sw">03</span><div><p class="nm">Серый</p><p class="cd">#C8CACC<br>RGB&nbsp;200&nbsp;202&nbsp;204</p></div></div>
+      <div class="col" style="--f:1.9;background:linear-gradient(90deg,#E6E7E8,#222220)"><span class="sw">04</span><div><p class="nm">Хронология</p><p class="cd">Градиент<br>белый&nbsp;<svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg> графит</p></div></div>
+      <div class="col dark" style="--f:1.2;background:#222220"><span class="sw">05</span><div><p class="nm">Графит</p><p class="cd">#222220<br>RGB&nbsp;34&nbsp;34&nbsp;32</p></div></div>
+      <div class="col dark" style="--f:1.2;background:#000000"><span class="sw">06</span><div><p class="nm">Чёрный</p><p class="cd">#000000<br>RGB&nbsp;0&nbsp;0&nbsp;0</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="typo wrap" id="type">
+  <div class="type-top">
+    <h2 class="split">Типографика</h2>
+    <p class="rv">Система построена на&nbsp;одной гарнитуре&nbsp;— Manrope. SemiBold в&nbsp;верхнем регистре с&nbsp;разрядкой используется в&nbsp;заголовках. ExtraLight в&nbsp;основном тексте сохраняет лёгкость бирок и&nbsp;описаний и&nbsp;оставляет главную роль фотографии.</p>
+  </div>
+  <div class="fonts">
+    <div class="rv"><p class="lbl">Заголовки</p><p class="spec d">Manrope<br>SemiBold</p><p class="abc">АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ 0123456789</p></div>
+    <div class="rv"><p class="lbl">Основной текст</p><p class="spec b">Manrope<br>ExtraLight</p><p class="abc" style="font-weight:200">абвгдеёжзийклмнопрстуфхцчшщъыьэюя</p></div>
+  </div>
+  <span class="lbl">Визуальная идентификация</span>
+</section>
+
+<section id="pattern">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Фирменная графика</p><h2 class="split">Хронология</h2></div>
+      <p class="lead muted rv">Каждая полоса соотносится с&nbsp;дизайнером, коллекцией или эпохой. Вместе они складываются в&nbsp;визуальную хронологию&nbsp;— каталог модной истории. Плавные переходы передают движение времени и&nbsp;смену эпох.</p>
+    </div>
+    <div class="poster rv">
+      <div class="chrono" data-chrono aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="poster-foot"><p>Мода<br>Культура<br>Искусство</p><p class="cap">Уникальные вещи из&nbsp;прошлого&nbsp;— в&nbsp;настоящем.<br>1970–2025: мода, которую больше не&nbsp;создают</p><img decoding="async" src="i/logo.svg" alt="Логотип Архив" width="1785" height="1686"></div>
+    </div>
+  </div>
+</section>
+
+<section id="relief" style="padding-top:0">
+  <div class="wrap glass">
+    <div class="g-left">
+      <div class="g-txt">
+        <p class="eyebrow rv">Обработка фото</p>
+        <h2 class="split">Стеклянный эффект</h2>
+        <p class="rv">Снимок разрезается на&nbsp;вертикальные полосы со&nbsp;смещением&nbsp;— как&nbsp;изображение за&nbsp;рифлёным стеклом витрины. Ритм полос повторяет штрихкод, поэтому фотография узнаётся как&nbsp;«Архив» даже без&nbsp;логотипа.</p>
+        <p class="rv">Приём визуализирует идею бренда: вещь из&nbsp;прошлого, показанная через современное искажение.</p>
+      </div>
+      <figure class="g-small big" data-reveal><img decoding="async" src="i/c3.jpg" alt="Снимок со стеклянным эффектом: модель на полу" loading="lazy" width="1100" height="939"></figure>
+    </div>
+    <figure class="g-big big" data-reveal><img decoding="async" src="i/c1.jpg" alt="Снимок со стеклянным эффектом: модель в кожаной куртке" loading="lazy" width="1086" height="1367"></figure>
+  </div>
+</section>
+
+<section id="photo" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Ключевой носитель</p><h2 class="split">Бирка&nbsp;— паспорт вещи</h2></div>
+      <p class="lead muted rv">Для&nbsp;архивной одежды происхождение не&nbsp;менее важно, чем сама вещь. Бирка решена как&nbsp;музейная этикетка: на&nbsp;лицевой стороне&nbsp;— логотип и&nbsp;фото образа, на&nbsp;обороте&nbsp;— карточка экспоната.</p>
+    </div>
+    <div class="tagrow">
+      <figure data-reveal class="big"><img decoding="async" src="i/tag.jpg" alt="Бирки Архив: лицевая сторона и оборот" loading="lazy" width="1600" height="1386"></figure>
+      <div class="passport rv">
+        <div class="ph-top"><p class="eyebrow">Карточка экспоната</p><img decoding="async" src="i/logo.svg" alt="" width="1785" height="1686"></div>
+        <dl>
+          <div><dt>Бренд</dt><dd>Christian Dior<br>Prêt-à-Porter, Paris</dd></div>
+          <div><dt>Страна</dt><dd>Франция</dd></div>
+          <div><dt>Коллекция</dt><dd>Fall/Winter 1997, by&nbsp;Gianfranco Ferré</dd></div>
+          <div><dt>Состав</dt><dd>85% шерсть мериноса, 15% шёлк</dd></div>
+          <div><dt>Уход</dt><dd>Только профессиональная химчистка, хранить на&nbsp;широких плечиках</dd></div>
+          <div><dt>Дата отбора</dt><dd>Март 2024 · Paris Collector’s Archive Drop №16</dd></div>
+        </dl>
+        <div class="chrono" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="note">Пример заполнения с&nbsp;макета бирки</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="media" style="padding-top:0;padding-bottom:0">
+  <div class="wrap"><div class="sec-head two">
+    <div class="t"><p class="eyebrow rv">Брендинговая продукция</p><h2 class="split">Носители</h2></div>
+    <p class="lead muted rv">Афиша, визитка, флаер, бирки, шоппер и&nbsp;чехол для&nbsp;одежды построены на&nbsp;общих элементах: линии штрихкода, градиентах «Хронологии», обработанных фотографиях и&nbsp;строгой типографике.</p>
+  </div></div>
+  <div class="stackfull">
+    <figure data-zoom><img decoding="async" src="i/n1.jpg" alt="Афиша, визитка и флаер Архив" loading="lazy" width="2200" height="1390"></figure>
+    <figure data-zoom><img decoding="async" src="i/n2.jpg" alt="Бирки на одежде" loading="lazy" width="2200" height="1390"></figure>
+    <figure data-zoom><img decoding="async" src="i/n3.jpg" alt="Флаер на вешалке и чехол для одежды" loading="lazy" width="2200" height="1414"></figure>
+    <figure data-zoom><img decoding="async" src="i/n4.jpg" alt="Шоппер и флаер Архив" loading="lazy" width="2200" height="1414"></figure>
+  </div>
+  <div class="wrap"><div class="sub-head sec-head two"><div class="t"><p class="eyebrow rv">Digital</p><h2 class="split">Соцсети</h2></div><p class="lead muted rv">Профиль с&nbsp;архивными рубриками, сетка публикаций с&nbsp;фирменной обработкой фото и&nbsp;подборки образов с&nbsp;подписями в&nbsp;стиле каталога.</p></div></div>
+  <div class="stackfull">
+    <figure class="social" data-zoom><img decoding="async" src="i/s1.jpg" alt="Оформление профиля и публикаций в соцсетях" loading="lazy" width="2200" height="1390"></figure>
+  </div>
+</section>
+
+<section id="presentation">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Презентация</p><h2 class="split">Презентация айдентики</h2></div>
+      <p class="lead muted rv">Презентация раскрывает логику знака, графику «Хронология», обработку фотографий и&nbsp;применение стиля на&nbsp;носителях.</p>
+    </div>
+    <div class="sl fit rv" data-sl aria-roledescription="карусель" aria-label="Слайды презентации">
+      <div class="sl-stage">
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-01.jpg" alt="О логотипе: штрихкод, корешки, хронология" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-02.jpg" alt="Хронология: каталог модной истории" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-03.jpg" alt="Обработка фото и графика" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-04.jpg" alt="Афиша с градиентными полосами" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-05.jpg" alt="Афиша, визитка, флаер" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-06.jpg" alt="Бирки" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-07.jpg" alt="Флаер и чехол для одежды" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-08.jpg" alt="Шоппер" loading="lazy"></figure>
+        <figure class="sl-item"><img width="1920" height="1213" data-vvsz decoding="async" src="i/pr-09.jpg" alt="Соцсети" loading="lazy"></figure>
+      </div>
+      <div class="sl-ui"><span class="count" aria-live="polite">01&nbsp;/ 09</span><span class="bar"><i></i></span><div class="btns"><button type="button" data-prev aria-label="Назад"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m7 7-7-7 7-7"/></svg></button><button type="button" data-next aria-label="Вперёд"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button></div><a class="go" href="https://www.behance.net/gallery/226686493/firmennyj-stil-dlja-shouruma-arhiv" target="_blank" rel="noopener">Смотреть на&nbsp;Behance <span aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="site" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Web</p><h2 class="split">Сайт шоурума</h2></div>
+      <p class="lead muted rv">Главная страница интернет-магазина продолжает айдентику: белое поле, крупное название, вещи на&nbsp;чистом фоне&nbsp;— как экспонаты. Структура ведёт от&nbsp;новой коллекции к&nbsp;каталогу и&nbsp;аксессуарам; линия штрихкода отделяет блок о&nbsp;шоуруме.</p>
+    </div>
+    <div class="browser fit">
+      <div class="bar-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">archive-showroom.ru</span></div>
+      <video autoplay muted loop playsinline preload="auto" poster="v/site.jpg" aria-label="Прокрутка главной страницы сайта Архив"><source src="v/site.mp4" type="video/mp4"></video>
+    </div>
+  </div>
+</section>
+
+<section id="film" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Моушн</p><h2 class="split">Анимация</h2></div>
+      <p class="lead muted rv">Презентационная анимация показывает шоурум как&nbsp;каталог: образы сменяют друг друга в&nbsp;тонких рамках, затем один образ раскладывается на&nbsp;вещи&nbsp;— сумку, очки, обувь&nbsp;— с подписями.</p>
+    </div>
+    <div class="player fit">
+      <video autoplay muted loop playsinline preload="metadata" poster="film-poster.jpg"><source src="film.mp4" type="video/mp4"></video>
+    </div>
+    <div class="player-ui fit rv"><span class="lbl">Анимация шоурума</span></div>
+  </div>
+</section>
+
+<section id="result" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head two">
+      <div class="t"><p class="eyebrow rv">Вывод</p><h2 class="split">Как&nbsp;дизайн решает задачу</h2></div>
+      <p class="lead rv">Задача&nbsp;— показать «Архив» не&nbsp;магазином, а&nbsp;местом, где ценят историю моды. Визуальная система построена на&nbsp;языке хранения и&nbsp;каталога.</p>
+    </div>
+    <div class="rows res">
+      <article class="rv"><span class="n">01</span><h3><span>Обычный магазин</span>Язык архива</h3><p>Штрихкод и&nbsp;полосы-хронология вместо привычной магазинной графики: вещь воспринимается как&nbsp;часть коллекции.</p></article>
+      <article class="rv"><span class="n">02</span><h3><span>Вещи разных эпох</span>Нейтральный фон</h3><p>Монохром и&nbsp;одна гарнитура подходят одежде любых десятилетий и&nbsp;брендов. Цвет на&nbsp;любом носителе задаёт сама вещь.</p></article>
+      <article class="rv"><span class="n">03</span><h3><span>История вещи</span>Бирка-паспорт</h3><p>Бренд, коллекция, страна, состав, уход и&nbsp;дата отбора превращают покупку в&nbsp;приобретение экспоната с&nbsp;подтверждённым происхождением.</p></article>
+      <article class="rv"><span class="n">04</span><h3><span>Разные каналы</span>Целостный бренд</h3><p>Полиграфия, бирки, упаковка, соцсети, анимация и&nbsp;сайт собраны из&nbsp;одних элементов и&nbsp;узнаются как&nbsp;один бренд.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="links" id="links">
+  <div class="wrap">
+    <div class="sec-head"><div class="t"><p class="eyebrow rv">Материалы проекта</p><h2 class="split">Смотреть целиком</h2></div></div>
+    <div class="link-list rv">
+      <a href="https://www.behance.net/gallery/226686493/firmennyj-stil-dlja-shouruma-arhiv" target="_blank" rel="noopener"><span class="t">Behance<span class="d">Фирменный стиль для&nbsp;шоурума «Архив»</span></span><span class="arr" aria-hidden="true"><svg class="vv-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12"/></svg></span></a>
+    </div>
+    <div class="barcode" data-grow aria-hidden="true"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span>Виктория · графический дизайнер</span><span>Фриланс-проект «Архив», 2025</span></div>
+</footer>
+
+<script>/* vv-typo: неразрывные пробелы после коротких слов и против «висячих» последних слов */
+(function(){try{var SH=/(?<=^|[\s(«"—])(в|во|с|со|к|ко|о|об|обо|у|и|а|но|на|по|от|до|за|из|не|ни|для|без|под|над|при|про|что|как|или|его|её|их|мы|вы|я|это|все|всё|бы|ли|же)\s+/gi;
+var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('script,style,svg,textarea,code')?2:1}}),ns=[];while(w.nextNode())ns.push(w.currentNode);
+ns.forEach(function(n){var t=n.nodeValue;if(!/[А-Яа-яЁё]/.test(t))return;var u=t.replace(SH,function(m,b){return b+'\u00a0'}).replace(/ — /g,'\u00a0— ').replace(/(\d) (\d{3})/g,'$1\u00a0$2');if(u!==t)n.nodeValue=u});
+[].forEach.call(document.querySelectorAll('p,li,blockquote,figcaption,dd'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),last=null;while(tw.nextNode()){if(tw.currentNode.nodeValue.trim())last=tw.currentNode}
+ if(!last)return;var s=last.nodeValue.replace(/\s+$/,''),i=s.lastIndexOf(' ');if(i<1)return;var tok=s.slice(i+1);if(tok.replace(/[.,!?»…:;)]/g,'').length>9)return;var j=s.lastIndexOf(' ',i-1);if(i-j-1+tok.length+1>22)return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;if(cw&&(i-j+tok.length)*fs*.6>cw*.8)return;
+ last.nodeValue=s.slice(0,i)+'\u00a0'+tok+last.nodeValue.slice(s.length)});
+[].forEach.call(document.querySelectorAll('p,li,dd,figcaption'),function(el){var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(tw.nextNode())a.push(tw.currentNode);a.forEach(function(n){var t=n.nodeValue,re=/[A-Za-zА-Яа-яЁё0-9]+(?:-[A-Za-zА-Яа-яЁё0-9]+)+/g;if(!re.test(t)||n.parentNode.closest('vv-nw'))return;var cw=el.clientWidth,fs=parseFloat(getComputedStyle(el).fontSize)||16;re.lastIndex=0;var f=document.createDocumentFragment(),last=0,m;while((m=re.exec(t))){f.appendChild(document.createTextNode(t.slice(last,m.index)));if(cw&&m[0].length*fs*.6>cw*.7){f.appendChild(document.createTextNode(m[0]))}else{var e=document.createElement('vv-nw');e.textContent=m[0];f.appendChild(e)}last=m.index+m[0].length}f.appendChild(document.createTextNode(t.slice(last)));n.parentNode.replaceChild(f,n)})});
+var st=document.createElement('style');st.textContent='vv-nw{white-space:nowrap}';document.head.appendChild(st);}catch(e){}})();</script>
+<script src="../../assets/gsap.min.js"></script>
+<script src="../../assets/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+
+  // barcode lines: bars grow evenly from thin to thick, sized in whole pixels to the line's width
+  function buildBars(el){
+    var W=Math.floor(el.clientWidth);if(!W||el._w===W)return;el._w=W;el.innerHTML='';
+    var g=Math.max(3,Math.round(W*.0036)),a=1.5,b=Math.max(9,W*.017),n=Math.max(10,Math.floor((W+g)/((a+b)/2+g))),ws=[],sum=0;
+    for(var i=0;i<n;i++){var t=i/(n-1),w=+(a+(b-a)*Math.pow(t,1.15)).toFixed(2);ws.push(w);sum+=w}
+    var gap=(W-sum)/(n-1);el.style.gap=gap.toFixed(2)+'px';
+    ws.forEach(function(w){var x=document.createElement('i');x.style.flex='0 0 '+w+'px';el.appendChild(x)});
+  }
+  var grows=[].slice.call(document.querySelectorAll('.barcode[data-grow]'));
+  grows.forEach(buildBars);
+  var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){grows.forEach(buildBars)},150)});
+  [].forEach.call(document.querySelectorAll('.barcode[data-bars]:not([data-grow])'),function(el){
+    for(var i=0,n=+el.dataset.bars;i<n;i++){var x=document.createElement('i');x.style.flex='0 0 '+(1.5+i*0.55).toFixed(2)+'px';el.appendChild(x)}
+  });
+
+  // split headings into words
+  [].forEach.call(document.querySelectorAll('.split'),function(el){
+    (function walk(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=document.createDocumentFragment();
+          n.textContent.split(/( +)/).forEach(function(p){
+            if(!p)return;
+            if(/^ +$/.test(p)){frag.appendChild(document.createTextNode(' '));return}
+            var w=document.createElement('span');w.className='w';var s=document.createElement('span');s.textContent=p;w.appendChild(s);frag.appendChild(w);
+          });
+          n.parentNode.replaceChild(frag,n);
+        } else if(n.nodeType===1&&n.tagName!=='BR')walk(n);
+      });
+    })(el);
+  });
+
+  var top=document.getElementById('top'),hero=document.getElementById('hero');
+  var hbg=hero.querySelector('.bg');function hs(){top.classList.toggle('solid',hbg.getBoundingClientRect().bottom<70)}
+  window.addEventListener('scroll',hs,{passive:true});hs();
+
+  function onView(el,fn,th){
+    if(!('IntersectionObserver' in window)){fn(true);return}
+    new IntersectionObserver(function(es){es.forEach(function(e){fn(e.isIntersecting)})},{threshold:th||.2}).observe(el);
+  }
+  [].forEach.call(document.querySelectorAll('[data-on]'),function(el){onView(el,function(v){el.classList.toggle('on',v)},.35)});
+  var vids=[].slice.call(document.querySelectorAll('video[autoplay]'));
+  function playV(v){v.muted=true;v.setAttribute('muted','');v.playsInline=true;var p=v.play();if(p&&p.catch)p.catch(function(){})}
+  vids.forEach(function(v){playV(v);onView(v,function(on){if(on)playV(v);else v.pause()},.05)});
+  ['touchstart','click','scroll'].forEach(function(ev){window.addEventListener(ev,function once(){vids.forEach(function(v){if(v.paused&&v.getBoundingClientRect().top<innerHeight&&v.getBoundingClientRect().bottom>0)playV(v)})},{passive:true})});
+
+  if(window.gsap&&window.ScrollTrigger){
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ignoreMobileResize:true});
+    var isMob=window.innerWidth<=820;
+    gsap.from('[data-hero] i',{scaleY:0,transformOrigin:'top center',duration:1.6,ease:'expo.inOut',stagger:.09});
+    gsap.from('#hero .barcode i',{scaleY:0,transformOrigin:'bottom center',duration:1,ease:'expo.out',stagger:.008,delay:.4});
+    gsap.utils.toArray('.split').forEach(function(el){
+      if(el.closest('#hero')){gsap.from(el.querySelectorAll('.w>span'),{yPercent:115,rotate:4,duration:1.3,ease:'expo.out',stagger:.08,delay:.5});return}
+      gsap.from(el.querySelectorAll('.w>span'),{yPercent:115,rotate:4,duration:1.3,ease:'expo.out',stagger:.06,scrollTrigger:{trigger:el,start:isMob?'top 88%':'top 92%',once:true}});
+    });
+    gsap.utils.toArray('.divider .barcode, .links .barcode').forEach(function(bc){
+      gsap.from(bc.children,{scaleY:0,transformOrigin:'bottom center',duration:1.1,ease:'expo.out',stagger:.012,scrollTrigger:{trigger:bc,start:'top 90%',once:true}});
+    });
+    function wordWrap(el){
+      (function walk(node){
+        [].slice.call(node.childNodes).forEach(function(n){
+          if(n.nodeType===3){
+            var frag=document.createDocumentFragment();
+            n.textContent.split(/( +)/).forEach(function(p){
+              if(!p)return;
+              if(/^ +$/.test(p)){frag.appendChild(document.createTextNode(' '));return}
+              var w=document.createElement('span');w.className='w';var sp=document.createElement('span');sp.textContent=p;w.appendChild(sp);frag.appendChild(w);
+            });
+            n.parentNode.replaceChild(frag,n);
+          } else if(n.nodeType===1&&n.tagName!=='BR'&&!n.classList.contains('w'))walk(n);
+        });
+      })(el);
+      return el.querySelectorAll('.w>span');
+    }
+    gsap.utils.toArray('.rv').forEach(function(el){
+      if(el.closest('#hero')){gsap.from(el,{y:30,autoAlpha:0,duration:1.2,ease:'power3.out',delay:.9});return}
+      if(isMob&&el.tagName==='P'&&el.textContent.trim().length>40){
+        var words=wordWrap(el),top=null,li=-1;
+        [].forEach.call(words,function(w){var t=w.parentNode.offsetTop;if(t!==top){top=t;li++;}w.dataset.l=li;});
+        gsap.from(words,{yPercent:110,duration:1.05,ease:'power3.out',delay:function(i,t){return t.dataset.l*0.09},scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+        return;
+      }
+      if(isMob&&el.querySelector('li')){
+        gsap.from(el.querySelectorAll('.k,li,p'),{y:28,autoAlpha:0,duration:.9,ease:'power3.out',stagger:.08,scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+        return;
+      }
+      gsap.from(el,{y:isMob?36:48,autoAlpha:0,duration:1.2,ease:'power3.out',scrollTrigger:{trigger:el,start:isMob?'top 88%':'top 94%',once:true}});
+    });
+    gsap.utils.toArray('[data-stagger]').forEach(function(box){
+      [].forEach.call(box.children,function(ch,i){gsap.from(ch,{y:90,autoAlpha:0,duration:1.3,ease:'expo.out',delay:(i%3)*.08,scrollTrigger:{trigger:ch,start:'top 88%',once:true}})});
+    });
+    gsap.utils.toArray('[data-reveal]').forEach(function(el){
+      var img=el.querySelector('img');
+      var tl=gsap.timeline({scrollTrigger:{trigger:el,start:'top 96%',end:'top 30%',scrub:1}});
+      tl.fromTo(el,{clipPath:'inset(12% 9% 12% 9%)'},{clipPath:'inset(0% 0% 0% 0%)',ease:'none'},0);
+      if(img&&el.classList.contains('big'))tl.fromTo(img,{scale:1.25},{scale:1,ease:'none'},0);
+    });
+    gsap.from('[data-chrono] i',{scaleY:0,transformOrigin:'bottom center',duration:1.5,ease:'expo.inOut',stagger:.1,scrollTrigger:{trigger:'[data-chrono]',start:'top 85%',once:true}});
+    if(!isMob)gsap.utils.toArray('[data-zoom] img').forEach(function(img){
+      gsap.fromTo(img,{scale:1.12},{scale:1,ease:'none',scrollTrigger:{trigger:img.parentNode,start:'top bottom',end:'center center',scrub:true}});
+    });
+    gsap.from('[data-pal] .col',{clipPath:'inset(100% 0 0 0)',duration:.9,ease:'expo.out',stagger:.06,scrollTrigger:{trigger:'[data-pal]',start:'top 92%',once:true}});
+    gsap.from('[data-pal] .col>*',{y:30,autoAlpha:0,duration:.7,ease:'power3.out',stagger:.04,delay:.2,scrollTrigger:{trigger:'[data-pal]',start:'top 92%',once:true}});
+    window.addEventListener('load',function(){ScrollTrigger.refresh()});
+    [].forEach.call(document.images,function(im){if(!im.complete)im.addEventListener('load',function(){ScrollTrigger.refresh()},{once:true})});
+  }
+
+  // stacked sliders
+  [].forEach.call(document.querySelectorAll('[data-sl]'),function(sl){
+    var items=sl.querySelectorAll('.sl-item'),n=items.length,cur=0,cnt=sl.querySelector('.count'),bar=sl.querySelector('.bar i'),stage=sl.querySelector('.sl-stage'),timer=null,visible=false,hover=false,busy=false;
+    function pad(x){return (x<10?'0':'')+x}
+    function ui(){cnt.textContent=pad(cur+1)+' / '+pad(n);bar.style.setProperty('--p',(cur+1)/n)}
+    items[0].classList.add('cur');ui();
+    function go(i,dir){
+      if(busy)return;i=(i+n)%n;if(i===cur)return;
+      var a=items[cur],b=items[i];
+      [].forEach.call(items,function(x){if(x!==a&&x!==b)x.classList.remove('prev','cur','enter-r','enter-l')});
+      a.classList.remove('cur');a.classList.add('prev');
+      var im=b.querySelector('img');if(im.loading==='lazy')im.loading='eager';
+      b.classList.add('cur',dir<0?'enter-l':'enter-r');b.offsetWidth;b.classList.remove('enter-l','enter-r');
+      cur=i;ui();busy=true;setTimeout(function(){busy=false},700);
+      setTimeout(function(){if(!a.classList.contains('cur'))a.classList.remove('prev')},1400);
+    }
+    sl.querySelector('[data-next]').addEventListener('click',function(){go(cur+1,1);restart()});
+    sl.querySelector('[data-prev]').addEventListener('click',function(){go(cur-1,-1);restart()});
+    var x0=null;
+    stage.addEventListener('pointerdown',function(e){x0=e.clientX});
+    stage.addEventListener('pointerup',function(e){if(x0===null)return;var dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40){go(cur+(dx<0?1:-1),dx<0?1:-1);restart()}});
+    stage.addEventListener('mouseenter',function(){hover=true});stage.addEventListener('mouseleave',function(){hover=false});
+    function tick(){if(visible&&!hover&&!document.hidden)go(cur+1,1)}
+    function restart(){clearInterval(timer);timer=setInterval(tick,5000)}
+    onView(sl,function(v){visible=v});
+    restart();
+  });
+
+  var fv=document.querySelector('.player video'),sb=document.querySelector('.sound');
+  if(fv&&sb)sb.addEventListener('click',function(){fv.muted=!fv.muted;if(!fv.muted){fv.currentTime=0;var p=fv.play();if(p&&p.catch)p.catch(function(){})}sb.textContent=fv.muted?'Включить звук':'Выключить звук';sb.setAttribute('aria-pressed',String(!fv.muted))});
+})();
+</script>
+
+
+
+<!-- vv-back: кнопка возврата в портфолио -->
+<link rel="stylesheet" href="../../assets/onest.css">
+<a href="../../index.html#case-arch" id="vv-back" aria-label="Все проекты"><span class="vv-i"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="vv-t">Все проекты</span></a>
+<style>
+#vv-back{position:fixed;left:max(20px,env(safe-area-inset-left));bottom:max(20px,env(safe-area-inset-bottom));z-index:2147483000;display:inline-flex;align-items:center;gap:12px;height:52px;padding:0 22px 0 7px;border-radius:999px;
+background:rgba(12,12,12,.7);color:#fff!important;-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 40px rgba(0,0,0,.25);
+font:500 14px/1 Onest,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.005em;text-decoration:none!important;opacity:0;transform:translateY(12px);animation:vvIn .9s cubic-bezier(.19,1,.22,1) .9s forwards;transition:background .4s,border-color .4s}
+#vv-back .vv-i{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#fff;color:#0b0b0b;transition:transform .5s cubic-bezier(.19,1,.22,1)}
+#vv-back:hover{background:rgba(12,12,12,.9);border-color:rgba(255,255,255,.3)}
+#vv-back:hover .vv-i{transform:translateX(-3px)}
+@keyframes vvIn{to{opacity:1;transform:none}}
+@media (max-width:600px){#vv-back{height:46px;gap:10px;padding:0 18px 0 5px;font-size:13px}#vv-back .vv-i{width:34px;height:34px}}
+@media print{#vv-back{display:none}}
+</style>
+<script>/* vv-return: назад на главную — шторка цветом кейса и возврат через историю (точно на то же место) */
+(function(){var b=document.getElementById('vv-back');if(!b)return;var going=false;
+function ret(e){if(e)e.preventDefault();if(going)return;going=true;var bg='#000';try{bg=sessionStorage.getItem('vv-retbg')||getComputedStyle(document.body).backgroundColor}catch(x){}
+ var o=document.createElement('div');o.style.cssText='position:fixed;inset:0;z-index:2147483647;background:'+bg+';opacity:0;transition:opacity .45s cubic-bezier(.4,0,.2,1);pointer-events:none';document.documentElement.appendChild(o);
+ requestAnimationFrame(function(){o.style.opacity='1'});
+ setTimeout(function(){var fromHub=false;try{fromHub=sessionStorage.getItem('vv-scroll')!==null}catch(x){}
+   if(fromHub&&history.length>1)history.back();else location.href=b.href},470)}
+b.addEventListener('click',ret);
+addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.fullscreenElement)ret(e)});
+addEventListener('pageshow',function(e){if(e.persisted){going=false;[].forEach.call(document.querySelectorAll('body~div,html>div'),function(d){if(d.style&&d.style.zIndex==='2147483647')d.remove()})}})})();</script>
+<script>/* vv-anchor: плавный переход по якорям без CSS scroll-behavior (он ломает расчёт анимаций) */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented)return;var id=a.getAttribute('href');if(id.length<2)return;var t=document.querySelector(id);if(!t)return;e.preventDefault();var y=t.getBoundingClientRect().top+scrollY-(id==='#top'||id==='#hero'?0:64);window.scrollTo({top:y,behavior:'smooth'});history.replaceState(null,'',id)});</script>
+<script>/* vv-guard: если анимация по какой-то причине не сработала, блок всё равно проявится, когда окажется на экране (кроме первого экрана и анимаций, привязанных к прокрутке) */
+(function(){if(!('IntersectionObserver' in window))return;
+function stOf(t){var st=t.scrollTrigger,r=t;while(r.parent&&r.parent!==gsap.globalTimeline){r=r.parent;st=st||r.scrollTrigger}return st||r.scrollTrigger}
+function safe(t){if(t.progress()!==0)return false;var st=stOf(t);if(!st)return false;var v=st.vars||{};return !v.scrub&&!v.pin&&!st.pin}
+function arm(){if(!window.gsap)return;var els=[].filter.call(document.querySelectorAll('[style*="opacity: 0"],[style*="visibility: hidden"],[style*="inset(100%"],.split .w>span'),function(el){if(el.closest('.hero,#hero,header,.top'))return false;return gsap.getTweensOf(el).some(safe)});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){var el=e.target;clearTimeout(el._vg);if(!e.isIntersecting)return;el._vg=setTimeout(function(){gsap.getTweensOf(el).forEach(function(t){if(safe(t))t.progress(1)});io.unobserve(el)},1300)})},{threshold:.2});
+[].forEach.call(els,function(el){io.observe(el)})}if(document.readyState==='complete')setTimeout(arm,1200);else addEventListener('load',function(){setTimeout(arm,1200)})})();</script>
+<script>/* vv-refresh: пересчёт точек анимаций после загрузки шрифтов и картинок, чтобы анимации не срабатывали за кадром */
+(function(){if(!window.ScrollTrigger)return;var t,h=0;function r(){clearTimeout(t);t=setTimeout(function(){try{ScrollTrigger.refresh()}catch(e){}},150)}
+if(document.fonts){try{document.fonts.addEventListener('loadingdone',r)}catch(e){}document.fonts.ready.then(r)}
+addEventListener('load',r);
+if(window.ResizeObserver){new ResizeObserver(function(){var nh=document.documentElement.scrollHeight;if(Math.abs(nh-h)>30){h=nh;r()}}).observe(document.body)}})();</script>
+</body>
+</html>
